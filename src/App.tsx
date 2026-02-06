@@ -47,6 +47,10 @@ import LogoMockup from "./pages/tools/LogoMockup";
 import PDFMerge from "./pages/tools/PDFMerge";
 import PDFCompress from "./pages/tools/PDFCompress";
 import ImageToPDF from "./pages/tools/ImageToPDF";
+import PromptOptimizer from "./pages/tools/PromptOptimizer";
+import SecretNotes from "./pages/tools/SecretNotes";
+import SEOAudit from "./pages/tools/SEOAudit";
+import CodeBeautifier from "./pages/tools/CodeBeautifier";
 
 const queryClient = new QueryClient();
 
@@ -78,6 +82,7 @@ const App = () => (
             <Route path="/tools/password-strength" element={<PasswordStrength />} />
             <Route path="/tools/hash-generator" element={<HashGenerator />} />
             <Route path="/tools/shadow-chat" element={<ShadowChat />} />
+            <Route path="/tools/secret-notes" element={<SecretNotes />} />
             
             {/* Developer Suite */}
             <Route path="/tools/json-formatter" element={<JsonFormatter />} />
@@ -91,12 +96,15 @@ const App = () => (
             <Route path="/tools/phone-validator" element={<PhoneValidator />} />
             <Route path="/tools/qr-code-generator" element={<QRCodeGenerator />} />
             <Route path="/tools/barcode-generator" element={<BarcodeGenerator />} />
+            <Route path="/tools/seo-audit" element={<SEOAudit />} />
+            <Route path="/tools/code-beautifier" element={<CodeBeautifier />} />
             
             {/* Content Suite */}
             <Route path="/tools/word-counter" element={<WordCounter />} />
             <Route path="/tools/case-converter" element={<CaseConverter />} />
             <Route path="/tools/markdown-editor" element={<MarkdownEditor />} />
             <Route path="/tools/lorem-generator" element={<LoremGenerator />} />
+            <Route path="/tools/prompt-optimizer" element={<PromptOptimizer />} />
             
             {/* Image Suite */}
             <Route path="/tools/image-compressor" element={<ImageCompressor />} />
