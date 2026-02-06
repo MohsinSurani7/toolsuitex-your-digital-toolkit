@@ -8,6 +8,8 @@ import Index from "./pages/Index";
 import Tools from "./pages/Tools";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 
 // Tool Pages
@@ -42,6 +44,9 @@ import ImageConverter from "./pages/tools/ImageConverter";
 import ColorPicker from "./pages/tools/ColorPicker";
 import ImageRotator from "./pages/tools/ImageRotator";
 import LogoMockup from "./pages/tools/LogoMockup";
+import PDFMerge from "./pages/tools/PDFMerge";
+import PDFCompress from "./pages/tools/PDFCompress";
+import ImageToPDF from "./pages/tools/ImageToPDF";
 
 const queryClient = new QueryClient();
 
@@ -57,6 +62,8 @@ const App = () => (
             <Route path="/tools" element={<Tools />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
             
             {/* Professional Suite */}
             <Route path="/tools/resume-builder" element={<ResumeBuilder />} />
@@ -98,6 +105,11 @@ const App = () => (
             <Route path="/tools/color-picker" element={<ColorPicker />} />
             <Route path="/tools/image-rotator" element={<ImageRotator />} />
             <Route path="/tools/logo-mockup" element={<LogoMockup />} />
+            <Route path="/tools/image-to-pdf" element={<ImageToPDF />} />
+            
+            {/* PDF Tools */}
+            <Route path="/tools/pdf-merge" element={<PDFMerge />} />
+            <Route path="/tools/pdf-compress" element={<PDFCompress />} />
             
             {/* Catch-all */}
             <Route path="*" element={<NotFound />} />

@@ -6,7 +6,7 @@ import {
   Briefcase, FileCheck, Mail, Wand2, BookOpen,
   Database, MessageSquare, Receipt, CreditCard,
   FolderOpen, Map, ImageIcon, TestTube, AtSign,
-  Phone, QrCode, Barcode
+  Phone, QrCode, Barcode, Merge, FileArchive, Images
 } from "lucide-react";
 
 export interface Tool {
@@ -84,7 +84,12 @@ export const tools: Tool[] = [
   { id: "image-converter", name: "Image Format Converter", description: "Convert images between PNG, JPG, WEBP, and other formats directly in your browser.", shortDescription: "Convert image formats", icon: FileImage, category: "image", path: "/tools/image-converter", keywords: ["convert", "PNG", "JPG", "WEBP", "format"] },
   { id: "color-picker", name: "Color Picker & Palette", description: "Pick colors from images, generate palettes, and convert between color formats.", shortDescription: "Pick and convert colors", icon: Palette, category: "image", path: "/tools/color-picker", keywords: ["color", "picker", "palette", "hex", "RGB"] },
   { id: "image-rotator", name: "Image Rotator & Flipper", description: "Rotate images by any angle or flip horizontally and vertically.", shortDescription: "Rotate and flip images", icon: RotateCw, category: "image", path: "/tools/image-rotator", keywords: ["rotate", "flip", "mirror", "image"] },
-  { id: "logo-mockup", name: "Logo Mockup Generator", description: "Preview your logo on realistic product mockups. T-shirts, mugs, phone cases and more.", shortDescription: "Preview logos on products", icon: ImageIcon, category: "image", path: "/tools/logo-mockup", keywords: ["mockup", "logo", "brand", "preview"] }
+  { id: "logo-mockup", name: "Logo Mockup Generator", description: "Preview your logo on realistic product mockups. T-shirts, mugs, phone cases and more.", shortDescription: "Preview logos on products", icon: ImageIcon, category: "image", path: "/tools/logo-mockup", keywords: ["mockup", "logo", "brand", "preview"] },
+  { id: "image-to-pdf", name: "Image to PDF", description: "Convert images to PDF documents. Combine multiple images into a single PDF file.", shortDescription: "Convert images to PDF", icon: Images, category: "image", path: "/tools/image-to-pdf", keywords: ["image to pdf", "jpg to pdf", "png to pdf", "convert"] },
+
+  // PDF Suite (part of Developer)
+  { id: "pdf-merge", name: "PDF Merge", description: "Combine multiple PDF files into a single document. Drag and drop to reorder pages.", shortDescription: "Merge PDF files", icon: Merge, category: "developer", path: "/tools/pdf-merge", keywords: ["pdf merge", "combine pdf", "join pdf"], featured: true },
+  { id: "pdf-compress", name: "PDF Compress", description: "Reduce PDF file size without losing quality. Perfect for email and web uploads.", shortDescription: "Compress PDF files", icon: FileArchive, category: "developer", path: "/tools/pdf-compress", keywords: ["pdf compress", "reduce pdf", "shrink pdf"] }
 ];
 
 export function getToolsByCategory(category: ToolCategory): Tool[] { return tools.filter(tool => tool.category === category); }
