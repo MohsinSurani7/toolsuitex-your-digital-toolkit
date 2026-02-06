@@ -101,23 +101,14 @@ const RegexTester = () => {
   const tool = getToolById("regex-tester")!;
 
   const seoContent = {
-    introduction: "Regular expressions are powerful pattern matching tools used in programming and text processing. Our Regex Tester provides real-time matching, group highlighting, and a library of common patterns to help you build and debug regex patterns efficiently.",
-    howItWorks: [
-      "Enter your regex pattern in the input field",
-      "Select flags (global, case-insensitive, multiline, dotAll)",
-      "Paste your test string in the text area",
-      "View real-time matches and capture groups",
-      "Use preset patterns for common use cases"
-    ],
-    useCases: [
-      { title: "Form Validation", description: "Build patterns for email, phone, and other input validation" },
-      { title: "Data Extraction", description: "Create patterns to extract specific data from text" },
-      { title: "Search & Replace", description: "Test patterns before using in code or text editors" }
-    ],
-    faq: [
+    description: "Test and debug regular expressions with real-time matching, group highlighting, and common pattern library.",
+    content: `<h3>Introduction to Regex Testing</h3><p>Regular expressions are powerful pattern matching tools used in programming and text processing. Our Regex Tester provides real-time matching, group highlighting, and a library of common patterns to help you build and debug regex patterns efficiently.</p><h3>How to Use</h3><p>Enter your regex pattern, select flags (global, case-insensitive, multiline, dotAll), and paste your test string to view real-time matches and capture groups.</p><h3>Key Features</h3><ul><li>Real-time pattern matching</li><li>Capture group highlighting</li><li>Multiple flag options</li><li>Common pattern presets</li></ul>`,
+    keywords: ["regex tester", "regular expression", "pattern matching", "regex debugger", "regex online"],
+    faqs: [
       { question: "What regex flavor does this use?", answer: "This tool uses JavaScript's built-in RegExp engine, which follows ECMAScript standards." },
       { question: "Can I test multiline patterns?", answer: "Yes, enable the 'm' flag for multiline matching where ^ and $ match line boundaries." }
-    ]
+    ],
+    aboutTool: "Our Regex Tester helps you build, test, and debug regular expressions with real-time feedback. Perfect for developers working with form validation, data extraction, or text processing."
   };
 
   return (

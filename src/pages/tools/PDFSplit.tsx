@@ -131,22 +131,14 @@ const PDFSplit = () => {
   const tool = getToolById("pdf-split")!;
 
   const seoContent = {
-    introduction: "Split PDF documents into individual pages or extract specific page ranges with our free online PDF Splitter. No file uploads to servers - everything runs in your browser for complete privacy.",
-    howItWorks: [
-      "Upload your PDF file by clicking the upload area",
-      "Enter the page range you want to extract (e.g., 1-3, 5, 7-10)",
-      "Click 'Extract Pages' to download the selected pages as a new PDF",
-      "Or click 'Split All Pages' to download each page as a separate file"
-    ],
-    useCases: [
-      { title: "Extract Specific Pages", description: "Pull out only the pages you need from large documents" },
-      { title: "Split Documents", description: "Divide a multi-page PDF into individual files" },
-      { title: "Reorganize Content", description: "Extract sections to share or archive separately" }
-    ],
-    faq: [
+    description: "Split PDF documents into individual pages or extract specific page ranges. Free, no uploads to servers.",
+    content: `<h3>Introduction to PDF Splitting</h3><p>Split PDF documents into individual pages or extract specific page ranges with our free online PDF Splitter. No file uploads to servers - everything runs in your browser for complete privacy.</p><h3>How to Use</h3><p>Upload your PDF file, enter the page range you want to extract (e.g., 1-3, 5, 7-10), and click 'Extract Pages' to download the selected pages as a new PDF. Or click 'Split All Pages' to download each page as a separate file.</p><h3>Key Features</h3><ul><li>Extract specific page ranges</li><li>Split into individual page files</li><li>Client-side processing</li><li>No file size limits</li></ul>`,
+    keywords: ["pdf split", "extract pdf pages", "split pdf online", "pdf page extractor", "separate pdf pages"],
+    faqs: [
       { question: "Is my PDF uploaded to any server?", answer: "No, all processing happens in your browser. Your files never leave your device." },
       { question: "What's the maximum file size?", answer: "Since processing is done locally, size is limited by your browser's memory. Most PDFs work fine." }
-    ]
+    ],
+    aboutTool: "Our PDF Splitter lets you extract specific pages or split a PDF into individual page files. All processing happens locally in your browser for complete privacy and security."
   };
 
   const clearFile = () => {

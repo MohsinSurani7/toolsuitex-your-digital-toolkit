@@ -114,22 +114,14 @@ const TimestampConverter = () => {
   const tool = getToolById("timestamp-converter")!;
 
   const seoContent = {
-    introduction: "Unix timestamps are used everywhere in programming, databases, and APIs. Our Timestamp Converter makes it easy to convert between Unix timestamps and human-readable dates, with support for both seconds and milliseconds.",
-    howItWorks: [
-      "View the current time displayed in both timestamp formats",
-      "Enter a timestamp to convert to human-readable date",
-      "Or select a date to convert to timestamp",
-      "Copy any format with one click"
-    ],
-    useCases: [
-      { title: "API Development", description: "Convert timestamps from API responses to readable dates" },
-      { title: "Database Queries", description: "Generate timestamps for date-based queries" },
-      { title: "Log Analysis", description: "Translate log timestamps to understand when events occurred" }
-    ],
-    faq: [
+    description: "Convert between Unix timestamps and human-readable dates. Supports seconds and milliseconds.",
+    content: `<h3>Introduction to Timestamps</h3><p>Unix timestamps are used everywhere in programming, databases, and APIs. Our Timestamp Converter makes it easy to convert between Unix timestamps and human-readable dates, with support for both seconds and milliseconds.</p><h3>How to Use</h3><p>View the current time displayed in both timestamp formats. Enter a timestamp to convert to human-readable date, or select a date to convert to timestamp. Copy any format with one click.</p><h3>Key Features</h3><ul><li>Real-time current time display</li><li>Seconds and milliseconds support</li><li>Multiple output formats</li><li>Relative time display</li></ul>`,
+    keywords: ["timestamp converter", "unix timestamp", "epoch converter", "date to timestamp", "timestamp to date"],
+    faqs: [
       { question: "What's the difference between seconds and milliseconds?", answer: "Unix timestamps in seconds are 10 digits, while milliseconds are 13 digits. JavaScript uses milliseconds by default." },
       { question: "What timezone is used?", answer: "Timestamps are timezone-independent (UTC). The displayed local time uses your browser's timezone." }
-    ]
+    ],
+    aboutTool: "Our Timestamp Converter helps you work with Unix timestamps easily. Perfect for developers, database administrators, and anyone working with date/time data."
   };
 
   return (

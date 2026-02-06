@@ -90,23 +90,14 @@ const TextDiff = () => {
   const tool = getToolById("text-diff")!;
 
   const seoContent = {
-    introduction: "Text comparison is essential for developers, writers, and anyone who needs to track changes between document versions. Our Text Diff tool provides instant, visual comparison of two text blocks with clear highlighting of additions, removals, and unchanged content.",
-    howItWorks: [
-      "Paste your original text in the left panel",
-      "Paste the modified text in the right panel",
-      "Click 'Compare Texts' to generate the diff",
-      "View highlighted differences with line-by-line breakdown",
-      "Copy the diff output or clear to start over"
-    ],
-    useCases: [
-      { title: "Code Review", description: "Compare code versions to identify changes between commits or branches" },
-      { title: "Document Editing", description: "Track changes in contracts, articles, or any written content" },
-      { title: "Content Verification", description: "Ensure no unauthorized changes were made to important text" }
-    ],
-    faq: [
+    description: "Compare two blocks of text and highlight differences line by line with our free online diff tool.",
+    content: `<h3>Introduction to Text Diff</h3><p>Text comparison is essential for developers, writers, and anyone who needs to track changes between document versions. Our Text Diff tool provides instant, visual comparison of two text blocks with clear highlighting of additions, removals, and unchanged content.</p><h3>How It Works</h3><p>Simply paste your original text in the left panel and the modified text in the right panel. Click 'Compare Texts' to generate the diff and view highlighted differences with line-by-line breakdown.</p><h3>Key Features</h3><ul><li>Line-by-line comparison</li><li>Color-coded differences (green for additions, red for removals)</li><li>Copy diff output</li><li>Statistics on changes</li></ul>`,
+    keywords: ["text diff", "compare text", "text comparison", "diff tool", "find differences", "code diff"],
+    faqs: [
       { question: "How does the diff algorithm work?", answer: "Our tool uses a line-by-line comparison algorithm that identifies additions, removals, and unchanged lines between the two text inputs." },
       { question: "Can I compare code files?", answer: "Yes, the tool works with any text including source code, configuration files, and documentation." }
-    ]
+    ],
+    aboutTool: "Our Text Diff tool provides instant, visual comparison of two text blocks. Perfect for code review, document editing, and content verification. All processing happens in your browser for complete privacy."
   };
 
   return (

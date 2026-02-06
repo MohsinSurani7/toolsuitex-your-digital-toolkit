@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { ToolLayout } from "@/components/tools/ToolLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -97,22 +97,14 @@ const FaviconGenerator = () => {
   const tool = getToolById("favicon-generator")!;
 
   const seoContent = {
-    introduction: "Generate all the favicon sizes your website needs from a single image. Our Favicon Generator creates icons for browsers, mobile devices, PWAs, and more - all processed locally in your browser.",
-    howItWorks: [
-      "Upload your logo or icon image (PNG, JPG, or SVG recommended)",
-      "Adjust background color and padding as needed",
-      "Preview the result and download individual sizes or all at once",
-      "Add the generated files to your website's root directory"
-    ],
-    useCases: [
-      { title: "Website Branding", description: "Create all required favicon sizes for modern browsers" },
-      { title: "PWA Icons", description: "Generate 192x192 and 512x512 icons for Progressive Web Apps" },
-      { title: "Mobile Bookmarks", description: "Create Apple Touch icons for iOS home screen bookmarks" }
-    ],
-    faq: [
+    description: "Generate all favicon sizes from a single image. Create icons for browsers, PWAs, and mobile devices.",
+    content: `<h3>Introduction to Favicons</h3><p>Generate all the favicon sizes your website needs from a single image. Our Favicon Generator creates icons for browsers, mobile devices, PWAs, and more - all processed locally in your browser.</p><h3>How to Use</h3><p>Upload your logo or icon image, adjust background color and padding as needed, preview the result and download individual sizes or all at once.</p><h3>Key Features</h3><ul><li>All required sizes (16x16 to 512x512)</li><li>Apple Touch Icon support</li><li>PWA icon generation</li><li>Custom background color</li></ul>`,
+    keywords: ["favicon generator", "website icon", "favicon maker", "pwa icon", "apple touch icon"],
+    faqs: [
       { question: "What sizes are generated?", answer: "We generate 16x16, 32x32, 48x48, 64x64, 128x128, 180x180 (Apple Touch), 192x192, and 512x512 (PWA) icons." },
       { question: "What image format should I use?", answer: "PNG or SVG work best. Use a square image for the best results across all sizes." }
-    ]
+    ],
+    aboutTool: "Our Favicon Generator creates all the icon sizes your website needs from a single image. Everything runs in your browser for complete privacy."
   };
 
   const downloadICO = async () => {

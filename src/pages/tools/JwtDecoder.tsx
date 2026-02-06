@@ -72,22 +72,14 @@ const JwtDecoder = () => {
   const tool = getToolById("jwt-decoder")!;
 
   const seoContent = {
-    introduction: "JSON Web Tokens (JWT) are widely used for authentication and data exchange. Our JWT Decoder lets you inspect token contents, check expiration status, and understand the claims without any server-side processing.",
-    howItWorks: [
-      "Paste your JWT token (starts with 'eyJ...')",
-      "View the decoded header showing algorithm and token type",
-      "Inspect the payload with all claims and their values",
-      "Check token expiration status and remaining validity time"
-    ],
-    useCases: [
-      { title: "Debugging Auth", description: "Inspect tokens during authentication troubleshooting" },
-      { title: "API Development", description: "Verify token contents match expected claims" },
-      { title: "Security Audits", description: "Check token expiration and claim structure" }
-    ],
-    faq: [
+    description: "Decode and inspect JSON Web Tokens (JWT) to view header and payload data with expiration checking.",
+    content: `<h3>Introduction to JWT</h3><p>JSON Web Tokens (JWT) are widely used for authentication and data exchange. Our JWT Decoder lets you inspect token contents, check expiration status, and understand the claims without any server-side processing.</p><h3>How to Use</h3><p>Paste your JWT token (starts with 'eyJ...'), view the decoded header showing algorithm and token type, inspect the payload with all claims and their values, and check token expiration status.</p><h3>Key Features</h3><ul><li>Decode header and payload</li><li>Expiration time checking</li><li>Claim inspection</li><li>Copy decoded data</li></ul>`,
+    keywords: ["jwt decoder", "json web token", "jwt inspector", "token decoder", "jwt debugger"],
+    faqs: [
       { question: "Does this verify the signature?", answer: "No, this tool only decodes the token. Signature verification requires the secret key and should be done server-side." },
       { question: "Is my token secure?", answer: "Yes, all processing happens in your browser. Tokens are never sent to any server." }
-    ]
+    ],
+    aboutTool: "Our JWT Decoder helps you inspect and debug JSON Web Tokens instantly. Perfect for developers working with authentication and API integrations."
   };
 
   return (

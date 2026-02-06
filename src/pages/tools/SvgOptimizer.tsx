@@ -126,22 +126,14 @@ const SvgOptimizer = () => {
   const tool = getToolById("svg-optimizer")!;
 
   const seoContent = {
-    introduction: "SVG files often contain unnecessary data like metadata, comments, and verbose formatting. Our SVG Optimizer removes bloat while preserving visual quality, reducing file sizes by up to 50% or more.",
-    howItWorks: [
-      "Upload an SVG file or paste SVG code",
-      "Select optimization options (remove comments, metadata, etc.)",
-      "Click 'Optimize SVG' to process",
-      "Preview the result and download the optimized file"
-    ],
-    useCases: [
-      { title: "Web Performance", description: "Reduce SVG file sizes for faster page loads" },
-      { title: "Icon Libraries", description: "Optimize SVG icons for web and app projects" },
-      { title: "Design Export", description: "Clean up SVGs exported from design tools" }
-    ],
-    faq: [
+    description: "Optimize and minify SVG files to reduce file size while preserving visual quality.",
+    content: `<h3>Introduction to SVG Optimization</h3><p>SVG files often contain unnecessary data like metadata, comments, and verbose formatting. Our SVG Optimizer removes bloat while preserving visual quality, reducing file sizes by up to 50% or more.</p><h3>How to Use</h3><p>Upload an SVG file or paste SVG code, select optimization options, click 'Optimize SVG' to process, and preview the result before downloading.</p><h3>Key Features</h3><ul><li>Remove comments and metadata</li><li>Collapse whitespace</li><li>Minify colors</li><li>Preview before/after</li></ul>`,
+    keywords: ["svg optimizer", "svg minifier", "optimize svg", "reduce svg size", "svg compression"],
+    faqs: [
       { question: "Will optimization change how my SVG looks?", answer: "No, our optimizer only removes non-visual data. The rendered appearance remains identical." },
       { question: "What gets removed?", answer: "Comments, metadata, empty elements, unnecessary whitespace, and other non-essential data." }
-    ]
+    ],
+    aboutTool: "Our SVG Optimizer reduces file sizes by removing unnecessary data while preserving visual quality. Perfect for web performance optimization."
   };
 
   return (

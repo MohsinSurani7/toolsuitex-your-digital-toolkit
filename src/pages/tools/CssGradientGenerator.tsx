@@ -108,22 +108,14 @@ const CssGradientGenerator = () => {
   const tool = getToolById("css-gradient-generator")!;
 
   const seoContent = {
-    introduction: "Beautiful gradients can transform any design. Our CSS Gradient Generator provides a visual editor for creating linear, radial, and conic gradients with unlimited color stops, preset templates, and instant CSS code generation.",
-    howItWorks: [
-      "Choose your gradient type (linear, radial, or conic)",
-      "Add and customize color stops with positions",
-      "Adjust the angle for directional gradients",
-      "Copy the generated CSS code to your stylesheet"
-    ],
-    useCases: [
-      { title: "Backgrounds", description: "Create eye-catching backgrounds for websites and apps" },
-      { title: "Buttons & Cards", description: "Add depth with gradient overlays" },
-      { title: "Brand Design", description: "Experiment with color combinations for brand identity" }
-    ],
-    faq: [
+    description: "Create beautiful CSS gradients with a visual editor. Linear, radial, and conic gradients with instant CSS code.",
+    content: `<h3>Introduction to CSS Gradients</h3><p>Beautiful gradients can transform any design. Our CSS Gradient Generator provides a visual editor for creating linear, radial, and conic gradients with unlimited color stops, preset templates, and instant CSS code generation.</p><h3>How to Use</h3><p>Choose your gradient type, add and customize color stops with positions, adjust the angle for directional gradients, and copy the generated CSS code to your stylesheet.</p><h3>Key Features</h3><ul><li>Linear, radial, and conic gradients</li><li>Unlimited color stops</li><li>Preset gradient templates</li><li>Random gradient generator</li></ul>`,
+    keywords: ["css gradient", "gradient generator", "css background", "linear gradient", "radial gradient"],
+    faqs: [
       { question: "What gradient types are supported?", answer: "We support linear (directional), radial (circular from center), and conic (angular sweep) gradients." },
       { question: "How many color stops can I add?", answer: "You can add as many color stops as you need. The minimum is 2 colors." }
-    ]
+    ],
+    aboutTool: "Our CSS Gradient Generator helps you create stunning gradient backgrounds with a visual interface. Perfect for web designers and developers looking to add beautiful color transitions to their projects."
   };
 
   return (
