@@ -65,8 +65,8 @@ const JsonToCsv = () => {
       }
       
       for (const item of flatData) {
-        const row = headers.map(header => {
-          const value = item[header];
+        const row = headers.map((header: string) => {
+          const value = item[header as keyof typeof item];
           if (value === null || value === undefined) return "";
           if (typeof value === "string") return `"${value.replace(/"/g, '""')}"`;
           return String(value);
@@ -90,20 +90,14 @@ const JsonToCsv = () => {
       if (lines.length === 0) throw new Error("Empty CSV");
       
       const headers = parseCSVLine(lines[0], delimiter);
-      const result: Record<string, unknown>[] = [];
+      const result: Record<string, string>[] = [];
       
       for (let i = 1; i < lines.length; i++) {
         const values = parseCSVLine(lines[i], delimiter);
-        const obj: Record<string, unknown> = {};
+        const obj: Record<string, string> = {};
         
-        headers.forEach((header: string, idx: number) => {
-          const value = values[idx] || "";
-          // Try to parse as JSON for nested objects
-          try {
-            obj[header] = JSON.parse(value);
-          } catch {
-            obj[header] = value;
-          }
+        headers.forEach((header, idx) => {
+          obj[header] = values[idx] || "";
         });
         
         result.push(obj);
@@ -167,22 +161,14 @@ const JsonToCsv = () => {
   const tool = getToolById("json-to-csv")!;
 
   const seoContent = {
-    introduction: "Convert between JSON and CSV formats with ease. Our converter handles nested objects, arrays, and supports custom delimiters for maximum flexibility in data transformation.",
-    howItWorks: [
-      "Paste JSON data in the left panel or CSV in the right panel",
-      "Choose whether to include headers and set your delimiter",
-      "Click the appropriate conversion button",
-      "Copy or download the converted output"
-    ],
-    useCases: [
-      { title: "Data Export", description: "Convert API JSON responses to CSV for spreadsheet analysis" },
-      { title: "Data Import", description: "Transform CSV files to JSON for web applications" },
-      { title: "Database Migration", description: "Convert between formats for different systems" }
-    ],
-    faq: [
+    description: "Convert JSON to CSV and vice versa. Handles nested objects, arrays, and custom delimiters.",
+    content: `<h3>Introduction to JSON/CSV Conversion</h3><p>Convert between JSON and CSV formats with ease. Our converter handles nested objects, arrays, and supports custom delimiters for maximum flexibility in data transformation.</p><h3>How to Use</h3><p>Paste JSON data in the left panel or CSV in the right panel. Choose whether to include headers and set your delimiter. Click the appropriate conversion button and copy or download the converted output.</p><h3>Key Features</h3><ul><li>Bidirectional conversion</li><li>Nested object support</li><li>Custom delimiters</li><li>Download as file</li></ul>`,
+    keywords: ["json to csv", "csv to json", "json converter", "csv converter", "data conversion"],
+    faqs: [
       { question: "How are nested objects handled?", answer: "Nested objects are flattened using dot notation (e.g., user.name). Arrays are JSON-stringified." },
       { question: "What delimiter options are available?", answer: "You can use any single character as a delimiter, including comma, semicolon, tab, or pipe." }
-    ]
+    ],
+    aboutTool: "Our JSON to CSV Converter transforms data between formats instantly. Perfect for data analysis, import/export tasks, and API integrations."
   };
 
   return (

@@ -69,7 +69,6 @@ const CronBuilder = () => {
   };
 
   const humanReadable = getHumanReadable();
-    }
 
   const applyPreset = (cron: string) => {
     const parts = cron.split(" ");
@@ -88,22 +87,14 @@ const CronBuilder = () => {
   const tool = getToolById("cron-builder")!;
 
   const seoContent = {
-    introduction: "Cron expressions can be confusing. Our visual Cron Builder helps you create and understand cron schedules with an intuitive interface, preset templates, and human-readable explanations.",
-    howItWorks: [
-      "Use the visual builder to set minute, hour, day, month, and weekday values",
-      "Or select from common presets like 'Every hour' or 'Daily at midnight'",
-      "View the generated cron expression and its human-readable meaning",
-      "Copy the expression for use in your cron jobs or scheduled tasks"
-    ],
-    useCases: [
-      { title: "Server Automation", description: "Schedule backup scripts, cleanup jobs, or maintenance tasks" },
-      { title: "Task Scheduling", description: "Set up recurring jobs in CI/CD pipelines or cloud functions" },
-      { title: "Learning Cron", description: "Understand cron syntax through visual experimentation" }
-    ],
-    faq: [
+    description: "Build and understand cron expressions with a visual editor, preset templates, and human-readable explanations.",
+    content: `<h3>Introduction to Cron</h3><p>Cron expressions can be confusing. Our visual Cron Builder helps you create and understand cron schedules with an intuitive interface, preset templates, and human-readable explanations.</p><h3>How to Use</h3><p>Use the visual builder to set minute, hour, day, month, and weekday values. Or select from common presets like 'Every hour' or 'Daily at midnight'. View the generated cron expression and its human-readable meaning.</p><h3>Key Features</h3><ul><li>Visual expression builder</li><li>Common preset templates</li><li>Human-readable output</li><li>One-click copy</li></ul>`,
+    keywords: ["cron builder", "cron expression", "cron generator", "schedule builder", "cron syntax"],
+    faqs: [
       { question: "What's the cron format?", answer: "Standard 5-field format: minute (0-59), hour (0-23), day of month (1-31), month (1-12), day of week (0-6)." },
       { question: "What does * mean?", answer: "Asterisk means 'every' - so * in the hour field means 'every hour'." }
-    ]
+    ],
+    aboutTool: "Our Cron Builder helps you create cron expressions visually without memorizing the syntax. Perfect for scheduling automated tasks, backups, and recurring jobs."
   };
 
   return (

@@ -106,22 +106,14 @@ const UrlShortener = () => {
   const tool = getToolById("url-shortener")!;
 
   const seoContent = {
-    introduction: "Create short, memorable links for your long URLs. Our URL Shortener stores everything locally in your browser - no accounts, no tracking, complete privacy. Note: Links are for demonstration and stored locally only.",
-    howItWorks: [
-      "Enter or paste your long URL",
-      "Optionally add a custom alias for your short link",
-      "Click 'Shorten URL' to generate the short link",
-      "Copy and share your shortened URL"
-    ],
-    useCases: [
-      { title: "Social Media", description: "Create clean links for social media posts" },
-      { title: "Presentations", description: "Make URLs easier to type and remember" },
-      { title: "Documentation", description: "Simplify long API or resource URLs" }
-    ],
-    faq: [
+    description: "Create short, memorable links for your URLs. Stored locally in your browser for complete privacy.",
+    content: `<h3>Introduction to URL Shortening</h3><p>Create short, memorable links for your long URLs. Our URL Shortener stores everything locally in your browser - no accounts, no tracking, complete privacy.</p><h3>How to Use</h3><p>Enter or paste your long URL, optionally add a custom alias for your short link, click 'Shorten URL' to generate the short link, and copy and share your shortened URL.</p><h3>Key Features</h3><ul><li>Custom aliases</li><li>Local storage (no server)</li><li>Link history</li><li>One-click copy</li></ul>`,
+    keywords: ["url shortener", "link shortener", "short url", "shorten link", "url minifier"],
+    faqs: [
       { question: "Are shortened URLs permanent?", answer: "URLs are stored in your browser's localStorage. They persist until you clear browser data." },
       { question: "Can others access my short URLs?", answer: "This demo version stores links locally only. For production use, integrate with a backend service." }
-    ]
+    ],
+    aboutTool: "Our URL Shortener creates short, memorable links stored locally in your browser. Perfect for demonstrations and personal use with complete privacy."
   };
 
   return (
