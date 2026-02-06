@@ -12,10 +12,26 @@ import NotFound from "./pages/NotFound";
 
 // Tool Pages
 import ResumeBuilder from "./pages/tools/ResumeBuilder";
+import CVMaker from "./pages/tools/CVMaker";
+import CoverLetterGenerator from "./pages/tools/CoverLetterGenerator";
 import CustomEncoder from "./pages/tools/CustomEncoder";
+import PasswordStrength from "./pages/tools/PasswordStrength";
+import HashGenerator from "./pages/tools/HashGenerator";
+import ShadowChat from "./pages/tools/ShadowChat";
 import JsonFormatter from "./pages/tools/JsonFormatter";
+import CodeMinifier from "./pages/tools/CodeMinifier";
+import SQLFormatter from "./pages/tools/SQLFormatter";
+import UnitConverter from "./pages/tools/UnitConverter";
+import BaseConverter from "./pages/tools/BaseConverter";
 import WordCounter from "./pages/tools/WordCounter";
+import CaseConverter from "./pages/tools/CaseConverter";
+import MarkdownEditor from "./pages/tools/MarkdownEditor";
+import LoremGenerator from "./pages/tools/LoremGenerator";
 import ImageCompressor from "./pages/tools/ImageCompressor";
+import ImageResizer from "./pages/tools/ImageResizer";
+import ImageConverter from "./pages/tools/ImageConverter";
+import ColorPicker from "./pages/tools/ColorPicker";
+import ImageRotator from "./pages/tools/ImageRotator";
 
 const queryClient = new QueryClient();
 
@@ -32,12 +48,36 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             
-            {/* Tool Routes */}
+            {/* Professional Suite */}
             <Route path="/tools/resume-builder" element={<ResumeBuilder />} />
+            <Route path="/tools/cv-maker" element={<CVMaker />} />
+            <Route path="/tools/cover-letter-generator" element={<CoverLetterGenerator />} />
+            
+            {/* Security Suite */}
             <Route path="/tools/custom-encoder" element={<CustomEncoder />} />
+            <Route path="/tools/password-strength" element={<PasswordStrength />} />
+            <Route path="/tools/hash-generator" element={<HashGenerator />} />
+            <Route path="/tools/shadow-chat" element={<ShadowChat />} />
+            
+            {/* Developer Suite */}
             <Route path="/tools/json-formatter" element={<JsonFormatter />} />
+            <Route path="/tools/code-minifier" element={<CodeMinifier />} />
+            <Route path="/tools/sql-formatter" element={<SQLFormatter />} />
+            <Route path="/tools/unit-converter" element={<UnitConverter />} />
+            <Route path="/tools/base-converter" element={<BaseConverter />} />
+            
+            {/* Content Suite */}
             <Route path="/tools/word-counter" element={<WordCounter />} />
+            <Route path="/tools/case-converter" element={<CaseConverter />} />
+            <Route path="/tools/markdown-editor" element={<MarkdownEditor />} />
+            <Route path="/tools/lorem-generator" element={<LoremGenerator />} />
+            
+            {/* Image Suite */}
             <Route path="/tools/image-compressor" element={<ImageCompressor />} />
+            <Route path="/tools/image-resizer" element={<ImageResizer />} />
+            <Route path="/tools/image-converter" element={<ImageConverter />} />
+            <Route path="/tools/color-picker" element={<ColorPicker />} />
+            <Route path="/tools/image-rotator" element={<ImageRotator />} />
             
             {/* Catch-all */}
             <Route path="*" element={<NotFound />} />
