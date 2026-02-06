@@ -7,7 +7,9 @@ import {
   Database, MessageSquare, Receipt, CreditCard,
   FolderOpen, Map, ImageIcon, TestTube, AtSign,
   Phone, QrCode, Barcode, Merge, FileArchive, Images,
-  Sparkles, EyeOff, Search, CodeIcon
+  Sparkles, EyeOff, Search, CodeIcon, GitCompare,
+  Scissors, Regex, FileSpreadsheet, Image as ImageLucide,
+  Tags, Clock, Key, Link2, Timer, PaintBucket, FileCode
 } from "lucide-react";
 
 export interface Tool {
@@ -94,7 +96,23 @@ export const tools: Tool[] = [
 
   // PDF Suite (part of Developer)
   { id: "pdf-merge", name: "PDF Merge", description: "Combine multiple PDF files into a single document. Drag and drop to reorder pages.", shortDescription: "Merge PDF files", icon: Merge, category: "developer", path: "/tools/pdf-merge", keywords: ["pdf merge", "combine pdf", "join pdf"], featured: true },
-  { id: "pdf-compress", name: "PDF Compress", description: "Reduce PDF file size without losing quality. Perfect for email and web uploads.", shortDescription: "Compress PDF files", icon: FileArchive, category: "developer", path: "/tools/pdf-compress", keywords: ["pdf compress", "reduce pdf", "shrink pdf"] }
+  { id: "pdf-compress", name: "PDF Compress", description: "Reduce PDF file size without losing quality. Perfect for email and web uploads.", shortDescription: "Compress PDF files", icon: FileArchive, category: "developer", path: "/tools/pdf-compress", keywords: ["pdf compress", "reduce pdf", "shrink pdf"] },
+  { id: "pdf-split", name: "PDF Split", description: "Extract specific pages or split a PDF into individual page files.", shortDescription: "Split PDF pages", icon: Scissors, category: "developer", path: "/tools/pdf-split", keywords: ["pdf split", "extract pages", "separate pdf"] },
+
+  // New Developer Tools
+  { id: "text-diff", name: "Text Diff", description: "Compare two blocks of text and highlight differences line by line.", shortDescription: "Compare text differences", icon: GitCompare, category: "developer", path: "/tools/text-diff", keywords: ["diff", "compare", "text comparison", "changes"] },
+  { id: "regex-tester", name: "Regex Tester", description: "Test and debug regular expressions with real-time matching and group highlighting.", shortDescription: "Test regex patterns", icon: Regex, category: "developer", path: "/tools/regex-tester", keywords: ["regex", "regular expression", "pattern matching"], featured: true },
+  { id: "json-to-csv", name: "JSON to CSV Converter", description: "Convert JSON data to CSV format and vice versa with nested object support.", shortDescription: "Convert JSON ↔ CSV", icon: FileSpreadsheet, category: "developer", path: "/tools/json-to-csv", keywords: ["json", "csv", "convert", "spreadsheet"] },
+  { id: "meta-tag-generator", name: "Meta Tag Generator", description: "Generate SEO-optimized meta tags, Open Graph, and Twitter Card tags.", shortDescription: "Generate meta tags", icon: Tags, category: "developer", path: "/tools/meta-tag-generator", keywords: ["meta tags", "seo", "open graph", "twitter cards"] },
+  { id: "cron-builder", name: "Cron Expression Builder", description: "Build and understand cron expressions with a visual editor.", shortDescription: "Build cron schedules", icon: Clock, category: "developer", path: "/tools/cron-builder", keywords: ["cron", "schedule", "automation", "jobs"] },
+  { id: "jwt-decoder", name: "JWT Decoder", description: "Decode and inspect JSON Web Tokens to view header and payload data.", shortDescription: "Decode JWT tokens", icon: Key, category: "developer", path: "/tools/jwt-decoder", keywords: ["jwt", "token", "authentication", "decode"] },
+  { id: "url-shortener", name: "URL Shortener", description: "Create short, memorable links for your URLs (stored locally).", shortDescription: "Shorten URLs", icon: Link2, category: "developer", path: "/tools/url-shortener", keywords: ["url", "shortener", "links", "short link"] },
+  { id: "timestamp-converter", name: "Timestamp Converter", description: "Convert between Unix timestamps and human-readable dates.", shortDescription: "Convert timestamps", icon: Timer, category: "developer", path: "/tools/timestamp-converter", keywords: ["timestamp", "unix", "date", "epoch"] },
+
+  // New Image Tools
+  { id: "favicon-generator", name: "Favicon Generator", description: "Generate favicons in all required sizes from a single image.", shortDescription: "Create favicons", icon: ImageLucide, category: "image", path: "/tools/favicon-generator", keywords: ["favicon", "icon", "website icon", "pwa"] },
+  { id: "css-gradient-generator", name: "CSS Gradient Generator", description: "Create beautiful CSS gradients with a visual editor.", shortDescription: "Create CSS gradients", icon: PaintBucket, category: "image", path: "/tools/css-gradient-generator", keywords: ["gradient", "css", "background", "colors"], featured: true },
+  { id: "svg-optimizer", name: "SVG Optimizer", description: "Optimize and minify SVG files to reduce file size.", shortDescription: "Optimize SVG files", icon: FileCode, category: "image", path: "/tools/svg-optimizer", keywords: ["svg", "optimize", "minify", "vector"] }
 ];
 
 export function getToolsByCategory(category: ToolCategory): Tool[] { return tools.filter(tool => tool.category === category); }

@@ -51,6 +51,18 @@ import PromptOptimizer from "./pages/tools/PromptOptimizer";
 import SecretNotes from "./pages/tools/SecretNotes";
 import SEOAudit from "./pages/tools/SEOAudit";
 import CodeBeautifier from "./pages/tools/CodeBeautifier";
+import TextDiff from "./pages/tools/TextDiff";
+import PDFSplit from "./pages/tools/PDFSplit";
+import RegexTester from "./pages/tools/RegexTester";
+import JsonToCsv from "./pages/tools/JsonToCsv";
+import FaviconGenerator from "./pages/tools/FaviconGenerator";
+import MetaTagGenerator from "./pages/tools/MetaTagGenerator";
+import CronBuilder from "./pages/tools/CronBuilder";
+import JwtDecoder from "./pages/tools/JwtDecoder";
+import UrlShortener from "./pages/tools/UrlShortener";
+import TimestampConverter from "./pages/tools/TimestampConverter";
+import CssGradientGenerator from "./pages/tools/CssGradientGenerator";
+import SvgOptimizer from "./pages/tools/SvgOptimizer";
 
 const queryClient = new QueryClient();
 
@@ -118,6 +130,18 @@ const App = () => (
             {/* PDF Tools */}
             <Route path="/tools/pdf-merge" element={<PDFMerge />} />
             <Route path="/tools/pdf-compress" element={<PDFCompress />} />
+            <Route path="/tools/pdf-split" element={<PDFSplit />} />
+            <Route path="/tools/text-diff" element={<TextDiff />} />
+            <Route path="/tools/regex-tester" element={<RegexTester />} />
+            <Route path="/tools/json-to-csv" element={<JsonToCsv />} />
+            <Route path="/tools/favicon-generator" element={<FaviconGenerator />} />
+            <Route path="/tools/meta-tag-generator" element={<MetaTagGenerator />} />
+            <Route path="/tools/cron-builder" element={<CronBuilder />} />
+            <Route path="/tools/jwt-decoder" element={<JwtDecoder />} />
+            <Route path="/tools/url-shortener" element={<UrlShortener />} />
+            <Route path="/tools/timestamp-converter" element={<TimestampConverter />} />
+            <Route path="/tools/css-gradient-generator" element={<CssGradientGenerator />} />
+            <Route path="/tools/svg-optimizer" element={<SvgOptimizer />} />
             
             {/* Catch-all */}
             <Route path="*" element={<NotFound />} />
