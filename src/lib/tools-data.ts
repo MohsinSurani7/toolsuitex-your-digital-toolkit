@@ -6,7 +6,8 @@ import {
   Briefcase, FileCheck, Mail, Wand2, BookOpen,
   Database, MessageSquare, Receipt, CreditCard,
   FolderOpen, Map, ImageIcon, TestTube, AtSign,
-  Phone, QrCode, Barcode, Merge, FileArchive, Images
+  Phone, QrCode, Barcode, Merge, FileArchive, Images,
+  Sparkles, EyeOff, Search, CodeIcon
 } from "lucide-react";
 
 export interface Tool {
@@ -58,6 +59,7 @@ export const tools: Tool[] = [
   { id: "password-strength", name: "Password Strength Meter", description: "Analyze password security with detailed strength metrics and improvement suggestions.", shortDescription: "Check password security levels", icon: KeyRound, category: "security", path: "/tools/password-strength", keywords: ["password", "security", "strength", "checker"] },
   { id: "hash-generator", name: "Secure Hash Generator", description: "Generate MD5, SHA-1, SHA-256, and SHA-512 hashes for text and files.", shortDescription: "Create cryptographic hashes", icon: Hash, category: "security", path: "/tools/hash-generator", keywords: ["hash", "MD5", "SHA", "checksum", "cryptography"] },
   { id: "shadow-chat", name: "Shadow Chat", description: "Private P2P encrypted chat with auto-destructing messages. No servers, no logs, no traces.", shortDescription: "Secure ephemeral messaging", icon: MessageSquare, category: "security", path: "/tools/shadow-chat", keywords: ["chat", "private", "encrypted", "p2p", "secure"], featured: true },
+  { id: "secret-notes", name: "Secret Notes", description: "Create one-time viewing links for sensitive text. Self-destructs after reading.", shortDescription: "One-time secret messages", icon: EyeOff, category: "security", path: "/tools/secret-notes", keywords: ["secret", "one-time", "private", "self-destruct", "secure"] },
 
   // Developer Suite
   { id: "json-formatter", name: "JSON Formatter", description: "Format, validate, and beautify JSON data with syntax highlighting and error detection.", shortDescription: "Format and validate JSON", icon: FileJson, category: "developer", path: "/tools/json-formatter", keywords: ["JSON", "format", "validate", "beautify", "API"], featured: true },
@@ -71,12 +73,15 @@ export const tools: Tool[] = [
   { id: "phone-validator", name: "Phone Validator", description: "Validate phone numbers with country code detection. Format international numbers correctly.", shortDescription: "Validate phone numbers", icon: Phone, category: "developer", path: "/tools/phone-validator", keywords: ["phone", "validate", "format", "international"] },
   { id: "qr-code-generator", name: "QR Code Generator", description: "Generate QR codes for URLs, text, WiFi, email, phone, and locations. Free, no signup.", shortDescription: "Create QR codes", icon: QrCode, category: "developer", path: "/tools/qr-code-generator", keywords: ["QR code", "barcode", "scan", "generate"], featured: true },
   { id: "barcode-generator", name: "Barcode Generator", description: "Generate barcodes in multiple formats. Code 128, EAN-13, UPC, Code 39 and more.", shortDescription: "Create barcodes", icon: Barcode, category: "developer", path: "/tools/barcode-generator", keywords: ["barcode", "EAN", "UPC", "Code 128"] },
+  { id: "seo-audit", name: "SEO Audit Tool", description: "Analyze HTML for on-page SEO issues. Check titles, meta tags, headings, and more.", shortDescription: "Audit SEO factors", icon: Search, category: "developer", path: "/tools/seo-audit", keywords: ["seo", "audit", "meta tags", "optimization"] },
+  { id: "code-beautifier", name: "Code Beautifier", description: "Format and beautify minified JavaScript, CSS, and HTML code for better readability.", shortDescription: "Beautify minified code", icon: CodeIcon, category: "developer", path: "/tools/code-beautifier", keywords: ["beautify", "format", "minified", "js", "css", "html"], featured: true },
 
   // Content Suite
   { id: "word-counter", name: "Word Counter", description: "Count words, characters, sentences, and paragraphs with reading time estimation.", shortDescription: "Analyze text statistics", icon: AlignLeft, category: "content", path: "/tools/word-counter", keywords: ["word count", "character count", "text analysis"], featured: true },
   { id: "case-converter", name: "Case Converter", description: "Convert text between uppercase, lowercase, title case, sentence case, and more.", shortDescription: "Transform text case", icon: CaseSensitive, category: "content", path: "/tools/case-converter", keywords: ["uppercase", "lowercase", "title case", "text"] },
   { id: "markdown-editor", name: "Markdown Editor", description: "Write and preview Markdown with live rendering and export options.", shortDescription: "Edit Markdown with preview", icon: BookOpen, category: "content", path: "/tools/markdown-editor", keywords: ["markdown", "editor", "preview", "writing"] },
   { id: "lorem-generator", name: "Lorem Ipsum Generator", description: "Generate placeholder text for design mockups and content layouts.", shortDescription: "Generate placeholder text", icon: Wand2, category: "content", path: "/tools/lorem-generator", keywords: ["lorem ipsum", "placeholder", "dummy text"] },
+  { id: "prompt-optimizer", name: "AI Prompt Optimizer", description: "Transform simple prompts into powerful, structured AI prompts using templates.", shortDescription: "Optimize AI prompts", icon: Sparkles, category: "content", path: "/tools/prompt-optimizer", keywords: ["prompt", "ai", "chatgpt", "llm", "prompt engineering"], featured: true },
 
   // Image Suite
   { id: "image-compressor", name: "Image Compressor", description: "Compress images without losing quality. Reduce file sizes for faster web loading.", shortDescription: "Optimize image file sizes", icon: Scaling, category: "image", path: "/tools/image-compressor", keywords: ["compress", "optimize", "reduce size", "image"], featured: true },
