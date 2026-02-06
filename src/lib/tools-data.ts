@@ -4,7 +4,9 @@ import {
   Calculator, Binary, AlignLeft, CaseSensitive,
   Scaling, FileImage, Palette, Crop, RotateCw,
   Briefcase, FileCheck, Mail, Wand2, BookOpen,
-  Database, MessageSquare
+  Database, MessageSquare, Receipt, CreditCard,
+  FolderOpen, Map, ImageIcon, TestTube, AtSign,
+  Phone, QrCode, Barcode
 } from "lucide-react";
 
 export interface Tool {
@@ -47,6 +49,9 @@ export const tools: Tool[] = [
   { id: "resume-builder", name: "AI Resume Builder", description: "Create professional, ATS-friendly resumes with our intelligent builder. Export to PDF with modern templates.", shortDescription: "Build ATS-optimized resumes instantly", icon: FileText, category: "professional", path: "/tools/resume-builder", keywords: ["resume", "CV", "job", "career", "ATS", "professional"], featured: true },
   { id: "cv-maker", name: "CV Maker", description: "Design comprehensive curriculum vitae with detailed sections for academics and professionals.", shortDescription: "Create detailed academic CVs", icon: FileCheck, category: "professional", path: "/tools/cv-maker", keywords: ["CV", "curriculum vitae", "academic", "portfolio"] },
   { id: "cover-letter-generator", name: "Cover Letter Generator", description: "Generate compelling cover letters tailored to job descriptions and company culture.", shortDescription: "Craft persuasive cover letters", icon: Mail, category: "professional", path: "/tools/cover-letter-generator", keywords: ["cover letter", "job application", "hiring"] },
+  { id: "invoice-generator", name: "Invoice Generator", description: "Create professional invoices offline with automatic calculations. Export to PDF instantly.", shortDescription: "Create invoices offline", icon: Receipt, category: "professional", path: "/tools/invoice-generator", keywords: ["invoice", "billing", "receipt", "business"] },
+  { id: "business-card-generator", name: "Business Card Generator", description: "Design stunning business cards with multiple templates. Download print-ready PNG.", shortDescription: "Design business cards", icon: CreditCard, category: "professional", path: "/tools/business-card-generator", keywords: ["business card", "card maker", "professional", "design"] },
+  { id: "portfolio-builder", name: "Portfolio Builder", description: "Build a professional portfolio website in minutes. Export as standalone HTML.", shortDescription: "Create portfolio websites", icon: FolderOpen, category: "professional", path: "/tools/portfolio-builder", keywords: ["portfolio", "website", "showcase", "projects"] },
 
   // Security Suite
   { id: "custom-encoder", name: "ToolSuiteX Encoder/Decoder", description: "Encode and decode text using our proprietary multi-layer cipher system. More secure than standard Base64.", shortDescription: "Proprietary encryption system", icon: Lock, category: "security", path: "/tools/custom-encoder", keywords: ["encode", "decode", "cipher", "encryption", "security"], featured: true },
@@ -60,6 +65,12 @@ export const tools: Tool[] = [
   { id: "sql-formatter", name: "SQL Formatter", description: "Format and beautify SQL queries with proper indentation and syntax highlighting.", shortDescription: "Beautify SQL queries", icon: Database, category: "developer", path: "/tools/sql-formatter", keywords: ["SQL", "database", "query", "format"] },
   { id: "unit-converter", name: "Unit Converter", description: "Convert between various units including length, weight, temperature, and data sizes.", shortDescription: "Convert between units", icon: Calculator, category: "developer", path: "/tools/unit-converter", keywords: ["convert", "units", "measurement", "calculator"] },
   { id: "base-converter", name: "Number Base Converter", description: "Convert numbers between binary, octal, decimal, and hexadecimal systems.", shortDescription: "Convert number systems", icon: Binary, category: "developer", path: "/tools/base-converter", keywords: ["binary", "hex", "octal", "decimal", "convert"] },
+  { id: "sitemap-generator", name: "Sitemap Generator", description: "Generate XML sitemaps for your website. Improve SEO with proper sitemap structure.", shortDescription: "Create XML sitemaps", icon: Map, category: "developer", path: "/tools/sitemap-generator", keywords: ["sitemap", "XML", "SEO", "website"] },
+  { id: "fake-data-generator", name: "Fake Data Generator", description: "Generate realistic fake data for testing. Names, emails, addresses, and more.", shortDescription: "Generate test data", icon: TestTube, category: "developer", path: "/tools/fake-data-generator", keywords: ["fake data", "test data", "mock", "dummy"] },
+  { id: "email-validator", name: "Email Validator", description: "Validate email addresses instantly. Check format, detect typos, and verify structure.", shortDescription: "Validate email format", icon: AtSign, category: "developer", path: "/tools/email-validator", keywords: ["email", "validate", "checker", "verify"] },
+  { id: "phone-validator", name: "Phone Validator", description: "Validate phone numbers with country code detection. Format international numbers correctly.", shortDescription: "Validate phone numbers", icon: Phone, category: "developer", path: "/tools/phone-validator", keywords: ["phone", "validate", "format", "international"] },
+  { id: "qr-code-generator", name: "QR Code Generator", description: "Generate QR codes for URLs, text, WiFi, email, phone, and locations. Free, no signup.", shortDescription: "Create QR codes", icon: QrCode, category: "developer", path: "/tools/qr-code-generator", keywords: ["QR code", "barcode", "scan", "generate"], featured: true },
+  { id: "barcode-generator", name: "Barcode Generator", description: "Generate barcodes in multiple formats. Code 128, EAN-13, UPC, Code 39 and more.", shortDescription: "Create barcodes", icon: Barcode, category: "developer", path: "/tools/barcode-generator", keywords: ["barcode", "EAN", "UPC", "Code 128"] },
 
   // Content Suite
   { id: "word-counter", name: "Word Counter", description: "Count words, characters, sentences, and paragraphs with reading time estimation.", shortDescription: "Analyze text statistics", icon: AlignLeft, category: "content", path: "/tools/word-counter", keywords: ["word count", "character count", "text analysis"], featured: true },
@@ -72,7 +83,8 @@ export const tools: Tool[] = [
   { id: "image-resizer", name: "Image Resizer", description: "Resize images to exact dimensions or scale by percentage while maintaining aspect ratio.", shortDescription: "Resize images to any size", icon: Crop, category: "image", path: "/tools/image-resizer", keywords: ["resize", "scale", "dimensions", "image"] },
   { id: "image-converter", name: "Image Format Converter", description: "Convert images between PNG, JPG, WEBP, and other formats directly in your browser.", shortDescription: "Convert image formats", icon: FileImage, category: "image", path: "/tools/image-converter", keywords: ["convert", "PNG", "JPG", "WEBP", "format"] },
   { id: "color-picker", name: "Color Picker & Palette", description: "Pick colors from images, generate palettes, and convert between color formats.", shortDescription: "Pick and convert colors", icon: Palette, category: "image", path: "/tools/color-picker", keywords: ["color", "picker", "palette", "hex", "RGB"] },
-  { id: "image-rotator", name: "Image Rotator & Flipper", description: "Rotate images by any angle or flip horizontally and vertically.", shortDescription: "Rotate and flip images", icon: RotateCw, category: "image", path: "/tools/image-rotator", keywords: ["rotate", "flip", "mirror", "image"] }
+  { id: "image-rotator", name: "Image Rotator & Flipper", description: "Rotate images by any angle or flip horizontally and vertically.", shortDescription: "Rotate and flip images", icon: RotateCw, category: "image", path: "/tools/image-rotator", keywords: ["rotate", "flip", "mirror", "image"] },
+  { id: "logo-mockup", name: "Logo Mockup Generator", description: "Preview your logo on realistic product mockups. T-shirts, mugs, phone cases and more.", shortDescription: "Preview logos on products", icon: ImageIcon, category: "image", path: "/tools/logo-mockup", keywords: ["mockup", "logo", "brand", "preview"] }
 ];
 
 export function getToolsByCategory(category: ToolCategory): Tool[] { return tools.filter(tool => tool.category === category); }

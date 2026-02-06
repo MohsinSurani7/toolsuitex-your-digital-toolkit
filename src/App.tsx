@@ -14,6 +14,9 @@ import NotFound from "./pages/NotFound";
 import ResumeBuilder from "./pages/tools/ResumeBuilder";
 import CVMaker from "./pages/tools/CVMaker";
 import CoverLetterGenerator from "./pages/tools/CoverLetterGenerator";
+import InvoiceGenerator from "./pages/tools/InvoiceGenerator";
+import BusinessCardGenerator from "./pages/tools/BusinessCardGenerator";
+import PortfolioBuilder from "./pages/tools/PortfolioBuilder";
 import CustomEncoder from "./pages/tools/CustomEncoder";
 import PasswordStrength from "./pages/tools/PasswordStrength";
 import HashGenerator from "./pages/tools/HashGenerator";
@@ -23,6 +26,12 @@ import CodeMinifier from "./pages/tools/CodeMinifier";
 import SQLFormatter from "./pages/tools/SQLFormatter";
 import UnitConverter from "./pages/tools/UnitConverter";
 import BaseConverter from "./pages/tools/BaseConverter";
+import SitemapGenerator from "./pages/tools/SitemapGenerator";
+import FakeDataGenerator from "./pages/tools/FakeDataGenerator";
+import EmailValidator from "./pages/tools/EmailValidator";
+import PhoneValidator from "./pages/tools/PhoneValidator";
+import QRCodeGenerator from "./pages/tools/QRCodeGenerator";
+import BarcodeGenerator from "./pages/tools/BarcodeGenerator";
 import WordCounter from "./pages/tools/WordCounter";
 import CaseConverter from "./pages/tools/CaseConverter";
 import MarkdownEditor from "./pages/tools/MarkdownEditor";
@@ -32,6 +41,7 @@ import ImageResizer from "./pages/tools/ImageResizer";
 import ImageConverter from "./pages/tools/ImageConverter";
 import ColorPicker from "./pages/tools/ColorPicker";
 import ImageRotator from "./pages/tools/ImageRotator";
+import LogoMockup from "./pages/tools/LogoMockup";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +62,9 @@ const App = () => (
             <Route path="/tools/resume-builder" element={<ResumeBuilder />} />
             <Route path="/tools/cv-maker" element={<CVMaker />} />
             <Route path="/tools/cover-letter-generator" element={<CoverLetterGenerator />} />
+            <Route path="/tools/invoice-generator" element={<InvoiceGenerator />} />
+            <Route path="/tools/business-card-generator" element={<BusinessCardGenerator />} />
+            <Route path="/tools/portfolio-builder" element={<PortfolioBuilder />} />
             
             {/* Security Suite */}
             <Route path="/tools/custom-encoder" element={<CustomEncoder />} />
@@ -65,6 +78,12 @@ const App = () => (
             <Route path="/tools/sql-formatter" element={<SQLFormatter />} />
             <Route path="/tools/unit-converter" element={<UnitConverter />} />
             <Route path="/tools/base-converter" element={<BaseConverter />} />
+            <Route path="/tools/sitemap-generator" element={<SitemapGenerator />} />
+            <Route path="/tools/fake-data-generator" element={<FakeDataGenerator />} />
+            <Route path="/tools/email-validator" element={<EmailValidator />} />
+            <Route path="/tools/phone-validator" element={<PhoneValidator />} />
+            <Route path="/tools/qr-code-generator" element={<QRCodeGenerator />} />
+            <Route path="/tools/barcode-generator" element={<BarcodeGenerator />} />
             
             {/* Content Suite */}
             <Route path="/tools/word-counter" element={<WordCounter />} />
@@ -78,6 +97,7 @@ const App = () => (
             <Route path="/tools/image-converter" element={<ImageConverter />} />
             <Route path="/tools/color-picker" element={<ColorPicker />} />
             <Route path="/tools/image-rotator" element={<ImageRotator />} />
+            <Route path="/tools/logo-mockup" element={<LogoMockup />} />
             
             {/* Catch-all */}
             <Route path="*" element={<NotFound />} />
