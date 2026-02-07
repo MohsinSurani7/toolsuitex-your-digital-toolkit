@@ -34,20 +34,43 @@ export default function ShadowChat() {
   const [isConnecting, setIsConnecting] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Initialize PeerJS with reliable config
+  // Initialize PeerJS with reliable config including TURN servers for strict firewalls
   useEffect(() => {
     const initPeer = () => {
-      // Use public PeerJS server with TURN fallback for NAT traversal
+      // Use public PeerJS server with STUN + TURN for maximum NAT traversal
       const newPeer = new Peer({
         config: {
           iceServers: [
+            // Google STUN servers
             { urls: 'stun:stun.l.google.com:19302' },
             { urls: 'stun:stun1.l.google.com:19302' },
             { urls: 'stun:stun2.l.google.com:19302' },
-            { urls: 'stun:stun3.l.google.com:19302' },
-            { urls: 'stun:stun4.l.google.com:19302' },
-            { urls: 'stun:global.stun.twilio.com:3478' }
-          ]
+            // Twilio STUN
+            { urls: 'stun:global.stun.twilio.com:3478' },
+            // Free TURN servers from Open Relay Project (metered.ca free tier)
+            {
+              urls: 'turn:openrelay.metered.ca:80',
+              username: 'openrelayproject',
+              credential: 'openrelayproject'
+            },
+            {
+              urls: 'turn:openrelay.metered.ca:443',
+              username: 'openrelayproject',
+              credential: 'openrelayproject'
+            },
+            {
+              urls: 'turn:openrelay.metered.ca:443?transport=tcp',
+              username: 'openrelayproject',
+              credential: 'openrelayproject'
+            },
+            // Additional free TURN from Xirsys demo
+            {
+              urls: 'turn:turn.anyfirewall.com:443?transport=tcp',
+              username: 'webrtc',
+              credential: 'webrtc'
+            }
+          ],
+          iceCandidatePoolSize: 10
         },
         debug: 2
       });

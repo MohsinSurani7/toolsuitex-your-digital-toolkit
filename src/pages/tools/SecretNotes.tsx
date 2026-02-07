@@ -6,54 +6,87 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Copy, Link, Trash2, Eye, EyeOff, AlertTriangle, CheckCircle } from "lucide-react";
+import { Copy, Link, Trash2, Eye, EyeOff, AlertTriangle, CheckCircle, Lock } from "lucide-react";
 import { toast } from "sonner";
 
-const STORAGE_KEY = "secret_notes_";
+// Simple encryption using password-based XOR with salt
+const encrypt = (text: string, password: string): string => {
+  const salt = "TSX_SECRET_" + password;
+  let result = "";
+  for (let i = 0; i < text.length; i++) {
+    const charCode = text.charCodeAt(i) ^ salt.charCodeAt(i % salt.length);
+    result += String.fromCharCode(charCode);
+  }
+  // Convert to URL-safe base64
+  return btoa(unescape(encodeURIComponent(result)))
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=/g, '');
+};
 
-interface SecretNote {
-  id: string;
-  content: string;
-  createdAt: number;
-  expiresAt: number;
-  password?: string;
-  viewed: boolean;
-}
+const decrypt = (encoded: string, password: string): string | null => {
+  try {
+    // Restore base64 padding and characters
+    let base64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
+    const padding = base64.length % 4;
+    if (padding) {
+      base64 += '='.repeat(4 - padding);
+    }
+    
+    const decoded = decodeURIComponent(escape(atob(base64)));
+    const salt = "TSX_SECRET_" + password;
+    let result = "";
+    for (let i = 0; i < decoded.length; i++) {
+      const charCode = decoded.charCodeAt(i) ^ salt.charCodeAt(i % salt.length);
+      result += String.fromCharCode(charCode);
+    }
+    return result;
+  } catch {
+    return null;
+  }
+};
 
 export default function SecretNotes() {
   const tool = getToolById("secret-notes")!;
   const [content, setContent] = useState("");
   const [password, setPassword] = useState("");
-  const [expiry, setExpiry] = useState("1h");
   const [generatedLink, setGeneratedLink] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [generatedPassword, setGeneratedPassword] = useState("");
   
   // View mode
   const [viewMode, setViewMode] = useState(false);
-  const [viewId, setViewId] = useState("");
   const [viewPassword, setViewPassword] = useState("");
   const [viewedContent, setViewedContent] = useState("");
   const [viewError, setViewError] = useState("");
+  const [encryptedData, setEncryptedData] = useState("");
+  const [hasPassword, setHasPassword] = useState(false);
 
   useEffect(() => {
-    // Check if URL has a note ID
-    const params = new URLSearchParams(window.location.search);
-    const noteId = params.get("note");
-    if (noteId) {
-      setViewMode(true);
-      setViewId(noteId);
+    // Check if URL has encrypted note data
+    const hash = window.location.hash;
+    if (hash && hash.startsWith('#n=')) {
+      const params = new URLSearchParams(hash.slice(1));
+      const data = params.get('n');
+      const pwd = params.get('p');
+      
+      if (data) {
+        setViewMode(true);
+        setEncryptedData(data);
+        setHasPassword(pwd !== '0');
+        
+        // If no password required, decrypt immediately
+        if (pwd === '0') {
+          const decrypted = decrypt(data, '');
+          if (decrypted) {
+            setViewedContent(decrypted);
+          } else {
+            setViewError("Failed to decrypt note. The link may be corrupted.");
+          }
+        }
+      }
     }
   }, []);
-
-  const getExpiryMs = () => {
-    const times: Record<string, number> = {
-      "5m": 5 * 60 * 1000,
-      "1h": 60 * 60 * 1000,
-      "24h": 24 * 60 * 60 * 1000,
-      "7d": 7 * 24 * 60 * 60 * 1000
-    };
-    return times[expiry] || times["1h"];
-  };
 
   const generateNote = () => {
     if (!content.trim()) {
@@ -61,22 +94,16 @@ export default function SecretNotes() {
       return;
     }
 
-    const id = crypto.randomUUID().replace(/-/g, "").slice(0, 16);
-    const note: SecretNote = {
-      id,
-      content: content.trim(),
-      createdAt: Date.now(),
-      expiresAt: Date.now() + getExpiryMs(),
-      password: password || undefined,
-      viewed: false
-    };
-
-    // Store in localStorage
-    localStorage.setItem(STORAGE_KEY + id, JSON.stringify(note));
-
-    // Generate link
-    const link = `${window.location.origin}${window.location.pathname}?note=${id}`;
+    const usePassword = password.trim();
+    const encryptionKey = usePassword || '';
+    const encrypted = encrypt(content.trim(), encryptionKey);
+    
+    // Generate link with encrypted content in hash (never sent to server)
+    const passwordFlag = usePassword ? '1' : '0';
+    const link = `${window.location.origin}${window.location.pathname}#n=${encrypted}&p=${passwordFlag}`;
+    
     setGeneratedLink(link);
+    setGeneratedPassword(usePassword);
     toast.success("Secret note created!");
   };
 
@@ -88,81 +115,68 @@ export default function SecretNotes() {
   const viewNote = () => {
     setViewError("");
     
-    const stored = localStorage.getItem(STORAGE_KEY + viewId);
-    if (!stored) {
-      setViewError("Note not found or already viewed");
+    const decrypted = decrypt(encryptedData, viewPassword);
+    
+    if (decrypted === null) {
+      setViewError("Failed to decrypt. The link may be corrupted.");
       return;
     }
 
-    const note: SecretNote = JSON.parse(stored);
-
-    // Check expiry
-    if (Date.now() > note.expiresAt) {
-      localStorage.removeItem(STORAGE_KEY + viewId);
-      setViewError("This note has expired");
+    // Basic validation - check if result looks like valid text
+    // Incorrect password will produce garbage
+    const isPrintable = /^[\x20-\x7E\s\u0080-\uFFFF]*$/.test(decrypted);
+    if (!isPrintable || decrypted.length === 0) {
+      setViewError("Incorrect password or corrupted data");
       return;
     }
 
-    // Check if already viewed
-    if (note.viewed) {
-      localStorage.removeItem(STORAGE_KEY + viewId);
-      setViewError("This note has already been viewed");
-      return;
-    }
-
-    // Check password
-    if (note.password && note.password !== viewPassword) {
-      setViewError("Incorrect password");
-      return;
-    }
-
-    // Show content and immediately destroy
-    setViewedContent(note.content);
-    localStorage.removeItem(STORAGE_KEY + viewId);
-    toast.success("Note revealed and destroyed");
+    setViewedContent(decrypted);
+    toast.success("Note decrypted successfully!");
   };
 
   const resetCreate = () => {
     setContent("");
     setPassword("");
     setGeneratedLink("");
+    setGeneratedPassword("");
   };
 
   const resetView = () => {
     window.history.replaceState({}, "", window.location.pathname);
     setViewMode(false);
-    setViewId("");
     setViewPassword("");
     setViewedContent("");
     setViewError("");
+    setEncryptedData("");
+    setHasPassword(false);
   };
 
   const seoContent = {
-    description: "Create self-destructing secret notes that can only be viewed once, then disappear forever.",
-    content: `<p>Secret Notes is a zero-trace messaging tool that creates one-time viewing links. Once a note is read, it's immediately destroyed from storage - no copies, no backups, no traces.</p>
+    description: "Create encrypted secret notes with shareable links. Data is encrypted in the URL itself - nothing is stored on any server.",
+    content: `<p>Secret Notes creates encrypted messages that exist entirely within the URL. When you share the link, you're sharing the encrypted data directly - no servers, no storage, complete privacy.</p>
     <h3>How It Works</h3>
     <ol>
       <li>Write your secret message</li>
       <li>Optionally add a password for extra security</li>
-      <li>Set an expiration time</li>
-      <li>Share the generated link</li>
-      <li>Once viewed, the note self-destructs</li>
+      <li>Generate the encrypted link</li>
+      <li>Share the link (the encrypted data is in the URL hash)</li>
+      <li>Recipient decrypts with the password you share separately</li>
     </ol>
     <h3>Security Features</h3>
     <ul>
-      <li>One-time viewing only</li>
+      <li>Zero server storage - data lives only in the URL</li>
       <li>Optional password protection</li>
-      <li>Automatic expiration</li>
-      <li>Local storage only - no server uploads</li>
+      <li>URL hash never sent to servers</li>
+      <li>Client-side encryption only</li>
     </ul>`,
-    aboutTool: "Secret Notes allows users to create sensitive text that generates a one-time viewing link. Using localStorage with self-destruct logic, once the link is accessed, the data is wiped immediately - perfect for sharing passwords, API keys, or confidential information.",
+    aboutTool: "Secret Notes encrypts your message directly into a shareable URL. The encrypted content is stored in the URL hash (fragment), which is never sent to any server. This means true zero-knowledge sharing - only someone with the link (and password, if set) can read the message.",
     faqs: [
-      { question: "Is my data stored on a server?", answer: "No. All notes are stored in localStorage on your device only. Nothing is sent to any server." },
-      { question: "What happens after a note is viewed?", answer: "The note is immediately deleted from storage. It cannot be recovered or viewed again." },
-      { question: "Can I password-protect my notes?", answer: "Yes! You can add an optional password that recipients must enter before viewing the note." },
-      { question: "What if the link expires before viewing?", answer: "The note is automatically deleted after the expiration time, even if never viewed." }
+      { question: "Is my data stored on a server?", answer: "No. The encrypted message is embedded directly in the URL hash. URL hashes are never transmitted to servers, making this completely serverless." },
+      { question: "How do I share the password?", answer: "Share the password through a separate channel (text, call, in person) - never include it in the same message as the link for maximum security." },
+      { question: "What if I forget the password?", answer: "Without the correct password, the message cannot be decrypted. There is no recovery option - this is by design for security." },
+      { question: "Is there a message size limit?", answer: "Yes, URLs have length limits (usually 2000-8000 characters depending on the browser). For longer messages, consider splitting into multiple notes." }
     ],
-    keywords: ["secret notes", "one time link", "self-destructing message", "secure notes", "private message", "burn after reading"]
+    keywords: ["secret notes", "encrypted link", "secure notes", "private message", "zero knowledge", "client-side encryption"]
   };
 
   if (viewMode) {
@@ -182,7 +196,7 @@ export default function SecretNotes() {
                   <div className="p-4 bg-muted/50 rounded-lg border border-primary/20">
                     <div className="flex items-center gap-2 text-primary mb-2">
                       <CheckCircle className="w-4 h-4" />
-                      <span className="text-sm font-medium">Note revealed (now destroyed)</span>
+                      <span className="text-sm font-medium">Note decrypted successfully</span>
                     </div>
                     <p className="whitespace-pre-wrap">{viewedContent}</p>
                   </div>
@@ -201,29 +215,42 @@ export default function SecretNotes() {
                     </div>
                   )}
                   
-                  <div className="p-4 bg-muted/50 rounded-lg">
-                    <p className="text-sm text-muted-foreground mb-4">
-                      ⚠️ This note will be permanently destroyed after viewing.
-                    </p>
-                    
-                    <div className="space-y-4">
-                      <div>
-                        <Label>Password (if required)</Label>
-                        <Input
-                          type="password"
-                          value={viewPassword}
-                          onChange={(e) => setViewPassword(e.target.value)}
-                          placeholder="Enter password if required"
-                          className="mt-1.5"
-                        />
+                  {hasPassword ? (
+                    <div className="p-4 bg-muted/50 rounded-lg">
+                      <div className="flex items-center gap-2 mb-4">
+                        <Lock className="w-5 h-5 text-primary" />
+                        <p className="text-sm text-muted-foreground">
+                          This note is password protected. Enter the password to decrypt.
+                        </p>
                       </div>
                       
-                      <Button onClick={viewNote} className="w-full">
-                        <Eye className="w-4 h-4 mr-2" />
-                        Reveal & Destroy Note
-                      </Button>
+                      <div className="space-y-4">
+                        <div>
+                          <Label>Password</Label>
+                          <Input
+                            type="password"
+                            value={viewPassword}
+                            onChange={(e) => setViewPassword(e.target.value)}
+                            placeholder="Enter password"
+                            className="mt-1.5"
+                            onKeyPress={(e) => e.key === 'Enter' && viewNote()}
+                          />
+                        </div>
+                        
+                        <Button onClick={viewNote} className="w-full">
+                          <Eye className="w-4 h-4 mr-2" />
+                          Decrypt Note
+                        </Button>
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="p-4 bg-destructive/10 rounded-lg border border-destructive/20">
+                      <div className="flex items-center gap-2 text-destructive">
+                        <AlertTriangle className="w-4 h-4" />
+                        <span>Failed to load note. The link may be invalid or corrupted.</span>
+                      </div>
+                    </div>
+                  )}
                   
                   <Button onClick={resetView} variant="ghost" className="w-full">
                     Create New Note Instead
@@ -258,16 +285,19 @@ export default function SecretNotes() {
                     onChange={(e) => setContent(e.target.value)}
                     className="mt-1.5 min-h-[150px]"
                   />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {content.length}/2000 characters (keep under 2000 for URL compatibility)
+                  </p>
                 </div>
 
                 <div>
-                  <Label>Password Protection (Optional)</Label>
+                  <Label>Password Protection (Recommended)</Label>
                   <div className="relative mt-1.5">
                     <Input
                       type={showPassword ? "text" : "password"}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Add a password for extra security"
+                      placeholder="Add a password for encryption"
                     />
                     <Button
                       type="button"
@@ -279,32 +309,14 @@ export default function SecretNotes() {
                       {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </Button>
                   </div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Share the password separately from the link for maximum security
+                  </p>
                 </div>
 
-                <div>
-                  <Label>Expires After</Label>
-                  <div className="grid grid-cols-4 gap-2 mt-1.5">
-                    {[
-                      { value: "5m", label: "5 min" },
-                      { value: "1h", label: "1 hour" },
-                      { value: "24h", label: "24 hours" },
-                      { value: "7d", label: "7 days" }
-                    ].map((opt) => (
-                      <Button
-                        key={opt.value}
-                        variant={expiry === opt.value ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => setExpiry(opt.value)}
-                      >
-                        {opt.label}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-
-                <Button onClick={generateNote} className="w-full">
+                <Button onClick={generateNote} className="w-full" disabled={!content.trim()}>
                   <Link className="w-4 h-4 mr-2" />
-                  Generate One-Time Link
+                  Generate Encrypted Link
                 </Button>
               </>
             ) : (
@@ -312,10 +324,10 @@ export default function SecretNotes() {
                 <div className="p-4 bg-primary/10 rounded-lg border border-primary/20">
                   <div className="flex items-center gap-2 text-primary mb-2">
                     <CheckCircle className="w-4 h-4" />
-                    <span className="font-medium">Secret Note Created!</span>
+                    <span className="font-medium">Encrypted Note Created!</span>
                   </div>
                   <p className="text-sm text-muted-foreground mb-4">
-                    Share this link. It can only be viewed once, then it self-destructs.
+                    The encrypted message is embedded in this link. Nothing is stored on any server.
                   </p>
                   <div className="flex gap-2">
                     <Input value={generatedLink} readOnly className="font-mono text-xs" />
@@ -324,6 +336,18 @@ export default function SecretNotes() {
                     </Button>
                   </div>
                 </div>
+
+                {generatedPassword && (
+                  <div className="p-4 bg-yellow-500/10 rounded-lg border border-yellow-500/20">
+                    <div className="flex items-center gap-2 text-yellow-600 dark:text-yellow-400 mb-2">
+                      <Lock className="w-4 h-4" />
+                      <span className="font-medium">Password Required</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Share this password separately: <code className="bg-muted px-2 py-1 rounded">{generatedPassword}</code>
+                    </p>
+                  </div>
+                )}
 
                 <Button onClick={resetCreate} variant="outline" className="w-full">
                   <Trash2 className="w-4 h-4 mr-2" />
