@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageSquare, Copy, Link, Trash2, Send, Shield, Clock, AlertTriangle, X, Users } from "lucide-react";
+import { MessageSquare, Copy, Link, Send, Shield, Clock, AlertTriangle, X, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -34,29 +34,68 @@ export default function ShadowChat() {
   const [isConnecting, setIsConnecting] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Initialize PeerJS
+  // Initialize PeerJS with reliable config
   useEffect(() => {
-    const newPeer = new Peer();
-    
-    newPeer.on("open", (id) => {
-      setMyPeerId(id);
-      toast.success("Shadow Chat ready!");
-    });
+    const initPeer = () => {
+      // Use public PeerJS server with TURN fallback for NAT traversal
+      const newPeer = new Peer({
+        config: {
+          iceServers: [
+            { urls: 'stun:stun.l.google.com:19302' },
+            { urls: 'stun:stun1.l.google.com:19302' },
+            { urls: 'stun:stun2.l.google.com:19302' },
+            { urls: 'stun:stun3.l.google.com:19302' },
+            { urls: 'stun:stun4.l.google.com:19302' },
+            { urls: 'stun:global.stun.twilio.com:3478' }
+          ]
+        },
+        debug: 2
+      });
+      
+      newPeer.on("open", (id) => {
+        console.log("PeerJS connected with ID:", id);
+        setMyPeerId(id);
+        toast.success("Shadow Chat ready!");
+      });
 
-    newPeer.on("connection", (conn) => {
-      handleConnection(conn);
-    });
+      newPeer.on("connection", (conn) => {
+        console.log("Incoming connection from:", conn.peer);
+        handleConnection(conn);
+      });
 
-    newPeer.on("error", (err) => {
-      console.error("PeerJS error:", err);
-      toast.error("Connection error occurred");
-      setIsConnecting(false);
-    });
+      newPeer.on("error", (err) => {
+        console.error("PeerJS error:", err);
+        if (err.type === 'peer-unavailable') {
+          toast.error("User not found or offline. Check the connection key.");
+        } else if (err.type === 'network') {
+          toast.error("Network error. Retrying connection...");
+          // Retry after delay
+          setTimeout(() => {
+            newPeer.destroy();
+            initPeer();
+          }, 3000);
+        } else if (err.type === 'disconnected') {
+          toast.error("Disconnected from server. Reconnecting...");
+          newPeer.reconnect();
+        } else {
+          toast.error(`Connection error: ${err.type}`);
+        }
+        setIsConnecting(false);
+      });
 
-    setPeer(newPeer);
+      newPeer.on("disconnected", () => {
+        console.log("PeerJS disconnected, attempting reconnect...");
+        toast.info("Connection lost. Reconnecting...");
+        newPeer.reconnect();
+      });
+
+      setPeer(newPeer);
+    };
+
+    initPeer();
 
     return () => {
-      newPeer.destroy();
+      peer?.destroy();
     };
   }, []);
 
@@ -119,8 +158,41 @@ export default function ShadowChat() {
       return;
     }
 
+    const trimmedId = connectToId.trim();
+    
+    // Validate the ID format (PeerJS IDs are alphanumeric)
+    if (!/^[a-zA-Z0-9-_]+$/.test(trimmedId)) {
+      toast.error("Invalid connection key format");
+      return;
+    }
+
     setIsConnecting(true);
-    const conn = peer.connect(connectToId.trim());
+    toast.info("Connecting to peer...");
+    
+    const conn = peer.connect(trimmedId, {
+      reliable: true,
+      serialization: 'json'
+    });
+    
+    // Add connection timeout
+    const connectionTimeout = setTimeout(() => {
+      if (!isConnected) {
+        setIsConnecting(false);
+        toast.error("Connection timeout. User may be offline or behind a strict firewall.");
+      }
+    }, 15000);
+
+    conn.on("open", () => {
+      clearTimeout(connectionTimeout);
+    });
+
+    conn.on("error", (err) => {
+      clearTimeout(connectionTimeout);
+      console.error("Connection error:", err);
+      setIsConnecting(false);
+      toast.error("Failed to connect. Please try again.");
+    });
+
     handleConnection(conn);
   };
 
