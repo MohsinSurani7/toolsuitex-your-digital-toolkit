@@ -10,6 +10,7 @@ import { getToolById } from "@/lib/tools-data";
 import { toast } from "sonner";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { ProfilePhotoUpload, PhotoSettings, defaultPhotoSettings } from "@/components/ProfilePhotoUpload";
 
 interface Education {
   id: string;
@@ -48,6 +49,7 @@ interface ResumeData {
     linkedin: string;
     website: string;
   };
+  photo: PhotoSettings;
   education: Education[];
   experience: Experience[];
   skills: Skill[];
@@ -64,6 +66,7 @@ const defaultResumeData: ResumeData = {
     linkedin: "",
     website: ""
   },
+  photo: defaultPhotoSettings,
   education: [],
   experience: [],
   skills: []
@@ -294,6 +297,10 @@ export default function ResumeBuilderPage() {
             </TabsList>
 
             <TabsContent value="personal" className="space-y-4 mt-4">
+              <ProfilePhotoUpload
+                photoSettings={resumeData.photo}
+                onPhotoChange={(photo) => setResumeData(prev => ({ ...prev, photo }))}
+              />
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-medium mb-1 block">Full Name</label>
@@ -510,24 +517,42 @@ export default function ResumeBuilderPage() {
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             <div ref={resumeRef} className="p-8 text-gray-900 min-h-[800px]">
               {/* Header */}
-              <div className="text-center mb-6 border-b pb-6">
-                <h1 className="text-2xl font-bold text-gray-900 mb-1">
-                  {resumeData.personalInfo.fullName || "Your Name"}
-                </h1>
-                <p className="text-lg text-cyan-600 mb-2">
-                  {resumeData.personalInfo.title || "Professional Title"}
-                </p>
-                <div className="flex items-center justify-center flex-wrap gap-3 text-sm text-gray-600">
-                  {resumeData.personalInfo.email && <span>{resumeData.personalInfo.email}</span>}
-                  {resumeData.personalInfo.phone && <span>• {resumeData.personalInfo.phone}</span>}
-                  {resumeData.personalInfo.location && <span>• {resumeData.personalInfo.location}</span>}
-                </div>
-                {(resumeData.personalInfo.linkedin || resumeData.personalInfo.website) && (
-                  <div className="flex items-center justify-center gap-3 text-sm text-gray-600 mt-1">
-                    {resumeData.personalInfo.linkedin && <span>{resumeData.personalInfo.linkedin}</span>}
-                    {resumeData.personalInfo.website && <span>• {resumeData.personalInfo.website}</span>}
+              <div className={`mb-6 border-b pb-6 ${resumeData.photo.src ? 'flex gap-6' : ''}`}>
+                {resumeData.photo.src && (
+                  <div className={`flex-shrink-0 ${resumeData.photo.alignment === 'right' ? 'order-last' : ''}`}>
+                    <div 
+                      className={`w-24 h-24 overflow-hidden ${resumeData.photo.shape === 'circle' ? 'rounded-full' : resumeData.photo.shape === 'rounded' ? 'rounded-lg' : ''}`}
+                    >
+                      <img
+                        src={resumeData.photo.src}
+                        alt="Profile"
+                        className="w-full h-full object-cover"
+                        style={{
+                          transform: `scale(${resumeData.photo.zoom / 100}) rotate(${resumeData.photo.rotation}deg)`,
+                        }}
+                      />
+                    </div>
                   </div>
                 )}
+                <div className={`${resumeData.photo.src ? 'flex-1' : 'text-center'}`}>
+                  <h1 className="text-2xl font-bold text-gray-900 mb-1">
+                    {resumeData.personalInfo.fullName || "Your Name"}
+                  </h1>
+                  <p className="text-lg text-cyan-600 mb-2">
+                    {resumeData.personalInfo.title || "Professional Title"}
+                  </p>
+                  <div className={`flex ${resumeData.photo.src ? '' : 'justify-center'} flex-wrap gap-3 text-sm text-gray-600`}>
+                    {resumeData.personalInfo.email && <span>{resumeData.personalInfo.email}</span>}
+                    {resumeData.personalInfo.phone && <span>• {resumeData.personalInfo.phone}</span>}
+                    {resumeData.personalInfo.location && <span>• {resumeData.personalInfo.location}</span>}
+                  </div>
+                  {(resumeData.personalInfo.linkedin || resumeData.personalInfo.website) && (
+                    <div className={`flex ${resumeData.photo.src ? '' : 'justify-center'} gap-3 text-sm text-gray-600 mt-1`}>
+                      {resumeData.personalInfo.linkedin && <span>{resumeData.personalInfo.linkedin}</span>}
+                      {resumeData.personalInfo.website && <span>• {resumeData.personalInfo.website}</span>}
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Summary */}

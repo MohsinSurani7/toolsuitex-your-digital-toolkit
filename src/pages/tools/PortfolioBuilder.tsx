@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus, Trash2, Download, Briefcase, ExternalLink, Github, Linkedin, Twitter } from "lucide-react";
 import { toast } from "sonner";
+import { ProfilePhotoUpload, PhotoSettings, defaultPhotoSettings } from "@/components/ProfilePhotoUpload";
 
 interface Project {
   id: string;
@@ -25,6 +26,7 @@ interface PortfolioData {
   github: string;
   linkedin: string;
   twitter: string;
+  photo: PhotoSettings;
   projects: Project[];
 }
 
@@ -39,6 +41,7 @@ export default function PortfolioBuilder() {
     github: "",
     linkedin: "",
     twitter: "",
+    photo: defaultPhotoSettings,
     projects: [{ id: crypto.randomUUID(), title: "", description: "", link: "", image: "" }],
   });
 
@@ -63,6 +66,23 @@ export default function PortfolioBuilder() {
   };
 
   const generateHTML = () => {
+    const photoHTML = portfolio.photo.src ? `
+      <div class="profile-photo" style="
+        width: 150px; 
+        height: 150px; 
+        margin: 0 ${portfolio.photo.alignment === 'center' ? 'auto' : portfolio.photo.alignment === 'right' ? '0 0 auto' : 'auto 0'} 1.5rem;
+        overflow: hidden;
+        ${portfolio.photo.shape === 'circle' ? 'border-radius: 50%;' : portfolio.photo.shape === 'rounded' ? 'border-radius: 1rem;' : ''}
+      ">
+        <img src="${portfolio.photo.src}" alt="${portfolio.name}" style="
+          width: 100%; 
+          height: 100%; 
+          object-fit: cover;
+          transform: scale(${portfolio.photo.zoom / 100}) rotate(${portfolio.photo.rotation}deg);
+        "/>
+      </div>
+    ` : '';
+
     const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -92,6 +112,7 @@ export default function PortfolioBuilder() {
 <body>
   <div class="container">
     <header>
+      ${photoHTML}
       <h1>${portfolio.name || "Your Name"}</h1>
       <p class="title">${portfolio.title || "Your Title"}</p>
       <p class="bio">${portfolio.bio || "Your bio goes here..."}</p>
@@ -155,6 +176,10 @@ export default function PortfolioBuilder() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
+            <ProfilePhotoUpload
+              photoSettings={portfolio.photo}
+              onPhotoChange={(photo) => setPortfolio({ ...portfolio, photo })}
+            />
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label>Full Name</Label>
@@ -228,6 +253,22 @@ export default function PortfolioBuilder() {
           </CardHeader>
           <CardContent>
             <div className="bg-slate-900 rounded-xl p-6 text-center">
+              {portfolio.photo.src && (
+                <div className={`mb-4 flex ${portfolio.photo.alignment === 'left' ? 'justify-start' : portfolio.photo.alignment === 'right' ? 'justify-end' : 'justify-center'}`}>
+                  <div 
+                    className={`w-20 h-20 overflow-hidden ${portfolio.photo.shape === 'circle' ? 'rounded-full' : portfolio.photo.shape === 'rounded' ? 'rounded-lg' : ''}`}
+                  >
+                    <img
+                      src={portfolio.photo.src}
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                      style={{
+                        transform: `scale(${portfolio.photo.zoom / 100}) rotate(${portfolio.photo.rotation}deg)`,
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
               <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
                 {portfolio.name || "Your Name"}
               </h2>
