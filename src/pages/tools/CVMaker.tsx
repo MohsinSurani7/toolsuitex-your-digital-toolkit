@@ -10,6 +10,7 @@ import { ToolLayout } from "@/components/tools/ToolLayout";
 import { getToolById } from "@/lib/tools-data";
 import { toast } from "sonner";
 import jsPDF from "jspdf";
+import { ProfilePhotoUpload, PhotoSettings, defaultPhotoSettings } from "@/components/ProfilePhotoUpload";
 
 interface Education {
   id: string;
@@ -41,6 +42,7 @@ interface CVData {
     linkedin: string;
     orcid: string;
   };
+  photo: PhotoSettings;
   summary: string;
   education: Education[];
   publications: Publication[];
@@ -63,6 +65,7 @@ export default function CVMaker() {
       linkedin: "",
       orcid: "",
     },
+    photo: defaultPhotoSettings,
     summary: "",
     education: [],
     publications: [],
@@ -231,6 +234,10 @@ export default function CVMaker() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
+              <ProfilePhotoUpload
+                photoSettings={cvData.photo}
+                onPhotoChange={(photo) => setCvData({ ...cvData, photo })}
+              />
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label>Full Name</Label>
@@ -550,16 +557,34 @@ export default function CVMaker() {
             </CardHeader>
             <CardContent>
               <div className="bg-white text-black p-8 rounded-lg min-h-[600px] text-sm">
-                <div className="text-center border-b pb-4 mb-4">
-                  <h1 className="text-2xl font-bold">
-                    {cvData.personalInfo.fullName || "Your Name"}
-                  </h1>
-                  <p className="text-gray-600">{cvData.personalInfo.title || "Professional Title"}</p>
-                  <p className="text-xs text-gray-500 mt-2">
-                    {[cvData.personalInfo.email, cvData.personalInfo.phone]
-                      .filter(Boolean)
-                      .join(" | ")}
-                  </p>
+                <div className={`border-b pb-4 mb-4 ${cvData.photo.src ? 'flex gap-4' : 'text-center'}`}>
+                  {cvData.photo.src && (
+                    <div className={`flex-shrink-0 ${cvData.photo.alignment === 'right' ? 'order-last' : ''}`}>
+                      <div 
+                        className={`w-20 h-20 overflow-hidden ${cvData.photo.shape === 'circle' ? 'rounded-full' : cvData.photo.shape === 'rounded' ? 'rounded-lg' : ''}`}
+                      >
+                        <img
+                          src={cvData.photo.src}
+                          alt="Profile"
+                          className="w-full h-full object-cover"
+                          style={{
+                            transform: `scale(${cvData.photo.zoom / 100}) rotate(${cvData.photo.rotation}deg)`,
+                          }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  <div className={cvData.photo.src ? 'flex-1' : ''}>
+                    <h1 className="text-2xl font-bold">
+                      {cvData.personalInfo.fullName || "Your Name"}
+                    </h1>
+                    <p className="text-gray-600">{cvData.personalInfo.title || "Professional Title"}</p>
+                    <p className="text-xs text-gray-500 mt-2">
+                      {[cvData.personalInfo.email, cvData.personalInfo.phone]
+                        .filter(Boolean)
+                        .join(" | ")}
+                    </p>
+                  </div>
                 </div>
 
                 {cvData.summary && (
