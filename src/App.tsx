@@ -23,7 +23,7 @@ import PortfolioBuilder from "./pages/tools/PortfolioBuilder";
 import CustomEncoder from "./pages/tools/CustomEncoder";
 import PasswordStrength from "./pages/tools/PasswordStrength";
 import HashGenerator from "./pages/tools/HashGenerator";
-import ShadowChat from "./pages/tools/ShadowChat";
+
 import JsonFormatter from "./pages/tools/JsonFormatter";
 import CodeMinifier from "./pages/tools/CodeMinifier";
 import SQLFormatter from "./pages/tools/SQLFormatter";
@@ -95,7 +95,7 @@ const App = () => (
             <Route path="/tools/custom-encoder" element={<CustomEncoder />} />
             <Route path="/tools/password-strength" element={<PasswordStrength />} />
             <Route path="/tools/hash-generator" element={<HashGenerator />} />
-            <Route path="/tools/shadow-chat" element={<ShadowChat />} />
+            
             <Route path="/tools/secret-notes" element={<SecretNotes />} />
             
             {/* Developer Suite */}

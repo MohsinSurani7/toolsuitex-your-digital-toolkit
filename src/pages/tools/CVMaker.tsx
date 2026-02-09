@@ -549,84 +549,154 @@ export default function CVMaker() {
           </Button>
         </div>
 
-        {/* Preview Section */}
+        {/* Preview Section - Professional Academic CV Design */}
         <div className="lg:sticky lg:top-8">
-          <Card className="h-fit">
-            <CardHeader>
-              <CardTitle>CV Preview</CardTitle>
+          <Card className="h-fit overflow-hidden shadow-2xl">
+            <CardHeader className="bg-gradient-to-r from-slate-800 to-slate-700 text-white">
+              <CardTitle className="text-white">CV Preview</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="bg-white text-black p-8 rounded-lg min-h-[600px] text-sm">
-                <div className={`border-b pb-4 mb-4 ${cvData.photo.src ? 'flex gap-4' : 'text-center'}`}>
-                  {cvData.photo.src && (
-                    <div className={`flex-shrink-0 ${cvData.photo.alignment === 'right' ? 'order-last' : ''}`}>
-                      <div 
-                        className={`w-20 h-20 overflow-hidden ${cvData.photo.shape === 'circle' ? 'rounded-full' : cvData.photo.shape === 'rounded' ? 'rounded-lg' : ''}`}
-                      >
-                        <img
-                          src={cvData.photo.src}
-                          alt="Profile"
-                          className="w-full h-full object-cover"
-                          style={{
-                            transform: `scale(${cvData.photo.zoom / 100}) rotate(${cvData.photo.rotation}deg)`,
-                          }}
-                        />
+            <CardContent className="p-0">
+              <div className="bg-white text-black min-h-[700px]" style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}>
+                {/* Header Section */}
+                <div className="bg-gradient-to-r from-emerald-800 to-emerald-700 text-white p-6">
+                  <div className={`${cvData.photo.src ? 'flex gap-5 items-center' : 'text-center'}`}>
+                    {cvData.photo.src && (
+                      <div className={`flex-shrink-0 ${cvData.photo.alignment === 'right' ? 'order-last' : ''}`}>
+                        <div 
+                          className={`w-24 h-24 overflow-hidden border-4 border-white/30 shadow-lg ${cvData.photo.shape === 'circle' ? 'rounded-full' : cvData.photo.shape === 'rounded' ? 'rounded-xl' : ''}`}
+                        >
+                          <img
+                            src={cvData.photo.src}
+                            alt="Profile"
+                            className="w-full h-full object-cover"
+                            style={{
+                              transform: `scale(${cvData.photo.zoom / 100}) rotate(${cvData.photo.rotation}deg)`,
+                            }}
+                          />
+                        </div>
                       </div>
+                    )}
+                    <div className={cvData.photo.src ? 'flex-1' : ''}>
+                      <h1 className="text-2xl font-bold tracking-wide">
+                        {cvData.personalInfo.fullName || "Your Name"}
+                      </h1>
+                      <p className="text-emerald-200 text-lg mt-1">{cvData.personalInfo.title || "Professional Title"}</p>
+                      <div className={`flex flex-wrap gap-3 text-xs text-emerald-100 mt-3 ${!cvData.photo.src ? 'justify-center' : ''}`}>
+                        {cvData.personalInfo.email && <span>✉ {cvData.personalInfo.email}</span>}
+                        {cvData.personalInfo.phone && <span>☎ {cvData.personalInfo.phone}</span>}
+                      </div>
+                      {cvData.personalInfo.address && (
+                        <p className={`text-xs text-emerald-100 mt-1 ${!cvData.photo.src ? 'text-center' : ''}`}>
+                          📍 {cvData.personalInfo.address}
+                        </p>
+                      )}
                     </div>
-                  )}
-                  <div className={cvData.photo.src ? 'flex-1' : ''}>
-                    <h1 className="text-2xl font-bold">
-                      {cvData.personalInfo.fullName || "Your Name"}
-                    </h1>
-                    <p className="text-gray-600">{cvData.personalInfo.title || "Professional Title"}</p>
-                    <p className="text-xs text-gray-500 mt-2">
-                      {[cvData.personalInfo.email, cvData.personalInfo.phone]
-                        .filter(Boolean)
-                        .join(" | ")}
-                    </p>
                   </div>
                 </div>
 
-                {cvData.summary && (
-                  <div className="mb-4">
-                    <h2 className="font-bold text-sm uppercase border-b mb-2">Summary</h2>
-                    <p className="text-gray-700 text-xs">{cvData.summary}</p>
-                  </div>
-                )}
+                {/* Content */}
+                <div className="p-6 space-y-5">
+                  {cvData.summary && (
+                    <div>
+                      <h2 className="text-sm font-bold uppercase text-emerald-800 border-b-2 border-emerald-800 pb-1 mb-3 tracking-wider">
+                        Research Profile
+                      </h2>
+                      <p className="text-gray-700 text-xs leading-relaxed">{cvData.summary}</p>
+                    </div>
+                  )}
 
-                {cvData.education.length > 0 && (
-                  <div className="mb-4">
-                    <h2 className="font-bold text-sm uppercase border-b mb-2">Education</h2>
-                    {cvData.education.map((edu) => (
-                      <div key={edu.id} className="mb-2">
-                        <p className="font-semibold text-xs">
-                          {edu.degree} in {edu.field}
-                        </p>
-                        <p className="text-gray-600 text-xs">
-                          {edu.institution} ({edu.startYear} - {edu.endYear})
-                        </p>
+                  {cvData.education.length > 0 && (
+                    <div>
+                      <h2 className="text-sm font-bold uppercase text-emerald-800 border-b-2 border-emerald-800 pb-1 mb-3 tracking-wider">
+                        Education
+                      </h2>
+                      <div className="space-y-3">
+                        {cvData.education.map((edu) => (
+                          <div key={edu.id} className="flex gap-3">
+                            <div className="w-1 bg-emerald-200 rounded-full flex-shrink-0"></div>
+                            <div className="flex-1">
+                              <p className="font-semibold text-sm text-gray-900">
+                                {edu.degree} {edu.field && `in ${edu.field}`}
+                              </p>
+                              <p className="text-gray-600 text-xs">
+                                {edu.institution}
+                              </p>
+                              <p className="text-gray-500 text-xs">
+                                {edu.startYear} — {edu.endYear}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                )}
+                    </div>
+                  )}
 
-                {cvData.publications.length > 0 && (
-                  <div className="mb-4">
-                    <h2 className="font-bold text-sm uppercase border-b mb-2">Publications</h2>
-                    {cvData.publications.map((pub) => (
-                      <p key={pub.id} className="text-xs text-gray-700 mb-1">
-                        • {pub.title} - {pub.journal} ({pub.year})
-                      </p>
-                    ))}
-                  </div>
-                )}
+                  {cvData.publications.length > 0 && (
+                    <div>
+                      <h2 className="text-sm font-bold uppercase text-emerald-800 border-b-2 border-emerald-800 pb-1 mb-3 tracking-wider">
+                        Publications
+                      </h2>
+                      <div className="space-y-2">
+                        {cvData.publications.map((pub, index) => (
+                          <div key={pub.id} className="flex gap-2 text-xs">
+                            <span className="text-emerald-600 font-medium">[{index + 1}]</span>
+                            <p className="text-gray-700">
+                              <span className="font-medium">{pub.title}</span>
+                              {pub.journal && <span className="italic"> — {pub.journal}</span>}
+                              {pub.year && <span className="text-gray-500"> ({pub.year})</span>}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
-                {cvData.skills.length > 0 && (
-                  <div className="mb-4">
-                    <h2 className="font-bold text-sm uppercase border-b mb-2">Skills</h2>
-                    <p className="text-xs text-gray-700">{cvData.skills.join(", ")}</p>
-                  </div>
-                )}
+                  {cvData.skills.length > 0 && (
+                    <div>
+                      <h2 className="text-sm font-bold uppercase text-emerald-800 border-b-2 border-emerald-800 pb-1 mb-3 tracking-wider">
+                        Technical Skills
+                      </h2>
+                      <div className="flex flex-wrap gap-1.5">
+                        {cvData.skills.map((skill, i) => (
+                          <span key={i} className="px-2 py-1 bg-emerald-50 text-emerald-800 text-xs rounded border border-emerald-200">
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {cvData.languages.length > 0 && (
+                    <div>
+                      <h2 className="text-sm font-bold uppercase text-emerald-800 border-b-2 border-emerald-800 pb-1 mb-3 tracking-wider">
+                        Languages
+                      </h2>
+                      <div className="flex flex-wrap gap-1.5">
+                        {cvData.languages.map((lang, i) => (
+                          <span key={i} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">
+                            {lang}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {cvData.awards.length > 0 && (
+                    <div>
+                      <h2 className="text-sm font-bold uppercase text-emerald-800 border-b-2 border-emerald-800 pb-1 mb-3 tracking-wider">
+                        Honors & Awards
+                      </h2>
+                      <ul className="space-y-1">
+                        {cvData.awards.map((award, i) => (
+                          <li key={i} className="text-xs text-gray-700 flex items-start gap-2">
+                            <span className="text-emerald-600">★</span>
+                            {award}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </div>
             </CardContent>
           </Card>

@@ -4,7 +4,7 @@ import {
   Calculator, Binary, AlignLeft, CaseSensitive,
   Scaling, FileImage, Palette, Crop, RotateCw,
   Briefcase, FileCheck, Mail, Wand2, BookOpen,
-  Database, MessageSquare, Receipt, CreditCard,
+  Database, Receipt, CreditCard,
   FolderOpen, Map, ImageIcon, TestTube, AtSign,
   Phone, QrCode, Barcode, Merge, FileArchive, Images,
   Sparkles, EyeOff, Search, CodeIcon, GitCompare,
@@ -60,7 +60,7 @@ export const tools: Tool[] = [
   { id: "custom-encoder", name: "ToolSuiteX Encoder/Decoder", description: "Encode and decode text using our proprietary multi-layer cipher system. More secure than standard Base64.", shortDescription: "Proprietary encryption system", icon: Lock, category: "security", path: "/tools/custom-encoder", keywords: ["encode", "decode", "cipher", "encryption", "security"], featured: true },
   { id: "password-strength", name: "Password Strength Meter", description: "Analyze password security with detailed strength metrics and improvement suggestions.", shortDescription: "Check password security levels", icon: KeyRound, category: "security", path: "/tools/password-strength", keywords: ["password", "security", "strength", "checker"] },
   { id: "hash-generator", name: "Secure Hash Generator", description: "Generate MD5, SHA-1, SHA-256, and SHA-512 hashes for text and files.", shortDescription: "Create cryptographic hashes", icon: Hash, category: "security", path: "/tools/hash-generator", keywords: ["hash", "MD5", "SHA", "checksum", "cryptography"] },
-  { id: "shadow-chat", name: "Shadow Chat", description: "Private P2P encrypted chat with auto-destructing messages. No servers, no logs, no traces.", shortDescription: "Secure ephemeral messaging", icon: MessageSquare, category: "security", path: "/tools/shadow-chat", keywords: ["chat", "private", "encrypted", "p2p", "secure"], featured: true },
+  
   { id: "secret-notes", name: "Secret Notes", description: "Create one-time viewing links for sensitive text. Self-destructs after reading.", shortDescription: "One-time secret messages", icon: EyeOff, category: "security", path: "/tools/secret-notes", keywords: ["secret", "one-time", "private", "self-destruct", "secure"] },
 
   // Developer Suite
