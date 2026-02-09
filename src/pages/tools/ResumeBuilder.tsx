@@ -513,131 +513,169 @@ export default function ResumeBuilderPage() {
             </Button>
           </div>
 
-          {/* Resume Preview */}
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div ref={resumeRef} className="p-8 text-gray-900 min-h-[800px]">
-              {/* Header */}
-              <div className={`mb-6 border-b pb-6 ${resumeData.photo.src ? 'flex gap-6' : ''}`}>
-                {resumeData.photo.src && (
-                  <div className={`flex-shrink-0 ${resumeData.photo.alignment === 'right' ? 'order-last' : ''}`}>
-                    <div 
-                      className={`w-24 h-24 overflow-hidden ${resumeData.photo.shape === 'circle' ? 'rounded-full' : resumeData.photo.shape === 'rounded' ? 'rounded-lg' : ''}`}
-                    >
-                      <img
-                        src={resumeData.photo.src}
-                        alt="Profile"
-                        className="w-full h-full object-cover"
-                        style={{
-                          transform: `scale(${resumeData.photo.zoom / 100}) rotate(${resumeData.photo.rotation}deg)`,
-                        }}
-                      />
-                    </div>
-                  </div>
-                )}
-                <div className={`${resumeData.photo.src ? 'flex-1' : 'text-center'}`}>
-                  <h1 className="text-2xl font-bold text-gray-900 mb-1">
-                    {resumeData.personalInfo.fullName || "Your Name"}
-                  </h1>
-                  <p className="text-lg text-cyan-600 mb-2">
-                    {resumeData.personalInfo.title || "Professional Title"}
-                  </p>
-                  <div className={`flex ${resumeData.photo.src ? '' : 'justify-center'} flex-wrap gap-3 text-sm text-gray-600`}>
-                    {resumeData.personalInfo.email && <span>{resumeData.personalInfo.email}</span>}
-                    {resumeData.personalInfo.phone && <span>• {resumeData.personalInfo.phone}</span>}
-                    {resumeData.personalInfo.location && <span>• {resumeData.personalInfo.location}</span>}
-                  </div>
-                  {(resumeData.personalInfo.linkedin || resumeData.personalInfo.website) && (
-                    <div className={`flex ${resumeData.photo.src ? '' : 'justify-center'} gap-3 text-sm text-gray-600 mt-1`}>
-                      {resumeData.personalInfo.linkedin && <span>{resumeData.personalInfo.linkedin}</span>}
-                      {resumeData.personalInfo.website && <span>• {resumeData.personalInfo.website}</span>}
+          {/* Resume Preview - Professional Design */}
+          <div className="bg-white rounded-lg shadow-2xl overflow-hidden border border-gray-200">
+            <div ref={resumeRef} className="min-h-[900px]" style={{ fontFamily: "'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" }}>
+              {/* Professional Header with Accent Bar */}
+              <div className="bg-gradient-to-r from-slate-800 to-slate-700 text-white p-8">
+                <div className={`${resumeData.photo.src ? 'flex gap-6 items-center' : 'text-center'}`}>
+                  {resumeData.photo.src && (
+                    <div className={`flex-shrink-0 ${resumeData.photo.alignment === 'right' ? 'order-last' : ''}`}>
+                      <div 
+                        className={`w-28 h-28 overflow-hidden border-4 border-white/30 shadow-lg ${resumeData.photo.shape === 'circle' ? 'rounded-full' : resumeData.photo.shape === 'rounded' ? 'rounded-xl' : 'rounded-none'}`}
+                      >
+                        <img
+                          src={resumeData.photo.src}
+                          alt="Profile"
+                          className="w-full h-full object-cover"
+                          style={{
+                            transform: `scale(${resumeData.photo.zoom / 100}) rotate(${resumeData.photo.rotation}deg)`,
+                          }}
+                        />
+                      </div>
                     </div>
                   )}
+                  <div className={`${resumeData.photo.src ? 'flex-1' : ''}`}>
+                    <h1 className="text-3xl font-bold tracking-wide mb-1">
+                      {resumeData.personalInfo.fullName || "Your Name"}
+                    </h1>
+                    <p className="text-xl text-cyan-300 font-medium mb-3">
+                      {resumeData.personalInfo.title || "Professional Title"}
+                    </p>
+                    <div className={`flex flex-wrap gap-4 text-sm text-gray-300 ${!resumeData.photo.src ? 'justify-center' : ''}`}>
+                      {resumeData.personalInfo.email && (
+                        <span className="flex items-center gap-1">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                          {resumeData.personalInfo.email}
+                        </span>
+                      )}
+                      {resumeData.personalInfo.phone && (
+                        <span className="flex items-center gap-1">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                          {resumeData.personalInfo.phone}
+                        </span>
+                      )}
+                      {resumeData.personalInfo.location && (
+                        <span className="flex items-center gap-1">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                          {resumeData.personalInfo.location}
+                        </span>
+                      )}
+                    </div>
+                    {(resumeData.personalInfo.linkedin || resumeData.personalInfo.website) && (
+                      <div className={`flex gap-4 text-sm text-gray-300 mt-2 ${!resumeData.photo.src ? 'justify-center' : ''}`}>
+                        {resumeData.personalInfo.linkedin && (
+                          <span className="flex items-center gap-1">
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            {resumeData.personalInfo.linkedin}
+                          </span>
+                        )}
+                        {resumeData.personalInfo.website && (
+                          <span className="flex items-center gap-1">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
+                            {resumeData.personalInfo.website}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              {/* Summary */}
-              {resumeData.personalInfo.summary && (
-                <div className="mb-6">
-                  <h2 className="text-sm font-bold uppercase text-gray-900 mb-2 border-b pb-1">
-                    Professional Summary
-                  </h2>
-                  <p className="text-sm text-gray-700 leading-relaxed">
-                    {resumeData.personalInfo.summary}
-                  </p>
-                </div>
-              )}
+              {/* Content Area */}
+              <div className="p-8 text-gray-800">
+                {/* Summary */}
+                {resumeData.personalInfo.summary && (
+                  <div className="mb-8">
+                    <h2 className="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
+                      <div className="w-8 h-1 bg-cyan-500 rounded"></div>
+                      PROFESSIONAL SUMMARY
+                    </h2>
+                    <p className="text-gray-600 leading-relaxed pl-10">
+                      {resumeData.personalInfo.summary}
+                    </p>
+                  </div>
+                )}
 
-              {/* Experience */}
-              {resumeData.experience.length > 0 && (
-                <div className="mb-6">
-                  <h2 className="text-sm font-bold uppercase text-gray-900 mb-2 border-b pb-1">
-                    Experience
-                  </h2>
-                  <div className="space-y-4">
-                    {resumeData.experience.map((exp) => (
-                      <div key={exp.id}>
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-semibold text-gray-900">{exp.position || "Position"}</h3>
-                            <p className="text-sm text-cyan-600">{exp.company || "Company"}{exp.location && ` • ${exp.location}`}</p>
+                {/* Experience */}
+                {resumeData.experience.length > 0 && (
+                  <div className="mb-8">
+                    <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                      <div className="w-8 h-1 bg-cyan-500 rounded"></div>
+                      WORK EXPERIENCE
+                    </h2>
+                    <div className="space-y-5 pl-10">
+                      {resumeData.experience.map((exp) => (
+                        <div key={exp.id} className="relative">
+                          <div className="absolute -left-6 top-2 w-3 h-3 bg-cyan-500 rounded-full"></div>
+                          <div className="flex justify-between items-start mb-1">
+                            <div>
+                              <h3 className="font-bold text-gray-900">{exp.position || "Position"}</h3>
+                              <p className="text-cyan-600 font-medium">{exp.company || "Company"}{exp.location && ` · ${exp.location}`}</p>
+                            </div>
+                            <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full whitespace-nowrap">
+                              {exp.startDate || "Start"} — {exp.endDate || "Present"}
+                            </span>
                           </div>
-                          <span className="text-sm text-gray-500">
-                            {exp.startDate || "Start"} - {exp.endDate || "Present"}
+                          {exp.description && (
+                            <p className="text-gray-600 text-sm mt-2 leading-relaxed">{exp.description}</p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Education */}
+                {resumeData.education.length > 0 && (
+                  <div className="mb-8">
+                    <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                      <div className="w-8 h-1 bg-cyan-500 rounded"></div>
+                      EDUCATION
+                    </h2>
+                    <div className="space-y-4 pl-10">
+                      {resumeData.education.map((edu) => (
+                        <div key={edu.id} className="relative">
+                          <div className="absolute -left-6 top-2 w-3 h-3 bg-slate-400 rounded-full"></div>
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <h3 className="font-bold text-gray-900">{edu.institution || "Institution"}</h3>
+                              <p className="text-gray-600">
+                                {edu.degree || "Degree"}{edu.field && ` in ${edu.field}`}
+                              </p>
+                            </div>
+                            <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full whitespace-nowrap">
+                              {edu.startDate || "Start"} — {edu.endDate || "End"}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Skills */}
+                {resumeData.skills.length > 0 && (
+                  <div>
+                    <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                      <div className="w-8 h-1 bg-cyan-500 rounded"></div>
+                      SKILLS
+                    </h2>
+                    <div className="flex flex-wrap gap-2 pl-10">
+                      {resumeData.skills.map((skill) => (
+                        skill.name && (
+                          <span
+                            key={skill.id}
+                            className="px-4 py-2 bg-slate-100 text-slate-700 text-sm rounded-lg font-medium border border-slate-200"
+                          >
+                            {skill.name}
                           </span>
-                        </div>
-                        {exp.description && (
-                          <p className="text-sm text-gray-700 mt-1">{exp.description}</p>
-                        )}
-                      </div>
-                    ))}
+                        )
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-
-              {/* Education */}
-              {resumeData.education.length > 0 && (
-                <div className="mb-6">
-                  <h2 className="text-sm font-bold uppercase text-gray-900 mb-2 border-b pb-1">
-                    Education
-                  </h2>
-                  <div className="space-y-3">
-                    {resumeData.education.map((edu) => (
-                      <div key={edu.id} className="flex justify-between items-start">
-                        <div>
-                          <h3 className="font-semibold text-gray-900">{edu.institution || "Institution"}</h3>
-                          <p className="text-sm text-gray-600">
-                            {edu.degree || "Degree"}{edu.field && ` in ${edu.field}`}
-                          </p>
-                        </div>
-                        <span className="text-sm text-gray-500">
-                          {edu.startDate || "Start"} - {edu.endDate || "End"}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Skills */}
-              {resumeData.skills.length > 0 && (
-                <div>
-                  <h2 className="text-sm font-bold uppercase text-gray-900 mb-2 border-b pb-1">
-                    Skills
-                  </h2>
-                  <div className="flex flex-wrap gap-2">
-                    {resumeData.skills.map((skill) => (
-                      skill.name && (
-                        <span
-                          key={skill.id}
-                          className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full"
-                        >
-                          {skill.name}
-                        </span>
-                      )
-                    ))}
-                  </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
         </div>
