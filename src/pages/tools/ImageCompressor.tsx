@@ -224,9 +224,8 @@ export default function ImageCompressorPage() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative"
         >
-          <label className="absolute inset-0 w-full h-full cursor-pointer" htmlFor="image-input">
+          <label htmlFor="image-input" className="block cursor-pointer">
             <input
               id="image-input"
               type="file"
@@ -236,29 +235,29 @@ export default function ImageCompressorPage() {
               className="hidden"
               disabled={isProcessing}
             />
-          </label>
-          <div className={`glass-card p-12 text-center border-2 border-dashed transition-colors ${
-            isProcessing ? "border-primary" : "border-border hover:border-primary"
-          }`}>
-            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-              {isProcessing ? (
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                >
-                  <FileImage className="w-8 h-8 text-primary" />
-                </motion.div>
-              ) : (
-                <Upload className="w-8 h-8 text-primary" />
-              )}
+            <div className={`glass-card p-12 text-center border-2 border-dashed transition-colors ${
+              isProcessing ? "border-primary" : "border-border hover:border-primary"
+            }`}>
+              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                {isProcessing ? (
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  >
+                    <FileImage className="w-8 h-8 text-primary" />
+                  </motion.div>
+                ) : (
+                  <Upload className="w-8 h-8 text-primary" />
+                )}
+              </div>
+              <h3 className="text-lg font-semibold mb-2">
+                {isProcessing ? "Processing..." : "Drop images here or click to upload"}
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                Supports JPEG, PNG, GIF, WebP • Max 50MB per image
+              </p>
             </div>
-            <h3 className="text-lg font-semibold mb-2">
-              {isProcessing ? "Processing..." : "Drop images here or click to upload"}
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              Supports JPEG, PNG, GIF, WebP • Max 50MB per image
-            </p>
-          </div>
+          </label>
         </motion.div>
 
         {/* Results Summary */}
