@@ -226,14 +226,17 @@ export default function ImageCompressorPage() {
           animate={{ opacity: 1, y: 0 }}
           className="relative"
         >
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleFileSelect}
-            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-            disabled={isProcessing}
-          />
+          <label className="absolute inset-0 w-full h-full cursor-pointer" htmlFor="image-input">
+            <input
+              id="image-input"
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleFileSelect}
+              className="hidden"
+              disabled={isProcessing}
+            />
+          </label>
           <div className={`glass-card p-12 text-center border-2 border-dashed transition-colors ${
             isProcessing ? "border-primary" : "border-border hover:border-primary"
           }`}>
