@@ -156,7 +156,7 @@ export default function PortfolioBuilder() {
   const seoContent = {
     description: "Build a professional portfolio website in minutes. Export as HTML, no coding required.",
     content: `<h3>Introduction</h3><p>Create a stunning portfolio to showcase your work with our free builder.</p><h3>Key Benefits</h3><ul><li>No coding skills required</li><li>Export as standalone HTML</li><li>Modern responsive design</li><li>Showcase unlimited projects</li></ul>`,
-    keywords: ["portfolio builder", "portfolio generator", "free portfolio website"],
+    keywords: ["portfolio builder", "portfolio builder tools", "free portfolio builder", "portfolio generator", "free portfolio website", "toolsuite", "free tools", "cv maker free", "online portfolio maker", "portfolio website builder free", "create portfolio online"],
     faqs: [
       { question: "Can I host this portfolio?", answer: "Yes! The HTML file can be hosted on any web server." },
       { question: "Is it mobile responsive?", answer: "Absolutely, the generated portfolio is fully responsive." },
