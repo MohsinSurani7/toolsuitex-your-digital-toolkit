@@ -9,10 +9,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
-import { Download, CreditCard, Palette, Upload, RotateCw, Type, Sparkles, Image as ImageIcon, Paintbrush, X, Eye, QrCode } from "lucide-react";
+import { Download, CreditCard, Palette, Upload, RotateCw, Type, Sparkles, Paintbrush, X, Eye, QrCode, FileText, Ruler } from "lucide-react";
 import { toast } from "sonner";
 import html2canvas from "html2canvas";
 import QRCode from "qrcode";
+import jsPDF from "jspdf";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -42,6 +43,32 @@ interface SideColors {
   useGradient: boolean;
   gradientAngle: number;
 }
+
+interface TextColors {
+  name: string;
+  title: string;
+  company: string;
+  tagline: string;
+}
+
+interface CardSize {
+  id: string;
+  name: string;
+  width: number;
+  height: number;
+  label: string;
+}
+
+// ─── Card Sizes ──────────────────────────────────────────────────────────────
+
+const cardSizes: CardSize[] = [
+  { id: "standard", name: "Standard (US)", width: 400, height: 230, label: "3.5\" × 2\"" },
+  { id: "european", name: "European", width: 406, height: 240, label: "85mm × 55mm" },
+  { id: "japanese", name: "Japanese", width: 420, height: 250, label: "91mm × 55mm" },
+  { id: "square", name: "Square", width: 280, height: 280, label: "2.5\" × 2.5\"" },
+  { id: "mini", name: "Mini", width: 340, height: 200, label: "3\" × 1.75\"" },
+  { id: "wide", name: "Wide (US+)", width: 440, height: 230, label: "3.75\" × 2\"" },
+];
 
 // ─── Color Palette (500+ colors) ─────────────────────────────────────────────
 
@@ -165,7 +192,6 @@ const templates = [
   { id: "gold-luxury", name: "Gold Luxury", front: { bg1: "#1a1a2e", bg2: "#16213e", text: "#ffd700", accent: "#daa520", useGradient: true, gradientAngle: 135 }, back: { bg1: "#16213e", bg2: "#1a1a2e", text: "#ffd700", accent: "#daa520", useGradient: true, gradientAngle: 315 } },
   { id: "coral", name: "Coral Blush", front: { bg1: "#fff1f2", bg2: "#ffe4e6", text: "#9f1239", accent: "#fb7185", useGradient: true, gradientAngle: 135 }, back: { bg1: "#ffe4e6", bg2: "#fecdd3", text: "#881337", accent: "#fb7185", useGradient: true, gradientAngle: 315 } },
   { id: "midnight", name: "Midnight", front: { bg1: "#020617", bg2: "#0f172a", text: "#e0f2fe", accent: "#0284c7", useGradient: true, gradientAngle: 135 }, back: { bg1: "#0c1528", bg2: "#020617", text: "#bae6fd", accent: "#0284c7", useGradient: true, gradientAngle: 315 } },
-  // Premium Templates
   { id: "glassmorphism", name: "Glassmorphism", front: { bg1: "#667eea", bg2: "#764ba2", text: "#ffffff", accent: "#a5b4fc", useGradient: true, gradientAngle: 135 }, back: { bg1: "#764ba2", bg2: "#667eea", text: "#f0f0ff", accent: "#c4b5fd", useGradient: true, gradientAngle: 315 } },
   { id: "brutalist", name: "Brutalist", front: { bg1: "#f5f5dc", bg2: "#f5f5dc", text: "#000000", accent: "#ff0000", useGradient: false, gradientAngle: 0 }, back: { bg1: "#000000", bg2: "#000000", text: "#f5f5dc", accent: "#ff0000", useGradient: false, gradientAngle: 0 } },
   { id: "neon-glow", name: "Neon Glow", front: { bg1: "#0d0d0d", bg2: "#1a0033", text: "#39ff14", accent: "#ff073a", useGradient: true, gradientAngle: 160 }, back: { bg1: "#1a0033", bg2: "#0d0d0d", text: "#00f0ff", accent: "#ff073a", useGradient: true, gradientAngle: 340 } },
@@ -204,6 +230,7 @@ export default function BusinessCardGenerator() {
   const [layout, setLayout] = useState("classic");
   const [font, setFont] = useState(fontOptions[0]);
   const [activeColorCategory, setActiveColorCategory] = useState(0);
+  const [cardSize, setCardSize] = useState<CardSize>(cardSizes[0]);
 
   const [frontLogo, setFrontLogo] = useState<string | null>(null);
   const [backLogo, setBackLogo] = useState<string | null>(null);
@@ -215,6 +242,11 @@ export default function BusinessCardGenerator() {
   const [titleSize, setTitleSize] = useState(14);
   const [companySize, setCompanySize] = useState(12);
   const [taglineSize, setTaglineSize] = useState(10);
+
+  // Individual text colors (empty = use default from frontColors.text / frontColors.accent)
+  const [textColors, setTextColors] = useState<TextColors>({
+    name: "", title: "", company: "", tagline: "",
+  });
 
   const [frontData, setFrontData] = useState<FrontData>({
     name: "", title: "", company: "", tagline: "",
@@ -284,6 +316,11 @@ export default function BusinessCardGenerator() {
     return { backgroundColor: colors.bg1 };
   };
 
+  // Resolved text colors: custom if set, otherwise defaults
+  const getTextColor = (field: keyof TextColors, fallback: string) => {
+    return textColors[field] || fallback;
+  };
+
   const downloadCard = async (side: "front" | "back" | "both") => {
     try {
       const refs = side === "both"
@@ -305,17 +342,72 @@ export default function BusinessCardGenerator() {
     }
   };
 
+  const downloadPDF = async () => {
+    try {
+      if (!frontRef.current || !backRef.current) return;
+
+      const frontCanvas = await html2canvas(frontRef.current, { scale: 3, backgroundColor: null, useCORS: true });
+      const backCanvas = await html2canvas(backRef.current, { scale: 3, backgroundColor: null, useCORS: true });
+
+      // A4 landscape: card centered, both sides on one page
+      const pdf = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+
+      // Card dimensions in mm (approx)
+      const cardW = 89;
+      const cardH = cardW * (cardSize.height / cardSize.width);
+      const gap = 12;
+      const totalW = cardW * 2 + gap;
+      const startX = (pageW - totalW) / 2;
+      const startY = (pageH - cardH) / 2;
+
+      // Title
+      pdf.setFontSize(10);
+      pdf.setTextColor(120, 120, 120);
+      pdf.text("Business Card - Print Ready", pageW / 2, startY - 8, { align: "center" });
+
+      // Labels
+      pdf.setFontSize(8);
+      pdf.text("FRONT", startX + cardW / 2, startY - 2, { align: "center" });
+      pdf.text("BACK", startX + cardW + gap + cardW / 2, startY - 2, { align: "center" });
+
+      // Add images
+      const frontImg = frontCanvas.toDataURL("image/png");
+      const backImg = backCanvas.toDataURL("image/png");
+
+      pdf.addImage(frontImg, "PNG", startX, startY, cardW, cardH);
+      pdf.addImage(backImg, "PNG", startX + cardW + gap, startY, cardW, cardH);
+
+      // Cut lines (dashed border)
+      pdf.setDrawColor(180, 180, 180);
+      pdf.setLineDashPattern([2, 2], 0);
+      pdf.rect(startX, startY, cardW, cardH);
+      pdf.rect(startX + cardW + gap, startY, cardW, cardH);
+
+      pdf.save(`business-card-${Date.now()}.pdf`);
+      toast.success("PDF downloaded with both sides!");
+    } catch {
+      toast.error("PDF export failed");
+    }
+  };
+
   // ─── Card Renderers ─────────────────────────────────────────────────────────
 
   const renderFront = (isRef = false) => {
     const style = { ...getBgStyle(frontColors), color: frontColors.text, fontFamily: font.family };
     const logo = showFrontLogo && frontLogo ? frontLogo : null;
 
+    const nameColor = getTextColor("name", frontColors.text);
+    const titleColor = getTextColor("title", frontColors.text);
+    const companyColor = getTextColor("company", frontColors.accent);
+    const taglineColor = getTextColor("tagline", frontColors.text);
+
     const content = () => {
-      const ns = { fontSize: `${nameSize}px` };
-      const ts = { fontSize: `${titleSize}px` };
-      const cs = { fontSize: `${companySize}px`, color: frontColors.accent };
-      const tgs = { fontSize: `${taglineSize}px` };
+      const ns = { fontSize: `${nameSize}px`, color: nameColor };
+      const ts = { fontSize: `${titleSize}px`, color: titleColor };
+      const cs = { fontSize: `${companySize}px`, color: companyColor };
+      const tgs = { fontSize: `${taglineSize}px`, color: taglineColor };
 
       switch (layout) {
         case "centered":
@@ -323,9 +415,9 @@ export default function BusinessCardGenerator() {
             <div className="w-full h-full flex flex-col items-center justify-center text-center p-5 gap-1">
               {logo && <img src={logo} alt="" className="w-14 h-14 object-contain mb-1 rounded-lg" />}
               <h2 className="font-bold tracking-tight leading-tight" style={ns}>{frontData.name || "Your Name"}</h2>
-              <p className="opacity-75" style={ts}>{frontData.title || "Job Title"}</p>
+              <p className="opacity-80" style={ts}>{frontData.title || "Job Title"}</p>
               {frontData.company && <p className="font-semibold mt-1" style={cs}>{frontData.company}</p>}
-              {frontData.tagline && <p className="opacity-50 mt-1 italic max-w-[85%]" style={tgs}>{frontData.tagline}</p>}
+              {frontData.tagline && <p className="opacity-60 mt-1 italic max-w-[85%]" style={tgs}>{frontData.tagline}</p>}
             </div>
           );
         case "left-accent":
@@ -337,12 +429,12 @@ export default function BusinessCardGenerator() {
                   {logo && <img src={logo} alt="" className="w-11 h-11 object-contain rounded-lg shrink-0" />}
                   <div className="min-w-0">
                     <h2 className="font-bold tracking-tight truncate" style={ns}>{frontData.name || "Your Name"}</h2>
-                    <p className="opacity-75 truncate" style={ts}>{frontData.title || "Job Title"}</p>
+                    <p className="opacity-80 truncate" style={ts}>{frontData.title || "Job Title"}</p>
                   </div>
                 </div>
                 <div>
                   {frontData.company && <p className="font-semibold" style={cs}>{frontData.company}</p>}
-                  {frontData.tagline && <p className="opacity-50 italic mt-1" style={tgs}>{frontData.tagline}</p>}
+                  {frontData.tagline && <p className="opacity-60 italic mt-1" style={tgs}>{frontData.tagline}</p>}
                 </div>
               </div>
             </div>
@@ -356,8 +448,8 @@ export default function BusinessCardGenerator() {
               </div>
               <div className="w-[62%] flex flex-col justify-center p-5 gap-1">
                 <h2 className="font-bold tracking-tight" style={ns}>{frontData.name || "Your Name"}</h2>
-                <p className="opacity-75" style={ts}>{frontData.title || "Job Title"}</p>
-                {frontData.tagline && <p className="opacity-50 mt-2 italic" style={tgs}>{frontData.tagline}</p>}
+                <p className="opacity-80" style={ts}>{frontData.title || "Job Title"}</p>
+                {frontData.tagline && <p className="opacity-60 mt-2 italic" style={tgs}>{frontData.tagline}</p>}
               </div>
             </div>
           );
@@ -368,8 +460,8 @@ export default function BusinessCardGenerator() {
               <h2 className="font-light tracking-wide" style={ns}>{frontData.name || "Your Name"}</h2>
               <div className="w-8 h-[2px] my-1.5" style={{ backgroundColor: frontColors.accent }} />
               <p className="opacity-70" style={ts}>{frontData.title || "Job Title"}</p>
-              {frontData.company && <p className="font-medium mt-1 opacity-50" style={cs}>{frontData.company}</p>}
-              {frontData.tagline && <p className="opacity-40 mt-1 italic" style={tgs}>{frontData.tagline}</p>}
+              {frontData.company && <p className="font-medium mt-1 opacity-60" style={cs}>{frontData.company}</p>}
+              {frontData.tagline && <p className="opacity-50 mt-1 italic" style={tgs}>{frontData.tagline}</p>}
             </div>
           );
         default: // classic
@@ -378,13 +470,13 @@ export default function BusinessCardGenerator() {
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0 flex-1">
                   <h2 className="font-bold tracking-tight truncate" style={ns}>{frontData.name || "Your Name"}</h2>
-                  <p className="opacity-75 truncate mt-0.5" style={ts}>{frontData.title || "Job Title"}</p>
+                  <p className="opacity-80 truncate mt-0.5" style={ts}>{frontData.title || "Job Title"}</p>
                   {frontData.company && <p className="font-semibold mt-2" style={cs}>{frontData.company}</p>}
                 </div>
                 {logo && <img src={logo} alt="" className="w-12 h-12 object-contain rounded-lg shrink-0" />}
               </div>
               <div>
-                {frontData.tagline && <p className="opacity-50 italic" style={tgs}>{frontData.tagline}</p>}
+                {frontData.tagline && <p className="opacity-60 italic" style={tgs}>{frontData.tagline}</p>}
                 <div className="w-10 h-[2px] mt-2 rounded-full" style={{ backgroundColor: frontColors.accent }} />
               </div>
             </div>
@@ -395,8 +487,8 @@ export default function BusinessCardGenerator() {
     return (
       <div
         ref={isRef ? frontRef : undefined}
-        className="w-[400px] h-[230px] rounded-xl shadow-2xl overflow-hidden relative"
-        style={style}
+        className="rounded-xl shadow-2xl overflow-hidden relative"
+        style={{ ...style, width: `${cardSize.width}px`, height: `${cardSize.height}px` }}
       >
         {content()}
       </div>
@@ -421,11 +513,10 @@ export default function BusinessCardGenerator() {
     return (
       <div
         ref={isRef ? backRef : undefined}
-        className="w-[400px] h-[230px] rounded-xl shadow-2xl overflow-hidden"
-        style={style}
+        className="rounded-xl shadow-2xl overflow-hidden"
+        style={{ ...style, width: `${cardSize.width}px`, height: `${cardSize.height}px` }}
       >
         <div className="w-full h-full p-5 flex gap-3">
-          {/* Contact info section */}
           <div className="flex-1 flex flex-col justify-between min-w-0">
             <div className="flex items-center justify-between">
               {logo && <img src={logo} alt="" className="w-9 h-9 object-contain rounded-lg opacity-70" />}
@@ -448,7 +539,6 @@ export default function BusinessCardGenerator() {
             <div className="w-full h-[1px] rounded-full opacity-20" style={{ backgroundColor: backColors.accent }} />
           </div>
 
-          {/* QR Code section */}
           {showQR && qrDataUrl && (
             <div className="flex flex-col items-center justify-center shrink-0">
               <img src={qrDataUrl} alt="QR Code" className="w-[90px] h-[90px] rounded-md" />
@@ -463,16 +553,17 @@ export default function BusinessCardGenerator() {
   // ─── SEO ─────────────────────────────────────────────────────────────────────
 
   const seoContent = {
-    description: "Design professional double-sided business cards online for free. 500+ colors, gradient presets, custom logos, multiple layouts, and instant HD download.",
-    content: `<h3>Professional Business Card Generator</h3><p>Create stunning double-sided business cards with our free online tool. Choose from 500+ colors, 24 gradient presets, 12 professional templates, and 5 unique layouts.</p><h3>Features</h3><ul><li>Separate front & back side customization</li><li>500+ color palette with gradient support</li><li>Independent logo upload for each side</li><li>5 professional layouts</li><li>Print-ready high-resolution PNG export</li></ul>`,
-    keywords: ["business card generator", "business card maker online", "business card generator online", "business card builder free", "business card generator free", "online business card generator", "business card maker online free", "business card creator online", "business card generator online free", "business card creator online free", "online visiting card generator", "free business card maker", "professional business card", "double sided business card", "custom business card design", "print ready business card"],
+    description: "Design professional double-sided business cards online for free. 500+ colors, gradient presets, custom logos, multiple layouts, card sizes, and PDF export.",
+    content: `<h3>Professional Business Card Generator</h3><p>Create stunning double-sided business cards with our free online tool. Choose from 500+ colors, 24 gradient presets, 18 professional templates, and 5 unique layouts.</p><h3>Features</h3><ul><li>Separate front & back side customization</li><li>500+ color palette with gradient support</li><li>Custom text colors for each field</li><li>Multiple card size formats (US, European, Japanese)</li><li>PDF export with both sides for professional printing</li><li>Print-ready high-resolution PNG export</li></ul>`,
+    keywords: ["business card generator", "business card maker online", "business card generator online", "business card builder free", "business card generator free", "online business card generator", "business card maker online free", "business card creator online", "business card generator online free", "business card creator online free", "online visiting card generator", "free business card maker", "professional business card", "double sided business card", "custom business card design", "print ready business card", "business card pdf export"],
     faqs: [
       { question: "Can I customize front and back separately?", answer: "Yes! Each side has its own data fields, colors, gradient settings, and optional logo." },
       { question: "How many colors are available?", answer: "Over 500 colors organized in 11 categories, plus 24 gradient presets." },
-      { question: "Can I add a logo to both sides?", answer: "Yes, you can upload separate logos for front and back, and toggle them on/off independently." },
-      { question: "What format are downloads?", answer: "Cards download as high-resolution PNG files suitable for professional printing." },
+      { question: "Can I change text colors individually?", answer: "Yes! Each text field (name, title, company, tagline) has its own optional color picker. Leave empty to use default colors." },
+      { question: "What card sizes are supported?", answer: "Standard US (3.5×2\"), European (85×55mm), Japanese (91×55mm), Square, Mini, and Wide formats." },
+      { question: "Can I export as PDF?", answer: "Yes! Export both front and back on a single A4 page with cut lines, perfect for professional printing." },
     ],
-    aboutTool: "Our Business Card Generator helps you create professional double-sided cards with 500+ colors, gradient presets, independent logos, and multiple layouts.",
+    aboutTool: "Our Business Card Generator helps you create professional double-sided cards with 500+ colors, gradient presets, custom text colors, multiple card sizes, PDF export, and multiple layouts.",
   };
 
   // ─── Render ──────────────────────────────────────────────────────────────────
@@ -489,12 +580,11 @@ export default function BusinessCardGenerator() {
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="front" className="w-full">
-              <TabsList className="grid w-full grid-cols-5 mb-4">
+              <TabsList className="grid w-full grid-cols-4 mb-4">
                 <TabsTrigger value="front" className="text-xs">Front</TabsTrigger>
                 <TabsTrigger value="back" className="text-xs">Back</TabsTrigger>
                 <TabsTrigger value="design" className="text-xs">Design</TabsTrigger>
                 <TabsTrigger value="colors" className="text-xs">Colors</TabsTrigger>
-                <TabsTrigger value="logo" className="text-xs">Logo</TabsTrigger>
               </TabsList>
 
               {/* ── Front Info ── */}
@@ -507,6 +597,36 @@ export default function BusinessCardGenerator() {
                 <div className="grid grid-cols-2 gap-3">
                   <div><Label className="text-xs">Company</Label><Input placeholder="Acme Inc." value={frontData.company} onChange={e => setFrontData(p => ({ ...p, company: e.target.value }))} className="h-9 text-sm" /></div>
                   <div><Label className="text-xs">Tagline</Label><Input placeholder="Building the future..." value={frontData.tagline} onChange={e => setFrontData(p => ({ ...p, tagline: e.target.value }))} className="h-9 text-sm" /></div>
+                </div>
+
+                {/* Front Logo - inline */}
+                <div className="p-3 rounded-lg border border-border space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-xs font-semibold flex items-center gap-1.5"><Upload className="w-3.5 h-3.5" /> Front Logo (Optional)</Label>
+                    {frontLogo && (
+                      <div className="flex items-center gap-2">
+                        <Label className="text-[10px] text-muted-foreground">Show</Label>
+                        <Switch checked={showFrontLogo} onCheckedChange={setShowFrontLogo} />
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <label className="flex items-center justify-center w-16 h-16 rounded-lg border-2 border-dashed border-border hover:border-primary/40 cursor-pointer transition-colors bg-muted/20 shrink-0">
+                      {frontLogo ? (
+                        <img src={frontLogo} alt="" className="w-12 h-12 object-contain rounded" />
+                      ) : (
+                        <Upload className="w-5 h-5 text-muted-foreground" />
+                      )}
+                      <input type="file" accept="image/*" onChange={handleLogoUpload("front")} className="hidden" />
+                    </label>
+                    {frontLogo ? (
+                      <Button variant="outline" size="sm" className="h-7 text-xs" onClick={() => setFrontLogo(null)}>
+                        <X className="w-3 h-3 mr-1" /> Remove
+                      </Button>
+                    ) : (
+                      <p className="text-[10px] text-muted-foreground">Upload logo (max 5MB)</p>
+                    )}
+                  </div>
                 </div>
 
                 {/* Font Size Controls */}
@@ -531,6 +651,17 @@ export default function BusinessCardGenerator() {
                     </div>
                   </div>
                 </div>
+
+                {/* Text Color Controls */}
+                <div className="pt-2 border-t border-border space-y-2.5">
+                  <p className="text-xs font-medium text-muted-foreground flex items-center gap-1.5"><Palette className="w-3.5 h-3.5" /> Text Colors <span className="text-[9px] opacity-60">(leave empty for default)</span></p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <TextColorPicker label="Name" value={textColors.name} defaultColor={frontColors.text} onChange={v => setTextColors(p => ({ ...p, name: v }))} />
+                    <TextColorPicker label="Title" value={textColors.title} defaultColor={frontColors.text} onChange={v => setTextColors(p => ({ ...p, title: v }))} />
+                    <TextColorPicker label="Company" value={textColors.company} defaultColor={frontColors.accent} onChange={v => setTextColors(p => ({ ...p, company: v }))} />
+                    <TextColorPicker label="Tagline" value={textColors.tagline} defaultColor={frontColors.text} onChange={v => setTextColors(p => ({ ...p, tagline: v }))} />
+                  </div>
+                </div>
               </TabsContent>
 
               {/* ── Back Info ── */}
@@ -553,8 +684,38 @@ export default function BusinessCardGenerator() {
                   <div><Label className="text-xs">WhatsApp</Label><Input placeholder="+1 234 567 890" value={backData.whatsapp} onChange={e => setBackData(p => ({ ...p, whatsapp: e.target.value }))} className="h-9 text-sm" /></div>
                 </div>
 
+                {/* Back Logo - inline */}
+                <div className="p-3 rounded-lg border border-border space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-xs font-semibold flex items-center gap-1.5"><Upload className="w-3.5 h-3.5" /> Back Logo (Optional)</Label>
+                    {backLogo && (
+                      <div className="flex items-center gap-2">
+                        <Label className="text-[10px] text-muted-foreground">Show</Label>
+                        <Switch checked={showBackLogo} onCheckedChange={setShowBackLogo} />
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <label className="flex items-center justify-center w-16 h-16 rounded-lg border-2 border-dashed border-border hover:border-primary/40 cursor-pointer transition-colors bg-muted/20 shrink-0">
+                      {backLogo ? (
+                        <img src={backLogo} alt="" className="w-12 h-12 object-contain rounded" />
+                      ) : (
+                        <Upload className="w-5 h-5 text-muted-foreground" />
+                      )}
+                      <input type="file" accept="image/*" onChange={handleLogoUpload("back")} className="hidden" />
+                    </label>
+                    {backLogo ? (
+                      <Button variant="outline" size="sm" className="h-7 text-xs" onClick={() => setBackLogo(null)}>
+                        <X className="w-3 h-3 mr-1" /> Remove
+                      </Button>
+                    ) : (
+                      <p className="text-[10px] text-muted-foreground">Upload logo (max 5MB)</p>
+                    )}
+                  </div>
+                </div>
+
                 {/* QR Code Toggle */}
-                <div className="flex items-center justify-between p-2.5 rounded-lg border border-border mt-2">
+                <div className="flex items-center justify-between p-2.5 rounded-lg border border-border">
                   <Label className="text-xs cursor-pointer flex items-center gap-2"><QrCode className="w-3.5 h-3.5" /> Show QR Code on Back</Label>
                   <Switch checked={showQR} onCheckedChange={setShowQR} />
                 </div>
@@ -565,6 +726,23 @@ export default function BusinessCardGenerator() {
 
               {/* ── Design ── */}
               <TabsContent value="design" className="space-y-4 animate-fade-in">
+                {/* Card Size */}
+                <div>
+                  <Label className="flex items-center gap-2 mb-2 text-xs"><Ruler className="w-4 h-4" /> Card Size</Label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {cardSizes.map(s => (
+                      <button
+                        key={s.id}
+                        className={`py-2 px-2 rounded-lg border text-center transition-all ${cardSize.id === s.id ? "border-primary bg-primary/10 text-primary" : "border-border hover:border-muted-foreground/40"}`}
+                        onClick={() => setCardSize(s)}
+                      >
+                        <span className="text-[10px] font-medium block">{s.name}</span>
+                        <span className="text-[9px] opacity-60">{s.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 <div>
                   <Label className="flex items-center gap-2 mb-3 text-xs"><Palette className="w-4 h-4" /> Templates</Label>
                   <div className="grid grid-cols-3 gap-2">
@@ -609,7 +787,6 @@ export default function BusinessCardGenerator() {
 
               {/* ── Colors ── */}
               <TabsContent value="colors" className="space-y-4 animate-fade-in max-h-[500px] overflow-y-auto pr-1">
-                {/* Side selector for colors */}
                 {["front", "back"].map(side => {
                   const sc = side === "front" ? frontColors : backColors;
                   const setSc = side === "front" ? setFrontColors : setBackColors;
@@ -617,7 +794,6 @@ export default function BusinessCardGenerator() {
                     <div key={side} className="space-y-3">
                       <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{side === "front" ? "🎨 Front Side" : "🔄 Back Side"}</p>
 
-                      {/* Gradient toggle */}
                       <div className="flex items-center justify-between p-2.5 rounded-lg border border-border">
                         <Label className="text-xs cursor-pointer flex items-center gap-2"><Paintbrush className="w-3.5 h-3.5" />Gradient</Label>
                         <Switch checked={sc.useGradient} onCheckedChange={v => setSc(p => ({ ...p, useGradient: v }))} />
@@ -635,15 +811,13 @@ export default function BusinessCardGenerator() {
                         </div>
                       )}
 
-                      {/* Quick color pickers */}
                       <div className="grid grid-cols-2 gap-2">
-                        <ColorPicker label={sc.useGradient ? "BG 1" : "Background"} value={sc.bg1} onChange={v => setSc(p => ({ ...p, bg1: v }))} />
-                        {sc.useGradient && <ColorPicker label="BG 2" value={sc.bg2} onChange={v => setSc(p => ({ ...p, bg2: v }))} />}
-                        <ColorPicker label="Text" value={sc.text} onChange={v => setSc(p => ({ ...p, text: v }))} />
-                        <ColorPicker label="Accent" value={sc.accent} onChange={v => setSc(p => ({ ...p, accent: v }))} />
+                        <InlineColorPicker label={sc.useGradient ? "BG 1" : "Background"} value={sc.bg1} onChange={v => setSc(p => ({ ...p, bg1: v }))} />
+                        {sc.useGradient && <InlineColorPicker label="BG 2" value={sc.bg2} onChange={v => setSc(p => ({ ...p, bg2: v }))} />}
+                        <InlineColorPicker label="Text" value={sc.text} onChange={v => setSc(p => ({ ...p, text: v }))} />
+                        <InlineColorPicker label="Accent" value={sc.accent} onChange={v => setSc(p => ({ ...p, accent: v }))} />
                       </div>
 
-                      {/* Gradient presets */}
                       {sc.useGradient && (
                         <div>
                           <p className="text-[10px] text-muted-foreground mb-1.5">Gradient Presets</p>
@@ -695,77 +869,21 @@ export default function BusinessCardGenerator() {
                   <p className="text-[9px] text-muted-foreground mt-1">Click to copy, then paste in color picker above</p>
                 </div>
               </TabsContent>
-
-              {/* ── Logo ── */}
-              <TabsContent value="logo" className="space-y-4 animate-fade-in">
-                {/* Front Logo */}
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <Label className="text-xs font-semibold">Front Side Logo</Label>
-                    <div className="flex items-center gap-2">
-                      <Label className="text-[10px] text-muted-foreground">Show</Label>
-                      <Switch checked={showFrontLogo} onCheckedChange={setShowFrontLogo} />
-                    </div>
-                  </div>
-                  <label className="flex flex-col items-center justify-center w-full h-24 rounded-lg border-2 border-dashed border-border hover:border-primary/40 cursor-pointer transition-colors bg-muted/20">
-                    {frontLogo ? (
-                      <img src={frontLogo} alt="" className="w-14 h-14 object-contain rounded" />
-                    ) : (
-                      <>
-                        <Upload className="w-6 h-6 text-muted-foreground mb-1" />
-                        <p className="text-[10px] text-muted-foreground">Upload front logo</p>
-                      </>
-                    )}
-                    <input type="file" accept="image/*" onChange={handleLogoUpload("front")} className="hidden" />
-                  </label>
-                  {frontLogo && (
-                    <Button variant="outline" size="sm" className="w-full h-7 text-xs" onClick={() => setFrontLogo(null)}>
-                      <X className="w-3 h-3 mr-1" /> Remove
-                    </Button>
-                  )}
-                </div>
-
-                {/* Back Logo */}
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <Label className="text-xs font-semibold">Back Side Logo</Label>
-                    <div className="flex items-center gap-2">
-                      <Label className="text-[10px] text-muted-foreground">Show</Label>
-                      <Switch checked={showBackLogo} onCheckedChange={setShowBackLogo} />
-                    </div>
-                  </div>
-                  <label className="flex flex-col items-center justify-center w-full h-24 rounded-lg border-2 border-dashed border-border hover:border-primary/40 cursor-pointer transition-colors bg-muted/20">
-                    {backLogo ? (
-                      <img src={backLogo} alt="" className="w-14 h-14 object-contain rounded" />
-                    ) : (
-                      <>
-                        <Upload className="w-6 h-6 text-muted-foreground mb-1" />
-                        <p className="text-[10px] text-muted-foreground">Upload back logo</p>
-                      </>
-                    )}
-                    <input type="file" accept="image/*" onChange={handleLogoUpload("back")} className="hidden" />
-                  </label>
-                  {backLogo && (
-                    <Button variant="outline" size="sm" className="w-full h-7 text-xs" onClick={() => setBackLogo(null)}>
-                      <X className="w-3 h-3 mr-1" /> Remove
-                    </Button>
-                  )}
-                </div>
-
-                <p className="text-[10px] text-muted-foreground text-center">Logos are optional. Toggle show/hide independently for each side.</p>
-              </TabsContent>
             </Tabs>
 
             {/* Download buttons */}
-            <div className="flex gap-2 mt-5">
-              <Button className="flex-1 h-9" onClick={() => downloadCard("front")} size="sm">
+            <div className="flex gap-2 mt-5 flex-wrap">
+              <Button className="flex-1 h-9 min-w-[80px]" onClick={() => downloadCard("front")} size="sm">
                 <Download className="w-4 h-4 mr-1" /> Front
               </Button>
-              <Button className="flex-1 h-9" onClick={() => downloadCard("back")} variant="outline" size="sm">
+              <Button className="flex-1 h-9 min-w-[80px]" onClick={() => downloadCard("back")} variant="outline" size="sm">
                 <Download className="w-4 h-4 mr-1" /> Back
               </Button>
-              <Button className="flex-1 h-9" onClick={() => downloadCard("both")} variant="secondary" size="sm">
+              <Button className="flex-1 h-9 min-w-[80px]" onClick={() => downloadCard("both")} variant="secondary" size="sm">
                 <Download className="w-4 h-4 mr-1" /> Both
+              </Button>
+              <Button className="flex-1 h-9 min-w-[80px]" onClick={downloadPDF} variant="outline" size="sm">
+                <FileText className="w-4 h-4 mr-1" /> PDF
               </Button>
             </div>
           </CardContent>
@@ -784,7 +902,7 @@ export default function BusinessCardGenerator() {
               </div>
             </CardHeader>
             <CardContent className="flex flex-col items-center gap-4 p-6">
-              <div className="relative w-[400px] h-[230px]" style={{ perspective: "1000px" }}>
+              <div className="relative" style={{ width: `${cardSize.width}px`, height: `${cardSize.height}px`, perspective: "1000px" }}>
                 <div
                   className="absolute inset-0 transition-all duration-600 ease-in-out"
                   style={{
@@ -815,6 +933,8 @@ export default function BusinessCardGenerator() {
                 </div>
                 <span className={`text-xs font-medium transition-colors ${showBack ? "text-primary" : "text-muted-foreground"}`}>Back</span>
               </div>
+
+              <p className="text-[10px] text-muted-foreground">{cardSize.name} — {cardSize.label}</p>
             </CardContent>
           </Card>
 
@@ -829,9 +949,9 @@ export default function BusinessCardGenerator() {
   );
 }
 
-// ─── Color Picker Component ──────────────────────────────────────────────────
+// ─── Inline Color Picker Component ───────────────────────────────────────────
 
-function ColorPicker({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
+function InlineColorPicker({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
   return (
     <div className="flex items-center gap-2 p-1.5 rounded-md border border-border/50 bg-muted/20">
       <input
@@ -850,6 +970,39 @@ function ColorPicker({ label, value, onChange }: { label: string; value: string;
           }}
           className="h-5 text-[10px] font-mono border-0 bg-transparent p-0 focus-visible:ring-0 w-16"
         />
+      </div>
+    </div>
+  );
+}
+
+// ─── Text Color Picker Component ─────────────────────────────────────────────
+
+function TextColorPicker({ label, value, defaultColor, onChange }: { label: string; value: string; defaultColor: string; onChange: (v: string) => void }) {
+  const displayColor = value || defaultColor;
+  const isCustom = !!value;
+
+  return (
+    <div className="flex items-center gap-2 p-1.5 rounded-md border border-border/50 bg-muted/20">
+      <input
+        type="color"
+        value={displayColor}
+        onChange={e => onChange(e.target.value)}
+        className="w-6 h-6 rounded cursor-pointer border-0 bg-transparent shrink-0"
+      />
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center justify-between">
+          <p className="text-[10px] text-muted-foreground leading-none">{label}</p>
+          {isCustom && (
+            <button
+              onClick={() => onChange("")}
+              className="text-[8px] text-muted-foreground hover:text-destructive transition-colors"
+              title="Reset to default"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+        <p className="text-[9px] font-mono opacity-60">{isCustom ? displayColor : "default"}</p>
       </div>
     </div>
   );
