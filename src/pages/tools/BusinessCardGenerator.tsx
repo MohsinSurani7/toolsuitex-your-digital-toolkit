@@ -502,6 +502,29 @@ export default function BusinessCardGenerator() {
                   <div><Label className="text-xs">Company</Label><Input placeholder="Acme Inc." value={frontData.company} onChange={e => setFrontData(p => ({ ...p, company: e.target.value }))} className="h-9 text-sm" /></div>
                   <div><Label className="text-xs">Tagline</Label><Input placeholder="Building the future..." value={frontData.tagline} onChange={e => setFrontData(p => ({ ...p, tagline: e.target.value }))} className="h-9 text-sm" /></div>
                 </div>
+
+                {/* Font Size Controls */}
+                <div className="pt-2 border-t border-border space-y-2.5">
+                  <p className="text-xs font-medium text-muted-foreground flex items-center gap-1.5"><Type className="w-3.5 h-3.5" /> Text Sizes</p>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label className="text-[10px] text-muted-foreground">Name: {nameSize}px</Label>
+                      <Slider min={14} max={36} step={1} value={[nameSize]} onValueChange={([v]) => setNameSize(v)} className="mt-1" />
+                    </div>
+                    <div>
+                      <Label className="text-[10px] text-muted-foreground">Title: {titleSize}px</Label>
+                      <Slider min={10} max={24} step={1} value={[titleSize]} onValueChange={([v]) => setTitleSize(v)} className="mt-1" />
+                    </div>
+                    <div>
+                      <Label className="text-[10px] text-muted-foreground">Company: {companySize}px</Label>
+                      <Slider min={8} max={20} step={1} value={[companySize]} onValueChange={([v]) => setCompanySize(v)} className="mt-1" />
+                    </div>
+                    <div>
+                      <Label className="text-[10px] text-muted-foreground">Tagline: {taglineSize}px</Label>
+                      <Slider min={8} max={16} step={1} value={[taglineSize]} onValueChange={([v]) => setTaglineSize(v)} className="mt-1" />
+                    </div>
+                  </div>
+                </div>
               </TabsContent>
 
               {/* ── Back Info ── */}
