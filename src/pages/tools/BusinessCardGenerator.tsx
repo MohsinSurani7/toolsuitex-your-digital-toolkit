@@ -233,6 +233,28 @@ export default function BusinessCardGenerator() {
     setBackColors(t.back);
   };
 
+  // Generate QR code from contact info
+  useEffect(() => {
+    const vcard = [
+      "BEGIN:VCARD", "VERSION:3.0",
+      frontData.name ? `FN:${frontData.name}` : "",
+      frontData.title ? `TITLE:${frontData.title}` : "",
+      frontData.company ? `ORG:${frontData.company}` : "",
+      backData.email ? `EMAIL:${backData.email}` : "",
+      backData.phone ? `TEL:${backData.phone}` : "",
+      backData.website ? `URL:${backData.website}` : "",
+      backData.address ? `ADR:;;${backData.address};;;;` : "",
+      backData.linkedin ? `X-SOCIALPROFILE;type=linkedin:${backData.linkedin}` : "",
+      "END:VCARD",
+    ].filter(Boolean).join("\n");
+
+    if (vcard.split("\n").length <= 3) { setQrDataUrl(null); return; }
+
+    QRCode.toDataURL(vcard, { width: 120, margin: 1, color: { dark: backColors.text, light: "#00000000" } })
+      .then(url => setQrDataUrl(url))
+      .catch(() => setQrDataUrl(null));
+  }, [frontData, backData, backColors.text]);
+
   const applyGradientPreset = (preset: typeof gradientPresets[0], side: "front" | "back") => {
     const setter = side === "front" ? setFrontColors : setBackColors;
     setter(prev => ({ ...prev, bg1: preset.from, bg2: preset.to, useGradient: true }));
