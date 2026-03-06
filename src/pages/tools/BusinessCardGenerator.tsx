@@ -414,26 +414,37 @@ export default function BusinessCardGenerator() {
         className="w-[400px] h-[230px] rounded-xl shadow-2xl overflow-hidden"
         style={style}
       >
-        <div className="w-full h-full p-5 flex flex-col justify-between">
-          <div className="flex items-center justify-between">
-            {logo && <img src={logo} alt="" className="w-9 h-9 object-contain rounded-lg opacity-70" />}
-            {frontData.company && (
-              <p className="text-sm font-bold tracking-wide" style={{ color: backColors.accent }}>
-                {frontData.company}
-              </p>
-            )}
+        <div className="w-full h-full p-5 flex gap-3">
+          {/* Contact info section */}
+          <div className="flex-1 flex flex-col justify-between min-w-0">
+            <div className="flex items-center justify-between">
+              {logo && <img src={logo} alt="" className="w-9 h-9 object-contain rounded-lg opacity-70" />}
+              {frontData.company && (
+                <p className="text-sm font-bold tracking-wide truncate" style={{ color: backColors.accent }}>
+                  {frontData.company}
+                </p>
+              )}
+            </div>
+            <div className="space-y-1.5">
+              {contactItems.length > 0 ? contactItems.map((item, i) => (
+                <div key={i} className="flex items-center gap-2 text-xs">
+                  <span className="w-4 text-center shrink-0 text-[10px]" style={{ color: backColors.accent }}>{item.icon}</span>
+                  <span className="truncate">{item.value}</span>
+                </div>
+              )) : (
+                <p className="text-xs opacity-40 text-center py-4">Add contact details</p>
+              )}
+            </div>
+            <div className="w-full h-[1px] rounded-full opacity-20" style={{ backgroundColor: backColors.accent }} />
           </div>
-          <div className="space-y-1.5">
-            {contactItems.length > 0 ? contactItems.map((item, i) => (
-              <div key={i} className="flex items-center gap-2.5 text-xs">
-                <span className="w-4 text-center shrink-0 text-[11px]" style={{ color: backColors.accent }}>{item.icon}</span>
-                <span className="truncate">{item.value}</span>
-              </div>
-            )) : (
-              <p className="text-xs opacity-40 text-center py-4">Add contact details to see them here</p>
-            )}
-          </div>
-          <div className="w-full h-[1px] rounded-full opacity-20" style={{ backgroundColor: backColors.accent }} />
+
+          {/* QR Code section */}
+          {showQR && qrDataUrl && (
+            <div className="flex flex-col items-center justify-center shrink-0">
+              <img src={qrDataUrl} alt="QR Code" className="w-[90px] h-[90px] rounded-md" />
+              <p className="text-[8px] opacity-40 mt-1">Scan for contact</p>
+            </div>
+          )}
         </div>
       </div>
     );
