@@ -165,6 +165,13 @@ const templates = [
   { id: "gold-luxury", name: "Gold Luxury", front: { bg1: "#1a1a2e", bg2: "#16213e", text: "#ffd700", accent: "#daa520", useGradient: true, gradientAngle: 135 }, back: { bg1: "#16213e", bg2: "#1a1a2e", text: "#ffd700", accent: "#daa520", useGradient: true, gradientAngle: 315 } },
   { id: "coral", name: "Coral Blush", front: { bg1: "#fff1f2", bg2: "#ffe4e6", text: "#9f1239", accent: "#fb7185", useGradient: true, gradientAngle: 135 }, back: { bg1: "#ffe4e6", bg2: "#fecdd3", text: "#881337", accent: "#fb7185", useGradient: true, gradientAngle: 315 } },
   { id: "midnight", name: "Midnight", front: { bg1: "#020617", bg2: "#0f172a", text: "#e0f2fe", accent: "#0284c7", useGradient: true, gradientAngle: 135 }, back: { bg1: "#0c1528", bg2: "#020617", text: "#bae6fd", accent: "#0284c7", useGradient: true, gradientAngle: 315 } },
+  // Premium Templates
+  { id: "glassmorphism", name: "Glassmorphism", front: { bg1: "#667eea", bg2: "#764ba2", text: "#ffffff", accent: "#a5b4fc", useGradient: true, gradientAngle: 135 }, back: { bg1: "#764ba2", bg2: "#667eea", text: "#f0f0ff", accent: "#c4b5fd", useGradient: true, gradientAngle: 315 } },
+  { id: "brutalist", name: "Brutalist", front: { bg1: "#f5f5dc", bg2: "#f5f5dc", text: "#000000", accent: "#ff0000", useGradient: false, gradientAngle: 0 }, back: { bg1: "#000000", bg2: "#000000", text: "#f5f5dc", accent: "#ff0000", useGradient: false, gradientAngle: 0 } },
+  { id: "neon-glow", name: "Neon Glow", front: { bg1: "#0d0d0d", bg2: "#1a0033", text: "#39ff14", accent: "#ff073a", useGradient: true, gradientAngle: 160 }, back: { bg1: "#1a0033", bg2: "#0d0d0d", text: "#00f0ff", accent: "#ff073a", useGradient: true, gradientAngle: 340 } },
+  { id: "retro-80s", name: "Retro 80s", front: { bg1: "#ff6ec7", bg2: "#7873f5", text: "#ffffff", accent: "#ffd319", useGradient: true, gradientAngle: 135 }, back: { bg1: "#7873f5", bg2: "#ff6ec7", text: "#ffffff", accent: "#ffd319", useGradient: true, gradientAngle: 315 } },
+  { id: "art-deco", name: "Art Deco", front: { bg1: "#1b1b2f", bg2: "#162447", text: "#e8d5b7", accent: "#c9a96e", useGradient: true, gradientAngle: 180 }, back: { bg1: "#162447", bg2: "#1b1b2f", text: "#e8d5b7", accent: "#c9a96e", useGradient: true, gradientAngle: 0 } },
+  { id: "pastel-dream", name: "Pastel Dream", front: { bg1: "#ffecd2", bg2: "#fcb69f", text: "#4a3728", accent: "#e17055", useGradient: true, gradientAngle: 135 }, back: { bg1: "#a29bfe", bg2: "#dfe6e9", text: "#2d3436", accent: "#6c5ce7", useGradient: true, gradientAngle: 315 } },
 ];
 
 const fontOptions = [
