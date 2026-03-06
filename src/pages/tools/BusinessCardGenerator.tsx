@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { ToolLayout } from "@/components/tools/ToolLayout";
 import { getToolById } from "@/lib/tools-data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,9 +9,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
-import { Download, CreditCard, Palette, Upload, RotateCw, Type, Sparkles, Image as ImageIcon, Paintbrush, X, Eye } from "lucide-react";
+import { Download, CreditCard, Palette, Upload, RotateCw, Type, Sparkles, Image as ImageIcon, Paintbrush, X, Eye, QrCode } from "lucide-react";
 import { toast } from "sonner";
 import html2canvas from "html2canvas";
+import QRCode from "qrcode";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
