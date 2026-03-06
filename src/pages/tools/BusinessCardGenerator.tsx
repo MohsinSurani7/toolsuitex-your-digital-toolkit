@@ -209,6 +209,8 @@ export default function BusinessCardGenerator() {
   const [backLogo, setBackLogo] = useState<string | null>(null);
   const [showFrontLogo, setShowFrontLogo] = useState(true);
   const [showBackLogo, setShowBackLogo] = useState(true);
+  const [showQR, setShowQR] = useState(true);
+  const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
 
   const [frontData, setFrontData] = useState<FrontData>({
     name: "", title: "", company: "", tagline: "",
