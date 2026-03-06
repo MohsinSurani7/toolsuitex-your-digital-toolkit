@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { ToolLayout } from "@/components/tools/ToolLayout";
 import { getToolById } from "@/lib/tools-data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,9 +9,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
-import { Download, CreditCard, Palette, Upload, RotateCw, Type, Sparkles, Image as ImageIcon, Paintbrush, X, Eye } from "lucide-react";
+import { Download, CreditCard, Palette, Upload, RotateCw, Type, Sparkles, Image as ImageIcon, Paintbrush, X, Eye, QrCode } from "lucide-react";
 import { toast } from "sonner";
 import html2canvas from "html2canvas";
+import QRCode from "qrcode";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -164,6 +165,13 @@ const templates = [
   { id: "gold-luxury", name: "Gold Luxury", front: { bg1: "#1a1a2e", bg2: "#16213e", text: "#ffd700", accent: "#daa520", useGradient: true, gradientAngle: 135 }, back: { bg1: "#16213e", bg2: "#1a1a2e", text: "#ffd700", accent: "#daa520", useGradient: true, gradientAngle: 315 } },
   { id: "coral", name: "Coral Blush", front: { bg1: "#fff1f2", bg2: "#ffe4e6", text: "#9f1239", accent: "#fb7185", useGradient: true, gradientAngle: 135 }, back: { bg1: "#ffe4e6", bg2: "#fecdd3", text: "#881337", accent: "#fb7185", useGradient: true, gradientAngle: 315 } },
   { id: "midnight", name: "Midnight", front: { bg1: "#020617", bg2: "#0f172a", text: "#e0f2fe", accent: "#0284c7", useGradient: true, gradientAngle: 135 }, back: { bg1: "#0c1528", bg2: "#020617", text: "#bae6fd", accent: "#0284c7", useGradient: true, gradientAngle: 315 } },
+  // Premium Templates
+  { id: "glassmorphism", name: "Glassmorphism", front: { bg1: "#667eea", bg2: "#764ba2", text: "#ffffff", accent: "#a5b4fc", useGradient: true, gradientAngle: 135 }, back: { bg1: "#764ba2", bg2: "#667eea", text: "#f0f0ff", accent: "#c4b5fd", useGradient: true, gradientAngle: 315 } },
+  { id: "brutalist", name: "Brutalist", front: { bg1: "#f5f5dc", bg2: "#f5f5dc", text: "#000000", accent: "#ff0000", useGradient: false, gradientAngle: 0 }, back: { bg1: "#000000", bg2: "#000000", text: "#f5f5dc", accent: "#ff0000", useGradient: false, gradientAngle: 0 } },
+  { id: "neon-glow", name: "Neon Glow", front: { bg1: "#0d0d0d", bg2: "#1a0033", text: "#39ff14", accent: "#ff073a", useGradient: true, gradientAngle: 160 }, back: { bg1: "#1a0033", bg2: "#0d0d0d", text: "#00f0ff", accent: "#ff073a", useGradient: true, gradientAngle: 340 } },
+  { id: "retro-80s", name: "Retro 80s", front: { bg1: "#ff6ec7", bg2: "#7873f5", text: "#ffffff", accent: "#ffd319", useGradient: true, gradientAngle: 135 }, back: { bg1: "#7873f5", bg2: "#ff6ec7", text: "#ffffff", accent: "#ffd319", useGradient: true, gradientAngle: 315 } },
+  { id: "art-deco", name: "Art Deco", front: { bg1: "#1b1b2f", bg2: "#162447", text: "#e8d5b7", accent: "#c9a96e", useGradient: true, gradientAngle: 180 }, back: { bg1: "#162447", bg2: "#1b1b2f", text: "#e8d5b7", accent: "#c9a96e", useGradient: true, gradientAngle: 0 } },
+  { id: "pastel-dream", name: "Pastel Dream", front: { bg1: "#ffecd2", bg2: "#fcb69f", text: "#4a3728", accent: "#e17055", useGradient: true, gradientAngle: 135 }, back: { bg1: "#a29bfe", bg2: "#dfe6e9", text: "#2d3436", accent: "#6c5ce7", useGradient: true, gradientAngle: 315 } },
 ];
 
 const fontOptions = [
@@ -201,6 +209,8 @@ export default function BusinessCardGenerator() {
   const [backLogo, setBackLogo] = useState<string | null>(null);
   const [showFrontLogo, setShowFrontLogo] = useState(true);
   const [showBackLogo, setShowBackLogo] = useState(true);
+  const [showQR, setShowQR] = useState(true);
+  const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
 
   const [frontData, setFrontData] = useState<FrontData>({
     name: "", title: "", company: "", tagline: "",
@@ -222,6 +232,28 @@ export default function BusinessCardGenerator() {
     setFrontColors(t.front);
     setBackColors(t.back);
   };
+
+  // Generate QR code from contact info
+  useEffect(() => {
+    const vcard = [
+      "BEGIN:VCARD", "VERSION:3.0",
+      frontData.name ? `FN:${frontData.name}` : "",
+      frontData.title ? `TITLE:${frontData.title}` : "",
+      frontData.company ? `ORG:${frontData.company}` : "",
+      backData.email ? `EMAIL:${backData.email}` : "",
+      backData.phone ? `TEL:${backData.phone}` : "",
+      backData.website ? `URL:${backData.website}` : "",
+      backData.address ? `ADR:;;${backData.address};;;;` : "",
+      backData.linkedin ? `X-SOCIALPROFILE;type=linkedin:${backData.linkedin}` : "",
+      "END:VCARD",
+    ].filter(Boolean).join("\n");
+
+    if (vcard.split("\n").length <= 3) { setQrDataUrl(null); return; }
+
+    QRCode.toDataURL(vcard, { width: 120, margin: 1, color: { dark: backColors.text, light: "#00000000" } })
+      .then(url => setQrDataUrl(url))
+      .catch(() => setQrDataUrl(null));
+  }, [frontData, backData, backColors.text]);
 
   const applyGradientPreset = (preset: typeof gradientPresets[0], side: "front" | "back") => {
     const setter = side === "front" ? setFrontColors : setBackColors;
@@ -382,26 +414,37 @@ export default function BusinessCardGenerator() {
         className="w-[400px] h-[230px] rounded-xl shadow-2xl overflow-hidden"
         style={style}
       >
-        <div className="w-full h-full p-5 flex flex-col justify-between">
-          <div className="flex items-center justify-between">
-            {logo && <img src={logo} alt="" className="w-9 h-9 object-contain rounded-lg opacity-70" />}
-            {frontData.company && (
-              <p className="text-sm font-bold tracking-wide" style={{ color: backColors.accent }}>
-                {frontData.company}
-              </p>
-            )}
+        <div className="w-full h-full p-5 flex gap-3">
+          {/* Contact info section */}
+          <div className="flex-1 flex flex-col justify-between min-w-0">
+            <div className="flex items-center justify-between">
+              {logo && <img src={logo} alt="" className="w-9 h-9 object-contain rounded-lg opacity-70" />}
+              {frontData.company && (
+                <p className="text-sm font-bold tracking-wide truncate" style={{ color: backColors.accent }}>
+                  {frontData.company}
+                </p>
+              )}
+            </div>
+            <div className="space-y-1.5">
+              {contactItems.length > 0 ? contactItems.map((item, i) => (
+                <div key={i} className="flex items-center gap-2 text-xs">
+                  <span className="w-4 text-center shrink-0 text-[10px]" style={{ color: backColors.accent }}>{item.icon}</span>
+                  <span className="truncate">{item.value}</span>
+                </div>
+              )) : (
+                <p className="text-xs opacity-40 text-center py-4">Add contact details</p>
+              )}
+            </div>
+            <div className="w-full h-[1px] rounded-full opacity-20" style={{ backgroundColor: backColors.accent }} />
           </div>
-          <div className="space-y-1.5">
-            {contactItems.length > 0 ? contactItems.map((item, i) => (
-              <div key={i} className="flex items-center gap-2.5 text-xs">
-                <span className="w-4 text-center shrink-0 text-[11px]" style={{ color: backColors.accent }}>{item.icon}</span>
-                <span className="truncate">{item.value}</span>
-              </div>
-            )) : (
-              <p className="text-xs opacity-40 text-center py-4">Add contact details to see them here</p>
-            )}
-          </div>
-          <div className="w-full h-[1px] rounded-full opacity-20" style={{ backgroundColor: backColors.accent }} />
+
+          {/* QR Code section */}
+          {showQR && qrDataUrl && (
+            <div className="flex flex-col items-center justify-center shrink-0">
+              <img src={qrDataUrl} alt="QR Code" className="w-[90px] h-[90px] rounded-md" />
+              <p className="text-[8px] opacity-40 mt-1">Scan for contact</p>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -476,6 +519,15 @@ export default function BusinessCardGenerator() {
                   <div><Label className="text-xs">Instagram</Label><Input placeholder="@john.doe" value={backData.instagram} onChange={e => setBackData(p => ({ ...p, instagram: e.target.value }))} className="h-9 text-sm" /></div>
                   <div><Label className="text-xs">WhatsApp</Label><Input placeholder="+1 234 567 890" value={backData.whatsapp} onChange={e => setBackData(p => ({ ...p, whatsapp: e.target.value }))} className="h-9 text-sm" /></div>
                 </div>
+
+                {/* QR Code Toggle */}
+                <div className="flex items-center justify-between p-2.5 rounded-lg border border-border mt-2">
+                  <Label className="text-xs cursor-pointer flex items-center gap-2"><QrCode className="w-3.5 h-3.5" /> Show QR Code on Back</Label>
+                  <Switch checked={showQR} onCheckedChange={setShowQR} />
+                </div>
+                {showQR && (
+                  <p className="text-[10px] text-muted-foreground">QR code auto-generates vCard from your contact info. Scannable by any phone camera.</p>
+                )}
               </TabsContent>
 
               {/* ── Design ── */}
