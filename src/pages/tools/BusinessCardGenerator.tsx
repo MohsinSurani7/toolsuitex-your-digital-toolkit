@@ -258,7 +258,7 @@ export default function BusinessCardGenerator() {
   const seoContent = {
     description: "Design professional double-sided business cards online for free. Multiple templates, custom colors, logo upload, and instant download.",
     content: `<h3>Introduction</h3><p>Create stunning double-sided business cards with our free online generator. Choose from 12+ professional templates, customize colors, upload your logo, and download print-ready cards instantly.</p><h3>Key Benefits</h3><ul><li>Double-sided card design (front & back)</li><li>12+ professional templates</li><li>Custom colors, fonts & layouts</li><li>Logo upload support</li><li>Print-ready high-resolution PNG</li><li>No design skills needed</li></ul>`,
-    keywords: ["business card generator", "free business card maker", "online business card", "professional business card", "double sided business card", "business card template", "custom business card design", "print ready business card"],
+    keywords: ["business card generator", "business card maker online", "business card generator online", "business card builder free", "business card generator free", "online business card generator", "business card maker online free", "business card creator online", "business card generator online free", "business card creator online free", "online visiting card generator", "free business card maker", "professional business card", "double sided business card", "custom business card design", "print ready business card"],
     faqs: [
       { question: "What format are the cards?", answer: "Cards are downloaded as high-resolution PNG files at 300 DPI." },
       { question: "Can I print these cards?", answer: "Yes, they are print-ready. Download both front and back sides." },
