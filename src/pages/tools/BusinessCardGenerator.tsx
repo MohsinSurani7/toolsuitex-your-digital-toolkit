@@ -312,32 +312,37 @@ export default function BusinessCardGenerator() {
     const logo = showFrontLogo && frontLogo ? frontLogo : null;
 
     const content = () => {
+      const ns = { fontSize: `${nameSize}px` };
+      const ts = { fontSize: `${titleSize}px` };
+      const cs = { fontSize: `${companySize}px`, color: frontColors.accent };
+      const tgs = { fontSize: `${taglineSize}px` };
+
       switch (layout) {
         case "centered":
           return (
-            <div className="w-full h-full flex flex-col items-center justify-center text-center p-6">
-              {logo && <img src={logo} alt="" className="w-14 h-14 object-contain mb-3 rounded-lg" />}
-              <h2 className="text-xl font-bold tracking-tight leading-tight">{frontData.name || "Your Name"}</h2>
-              <p className="text-sm opacity-75 mt-0.5">{frontData.title || "Job Title"}</p>
-              {frontData.company && <p className="text-xs font-semibold mt-2" style={{ color: frontColors.accent }}>{frontData.company}</p>}
-              {frontData.tagline && <p className="text-[10px] opacity-50 mt-2 italic max-w-[80%]">{frontData.tagline}</p>}
+            <div className="w-full h-full flex flex-col items-center justify-center text-center p-5 gap-1">
+              {logo && <img src={logo} alt="" className="w-14 h-14 object-contain mb-1 rounded-lg" />}
+              <h2 className="font-bold tracking-tight leading-tight" style={ns}>{frontData.name || "Your Name"}</h2>
+              <p className="opacity-75" style={ts}>{frontData.title || "Job Title"}</p>
+              {frontData.company && <p className="font-semibold mt-1" style={cs}>{frontData.company}</p>}
+              {frontData.tagline && <p className="opacity-50 mt-1 italic max-w-[85%]" style={tgs}>{frontData.tagline}</p>}
             </div>
           );
         case "left-accent":
           return (
             <div className="w-full h-full flex overflow-hidden">
               <div className="w-2 shrink-0" style={{ backgroundColor: frontColors.accent }} />
-              <div className="flex-1 p-5 flex flex-col justify-between">
-                <div className="flex items-start gap-3">
+              <div className="flex-1 p-5 flex flex-col justify-center gap-3">
+                <div className="flex items-center gap-3">
                   {logo && <img src={logo} alt="" className="w-11 h-11 object-contain rounded-lg shrink-0" />}
                   <div className="min-w-0">
-                    <h2 className="text-lg font-bold tracking-tight truncate">{frontData.name || "Your Name"}</h2>
-                    <p className="text-sm opacity-75 truncate">{frontData.title || "Job Title"}</p>
+                    <h2 className="font-bold tracking-tight truncate" style={ns}>{frontData.name || "Your Name"}</h2>
+                    <p className="opacity-75 truncate" style={ts}>{frontData.title || "Job Title"}</p>
                   </div>
                 </div>
                 <div>
-                  {frontData.company && <p className="text-xs font-semibold" style={{ color: frontColors.accent }}>{frontData.company}</p>}
-                  {frontData.tagline && <p className="text-[10px] opacity-50 italic mt-1">{frontData.tagline}</p>}
+                  {frontData.company && <p className="font-semibold" style={cs}>{frontData.company}</p>}
+                  {frontData.tagline && <p className="opacity-50 italic mt-1" style={tgs}>{frontData.tagline}</p>}
                 </div>
               </div>
             </div>
@@ -347,23 +352,24 @@ export default function BusinessCardGenerator() {
             <div className="w-full h-full flex overflow-hidden">
               <div className="w-[38%] flex flex-col items-center justify-center p-4" style={{ backgroundColor: frontColors.accent }}>
                 {logo && <img src={logo} alt="" className="w-14 h-14 object-contain mb-2 rounded-lg" />}
-                <p className="text-[11px] font-bold text-center leading-tight" style={{ color: frontColors.bg1 }}>{frontData.company || "Company"}</p>
+                <p className="font-bold text-center leading-tight" style={{ ...cs, color: frontColors.bg1 }}>{frontData.company || "Company"}</p>
               </div>
-              <div className="w-[62%] flex flex-col justify-center p-5">
-                <h2 className="text-lg font-bold tracking-tight">{frontData.name || "Your Name"}</h2>
-                <p className="text-sm opacity-75">{frontData.title || "Job Title"}</p>
-                {frontData.tagline && <p className="text-[10px] opacity-50 mt-3 italic">{frontData.tagline}</p>}
+              <div className="w-[62%] flex flex-col justify-center p-5 gap-1">
+                <h2 className="font-bold tracking-tight" style={ns}>{frontData.name || "Your Name"}</h2>
+                <p className="opacity-75" style={ts}>{frontData.title || "Job Title"}</p>
+                {frontData.tagline && <p className="opacity-50 mt-2 italic" style={tgs}>{frontData.tagline}</p>}
               </div>
             </div>
           );
         case "minimal":
           return (
-            <div className="w-full h-full p-6 flex flex-col justify-end">
-              <h2 className="text-2xl font-light tracking-wide">{frontData.name || "Your Name"}</h2>
-              <div className="w-8 h-[2px] my-2" style={{ backgroundColor: frontColors.accent }} />
-              <p className="text-sm opacity-70">{frontData.title || "Job Title"}</p>
-              {frontData.company && <p className="text-xs font-medium mt-1 opacity-50">{frontData.company}</p>}
+            <div className="w-full h-full p-6 flex flex-col justify-center gap-1">
               {logo && <img src={logo} alt="" className="w-8 h-8 object-contain rounded absolute top-5 right-5 opacity-60" />}
+              <h2 className="font-light tracking-wide" style={ns}>{frontData.name || "Your Name"}</h2>
+              <div className="w-8 h-[2px] my-1.5" style={{ backgroundColor: frontColors.accent }} />
+              <p className="opacity-70" style={ts}>{frontData.title || "Job Title"}</p>
+              {frontData.company && <p className="font-medium mt-1 opacity-50" style={cs}>{frontData.company}</p>}
+              {frontData.tagline && <p className="opacity-40 mt-1 italic" style={tgs}>{frontData.tagline}</p>}
             </div>
           );
         default: // classic
@@ -371,14 +377,14 @@ export default function BusinessCardGenerator() {
             <div className="w-full h-full p-6 flex flex-col justify-between">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0 flex-1">
-                  <h2 className="text-xl font-bold tracking-tight truncate">{frontData.name || "Your Name"}</h2>
-                  <p className="text-sm opacity-75 truncate">{frontData.title || "Job Title"}</p>
-                  {frontData.company && <p className="text-xs font-semibold mt-1.5" style={{ color: frontColors.accent }}>{frontData.company}</p>}
+                  <h2 className="font-bold tracking-tight truncate" style={ns}>{frontData.name || "Your Name"}</h2>
+                  <p className="opacity-75 truncate mt-0.5" style={ts}>{frontData.title || "Job Title"}</p>
+                  {frontData.company && <p className="font-semibold mt-2" style={cs}>{frontData.company}</p>}
                 </div>
                 {logo && <img src={logo} alt="" className="w-12 h-12 object-contain rounded-lg shrink-0" />}
               </div>
               <div>
-                {frontData.tagline && <p className="text-[10px] opacity-50 italic">{frontData.tagline}</p>}
+                {frontData.tagline && <p className="opacity-50 italic" style={tgs}>{frontData.tagline}</p>}
                 <div className="w-10 h-[2px] mt-2 rounded-full" style={{ backgroundColor: frontColors.accent }} />
               </div>
             </div>
