@@ -519,6 +519,15 @@ export default function BusinessCardGenerator() {
                   <div><Label className="text-xs">Instagram</Label><Input placeholder="@john.doe" value={backData.instagram} onChange={e => setBackData(p => ({ ...p, instagram: e.target.value }))} className="h-9 text-sm" /></div>
                   <div><Label className="text-xs">WhatsApp</Label><Input placeholder="+1 234 567 890" value={backData.whatsapp} onChange={e => setBackData(p => ({ ...p, whatsapp: e.target.value }))} className="h-9 text-sm" /></div>
                 </div>
+
+                {/* QR Code Toggle */}
+                <div className="flex items-center justify-between p-2.5 rounded-lg border border-border mt-2">
+                  <Label className="text-xs cursor-pointer flex items-center gap-2"><QrCode className="w-3.5 h-3.5" /> Show QR Code on Back</Label>
+                  <Switch checked={showQR} onCheckedChange={setShowQR} />
+                </div>
+                {showQR && (
+                  <p className="text-[10px] text-muted-foreground">QR code auto-generates vCard from your contact info. Scannable by any phone camera.</p>
+                )}
               </TabsContent>
 
               {/* ── Design ── */}
