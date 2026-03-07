@@ -443,7 +443,7 @@ export default function BusinessCardGenerator() {
           return (
             <div className="w-full h-full flex overflow-hidden">
               <div className="w-[38%] flex flex-col items-center justify-center p-4" style={{ backgroundColor: frontColors.accent }}>
-                {logo && <img src={logo} alt="" className="w-14 h-14 object-contain mb-2 rounded-lg" />}
+                {logo && <img src={logo} alt={`${frontData.company || "Company"} logo`} className="w-14 h-14 object-contain mb-2 rounded-lg" />}
                 <p className="font-bold text-center leading-tight" style={{ ...cs, color: frontColors.bg1 }}>{frontData.company || "Company"}</p>
               </div>
               <div className="w-[62%] flex flex-col justify-center p-5 gap-1">
