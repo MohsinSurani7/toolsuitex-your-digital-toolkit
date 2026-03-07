@@ -473,7 +473,7 @@ export default function BusinessCardGenerator() {
                   <p className="opacity-80 truncate mt-0.5" style={ts}>{frontData.title || "Job Title"}</p>
                   {frontData.company && <p className="font-semibold mt-2" style={cs}>{frontData.company}</p>}
                 </div>
-                {logo && <img src={logo} alt="" className="w-12 h-12 object-contain rounded-lg shrink-0" />}
+                {logo && <img src={logo} alt={`${frontData.name || "Business"} company logo`} className="w-12 h-12 object-contain rounded-lg shrink-0" />}
               </div>
               <div>
                 {frontData.tagline && <p className="opacity-60 italic" style={tgs}>{frontData.tagline}</p>}
