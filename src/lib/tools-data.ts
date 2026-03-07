@@ -123,3 +123,23 @@ export function searchTools(query: string): Tool[] {
   return tools.filter(tool => tool.name.toLowerCase().includes(lowerQuery) || tool.description.toLowerCase().includes(lowerQuery) || tool.keywords.some(k => k.toLowerCase().includes(lowerQuery)));
 }
 export function getCategoryById(id: ToolCategory): CategoryInfo | undefined { return categories.find(cat => cat.id === id); }
+
+export function getRelatedTools(toolId: string, count: number = 5): Tool[] {
+  const currentTool = getToolById(toolId);
+  if (!currentTool) return [];
+  
+  // First: same category tools
+  const sameCat = tools.filter(t => t.id !== toolId && t.category === currentTool.category);
+  
+  // Then: tools with overlapping keywords
+  const otherTools = tools.filter(t => t.id !== toolId && t.category !== currentTool.category);
+  const scored = otherTools.map(t => {
+    const overlap = t.keywords.filter(k => 
+      currentTool.keywords.some(ck => ck.toLowerCase() === k.toLowerCase())
+    ).length;
+    return { tool: t, score: overlap };
+  }).sort((a, b) => b.score - a.score);
+  
+  const result = [...sameCat, ...scored.map(s => s.tool)];
+  return result.slice(0, count);
+}
