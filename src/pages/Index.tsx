@@ -4,9 +4,16 @@ import { ArrowRight, Sparkles, Shield, Zap, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { categories, getFeaturedTools } from "@/lib/tools-data";
 import { Layout } from "@/components/layout/Layout";
+import { usePageSEO } from "@/hooks/use-page-seo";
 
 export default function Index() {
   const featuredTools = getFeaturedTools();
+
+  usePageSEO({
+    title: "ToolSuiteX - 50+ Free Browser-Based Tools for Professionals",
+    description: "ToolSuiteX offers 50+ free browser-based tools including Resume Builder, Image Compressor, JSON Formatter, and more. 100% private - your data never leaves your device.",
+    canonical: "https://toolsuitex.online",
+  });
 
   return (
     <Layout>

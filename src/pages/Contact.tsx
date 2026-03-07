@@ -5,9 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Layout } from "@/components/layout/Layout";
+import { usePageSEO } from "@/hooks/use-page-seo";
 import { toast } from "sonner";
 
 export default function ContactPage() {
+  usePageSEO({
+    title: "Contact Us - ToolSuiteX Support & Feedback",
+    description: "Get in touch with ToolSuiteX team. Share feedback, report bugs, or suggest new tools. We'd love to hear from you.",
+    canonical: "https://toolsuitex.online/contact",
+  });
   const [formData, setFormData] = useState({
     name: "",
     email: "",

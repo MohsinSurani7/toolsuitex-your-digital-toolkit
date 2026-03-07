@@ -1,8 +1,14 @@
 import { motion } from "framer-motion";
 import { Users, Target, Zap, Shield, Mail } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
+import { usePageSEO } from "@/hooks/use-page-seo";
 
 export default function AboutPage() {
+  usePageSEO({
+    title: "About ToolSuiteX - Free Browser-Based Tools for Everyone",
+    description: "Learn about ToolSuiteX, a platform offering 50+ free browser-based tools with complete privacy. Your data never leaves your device.",
+    canonical: "https://toolsuitex.online/about",
+  });
   return (
     <Layout>
       {/* Hero */}

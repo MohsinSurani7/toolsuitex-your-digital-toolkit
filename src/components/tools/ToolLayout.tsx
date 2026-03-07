@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
 import { Tool, getCategoryById } from "@/lib/tools-data";
 import { KnowledgeHub, KnowledgeHubProps } from "@/components/seo/KnowledgeHub";
+import { usePageSEO } from "@/hooks/use-page-seo";
 import { toast } from "sonner";
 
 interface ToolLayoutProps {
@@ -16,6 +17,12 @@ interface ToolLayoutProps {
 
 export function ToolLayout({ tool, children, seoContent }: ToolLayoutProps) {
   const category = getCategoryById(tool.category);
+
+  usePageSEO({
+    title: `${tool.name} - Free Online ${tool.name} | ToolSuiteX`,
+    description: seoContent.description || tool.description,
+    canonical: `https://toolsuitex.online/tools/${tool.id}`,
+  });
 
   const handleShare = async () => {
     if (navigator.share) {

@@ -1,7 +1,13 @@
 import { Layout } from "@/components/layout/Layout";
 import { motion } from "framer-motion";
+import { usePageSEO } from "@/hooks/use-page-seo";
 
 export default function Privacy() {
+  usePageSEO({
+    title: "Privacy Policy - ToolSuiteX",
+    description: "ToolSuiteX privacy policy. Your data never leaves your browser. 100% client-side processing with no data collection.",
+    canonical: "https://toolsuitex.online/privacy",
+  });
   return (
     <Layout>
       <section className="py-16 md:py-24">

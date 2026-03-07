@@ -1,7 +1,13 @@
 import { Layout } from "@/components/layout/Layout";
 import { motion } from "framer-motion";
+import { usePageSEO } from "@/hooks/use-page-seo";
 
 export default function Terms() {
+  usePageSEO({
+    title: "Terms of Service - ToolSuiteX",
+    description: "ToolSuiteX terms of service. Read our usage guidelines and policies for using our free browser-based tools.",
+    canonical: "https://toolsuitex.online/terms",
+  });
   return (
     <Layout>
       <section className="py-16 md:py-24">
