@@ -456,7 +456,7 @@ export default function BusinessCardGenerator() {
         case "minimal":
           return (
             <div className="w-full h-full p-6 flex flex-col justify-center gap-1">
-              {logo && <img src={logo} alt="" className="w-8 h-8 object-contain rounded absolute top-5 right-5 opacity-60" />}
+              {logo && <img src={logo} alt={`${frontData.name || "Business"} logo`} className="w-8 h-8 object-contain rounded absolute top-5 right-5 opacity-60" />}
               <h2 className="font-light tracking-wide" style={ns}>{frontData.name || "Your Name"}</h2>
               <div className="w-8 h-[2px] my-1.5" style={{ backgroundColor: frontColors.accent }} />
               <p className="opacity-70" style={ts}>{frontData.title || "Job Title"}</p>
