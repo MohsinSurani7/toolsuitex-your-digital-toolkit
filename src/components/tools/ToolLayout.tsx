@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
 import { Tool, getCategoryById } from "@/lib/tools-data";
 import { KnowledgeHub, KnowledgeHubProps } from "@/components/seo/KnowledgeHub";
+import { usePageSEO } from "@/hooks/use-page-seo";
 import { toast } from "sonner";
 
 interface ToolLayoutProps {
