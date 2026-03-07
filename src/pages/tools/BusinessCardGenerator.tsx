@@ -519,7 +519,7 @@ export default function BusinessCardGenerator() {
         <div className="w-full h-full p-5 flex gap-3">
           <div className="flex-1 flex flex-col justify-between min-w-0">
             <div className="flex items-center justify-between">
-              {logo && <img src={logo} alt="" className="w-9 h-9 object-contain rounded-lg opacity-70" />}
+              {logo && <img src={logo} alt={`${frontData.company || "Company"} back logo`} className="w-9 h-9 object-contain rounded-lg opacity-70" />}
               {frontData.company && (
                 <p className="text-sm font-bold tracking-wide truncate" style={{ color: backColors.accent }}>
                   {frontData.company}
