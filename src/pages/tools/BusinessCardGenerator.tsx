@@ -413,7 +413,7 @@ export default function BusinessCardGenerator() {
         case "centered":
           return (
             <div className="w-full h-full flex flex-col items-center justify-center text-center p-5 gap-1">
-              {logo && <img src={logo} alt="" className="w-14 h-14 object-contain mb-1 rounded-lg" />}
+              {logo && <img src={logo} alt={`${frontData.name || "Business"} company logo`} className="w-14 h-14 object-contain mb-1 rounded-lg" />}
               <h2 className="font-bold tracking-tight leading-tight" style={ns}>{frontData.name || "Your Name"}</h2>
               <p className="opacity-80" style={ts}>{frontData.title || "Job Title"}</p>
               {frontData.company && <p className="font-semibold mt-1" style={cs}>{frontData.company}</p>}
