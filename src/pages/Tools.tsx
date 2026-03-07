@@ -120,9 +120,9 @@ export default function ToolsPage() {
                 return (
                   <motion.div
                     key={tool.id}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
+                    transition={{ delay: Math.min(index * 0.02, 0.3) }}
                   >
                     <a
                       href={tool.path}
