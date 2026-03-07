@@ -144,7 +144,7 @@ export default function ImageRotator() {
               <div className="flex justify-center p-4 bg-muted/50 rounded-lg">
                 <img
                   src={image}
-                  alt="Preview"
+                  alt="Image being rotated and flipped"
                   className="max-w-full max-h-64 object-contain rounded"
                   style={{
                     transform: `rotate(${rotation}deg) scaleX(${flipH ? -1 : 1}) scaleY(${flipV ? -1 : 1})`,

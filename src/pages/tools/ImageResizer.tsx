@@ -152,7 +152,7 @@ export default function ImageResizer() {
               <div className="flex justify-center">
                 <img
                   src={image}
-                  alt="Preview"
+                  alt="Uploaded image for resizing"
                   className="max-w-full max-h-64 object-contain rounded-lg border"
                 />
               </div>

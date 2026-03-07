@@ -156,7 +156,7 @@ const FaviconGenerator = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <div className="aspect-square max-w-[200px] mx-auto rounded-lg border overflow-hidden" style={{ backgroundColor }}>
-                      <img src={image} alt="Preview" className="w-full h-full object-contain" style={{ padding: `${padding}%` }} />
+                      <img src={image} alt="Favicon source image preview" className="w-full h-full object-contain" style={{ padding: `${padding}%` }} />
                     </div>
                     <Button variant="outline" className="w-full" onClick={() => setImage(null)}>
                       <Trash2 className="w-4 h-4 mr-2" />

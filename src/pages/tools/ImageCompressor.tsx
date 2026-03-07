@@ -306,7 +306,7 @@ export default function ImageCompressorPage() {
                 <div className="aspect-video relative bg-muted">
                   <img
                     src={image.compressedUrl}
-                    alt="Compressed"
+                    alt={`Compressed version of ${image.originalFile.name}`}
                     className="absolute inset-0 w-full h-full object-contain"
                   />
                 </div>

@@ -290,7 +290,7 @@ export default function CVMaker() {
                     {cvData.photo.src && (
                       <div className={`flex-shrink-0 ${cvData.photo.alignment === 'right' ? 'order-last' : ''}`}>
                         <div className={`w-24 h-24 overflow-hidden border-4 shadow-lg ${cvData.photo.shape === 'circle' ? 'rounded-full' : cvData.photo.shape === 'rounded' ? 'rounded-xl' : ''}`} style={{ borderColor: design.headerAccent + "50" }}>
-                          <img src={cvData.photo.src} alt="Profile" className="w-full h-full object-cover" style={{ transform: `scale(${cvData.photo.zoom / 100}) rotate(${cvData.photo.rotation}deg)` }} />
+                          <img src={cvData.photo.src} alt={`${cvData.personalInfo.fullName || "Applicant"} CV profile photo`} className="w-full h-full object-cover" style={{ transform: `scale(${cvData.photo.zoom / 100}) rotate(${cvData.photo.rotation}deg)` }} />
                         </div>
                       </div>
                     )}

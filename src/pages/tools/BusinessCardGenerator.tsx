@@ -698,7 +698,7 @@ export default function BusinessCardGenerator() {
                   <div className="flex items-center gap-3">
                     <label className="flex items-center justify-center w-16 h-16 rounded-lg border-2 border-dashed border-border hover:border-primary/40 cursor-pointer transition-colors bg-muted/20 shrink-0">
                       {backLogo ? (
-                        <img src={backLogo} alt="" className="w-12 h-12 object-contain rounded" />
+                        <img src={backLogo} alt="Uploaded back logo preview" className="w-12 h-12 object-contain rounded" />
                       ) : (
                         <Upload className="w-5 h-5 text-muted-foreground" />
                       )}
