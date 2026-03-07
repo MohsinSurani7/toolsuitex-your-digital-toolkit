@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom";
-import { Zap, Mail, Github, Twitter, Linkedin } from "lucide-react";
-import { categories } from "@/lib/tools-data";
+import { Zap, Mail } from "lucide-react";
+import { categories, tools } from "@/lib/tools-data";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -11,12 +10,12 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link to="/" className="flex items-center gap-2 mb-4">
+            <a href="/" className="flex items-center gap-2 mb-4">
               <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center">
                 <Zap className="w-5 h-5 text-primary-foreground" />
               </div>
               <span className="text-xl font-bold text-gradient">ToolSuiteX</span>
-            </Link>
+            </a>
             <p className="text-sm text-muted-foreground mb-4">
               50+ powerful browser-based tools for professionals, developers, and creators. 
               No uploads, no servers – everything runs locally in your browser.
@@ -38,12 +37,12 @@ export function Footer() {
             <ul className="space-y-2">
               {categories.map((cat) => (
                 <li key={cat.id}>
-                  <Link
-                    to={`/tools?category=${cat.id}`}
+                  <a
+                    href={`/tools?category=${cat.id}`}
                     className="text-sm text-muted-foreground hover:text-primary transition-colors"
                   >
                     {cat.name}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -53,31 +52,13 @@ export function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Popular Tools</h4>
             <ul className="space-y-2">
-              <li>
-                <Link to="/tools/resume-builder" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  Resume Builder
-                </Link>
-              </li>
-              <li>
-                <Link to="/tools/json-formatter" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  JSON Formatter
-                </Link>
-              </li>
-              <li>
-                <Link to="/tools/image-compressor" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  Image Compressor
-                </Link>
-              </li>
-              <li>
-                <Link to="/tools/word-counter" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  Word Counter
-                </Link>
-              </li>
-              <li>
-                <Link to="/tools/custom-encoder" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  ToolSuiteX Encoder
-                </Link>
-              </li>
+              {tools.filter(t => t.featured).slice(0, 8).map((tool) => (
+                <li key={tool.id}>
+                  <a href={tool.path} className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    {tool.name}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -86,31 +67,52 @@ export function Footer() {
             <h4 className="font-semibold mb-4">Company</h4>
             <ul className="space-y-2">
               <li>
-                <Link to="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <a href="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   About Us
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <a href="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Contact
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <a href="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Privacy Policy
-                </Link>
+                </a>
               </li>
               <li>
-                <Link to="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <a href="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Terms of Service
-                </Link>
+                </a>
+              </li>
+              <li>
+                <a href="/tools" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  All Tools
+                </a>
               </li>
             </ul>
           </div>
         </div>
 
+        {/* All Tools Links - Full crawlable list for SEO */}
+        <div className="border-t mt-8 pt-8">
+          <h4 className="font-semibold mb-4">All Tools</h4>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+            {tools.map((tool) => (
+              <a
+                key={tool.id}
+                href={tool.path}
+                className="text-xs text-muted-foreground hover:text-primary transition-colors py-1"
+              >
+                {tool.name}
+              </a>
+            ))}
+          </div>
+        </div>
+
         {/* Bottom Bar */}
-        <div className="border-t mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="border-t mt-8 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground">
             © {currentYear} ToolSuiteX. All rights reserved.
           </p>
