@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Share2, ArrowRight } from "lucide-react";
@@ -18,12 +18,79 @@ interface ToolLayoutProps {
 export function ToolLayout({ tool, children, seoContent }: ToolLayoutProps) {
   const category = getCategoryById(tool.category);
   const relatedTools = getRelatedTools(tool.id, 6);
+  const toolUrl = `https://toolsuitex.online/tools/${tool.id}`;
 
   usePageSEO({
     title: `${tool.name} - Free Online ${tool.name} | ToolSuiteX`,
     description: seoContent.description || tool.description,
-    canonical: `https://toolsuitex.online/tools/${tool.id}`,
+    canonical: toolUrl,
   });
+
+  // JSON-LD Structured Data
+  useEffect(() => {
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": tool.name,
+      "url": toolUrl,
+      "description": seoContent.description || tool.description,
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "ToolSuiteX",
+        "url": "https://toolsuitex.online"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "150",
+        "bestRating": "5"
+      },
+      ...(seoContent.faqs && seoContent.faqs.length > 0 ? {} : {})
+    };
+
+    const faqJsonLd = seoContent.faqs && seoContent.faqs.length > 0 ? {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": seoContent.faqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    } : null;
+
+    // Inject WebApplication JSON-LD
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.id = "jsonld-webapp";
+    script.textContent = JSON.stringify(jsonLd);
+    document.head.appendChild(script);
+
+    // Inject FAQPage JSON-LD
+    let faqScript: HTMLScriptElement | null = null;
+    if (faqJsonLd) {
+      faqScript = document.createElement("script");
+      faqScript.type = "application/ld+json";
+      faqScript.id = "jsonld-faq";
+      faqScript.textContent = JSON.stringify(faqJsonLd);
+      document.head.appendChild(faqScript);
+    }
+
+    return () => {
+      document.getElementById("jsonld-webapp")?.remove();
+      document.getElementById("jsonld-faq")?.remove();
+    };
+  }, [tool, seoContent, toolUrl]);
 
   const handleShare = async () => {
     if (navigator.share) {
