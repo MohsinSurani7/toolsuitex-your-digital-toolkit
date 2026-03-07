@@ -413,7 +413,7 @@ export default function BusinessCardGenerator() {
         case "centered":
           return (
             <div className="w-full h-full flex flex-col items-center justify-center text-center p-5 gap-1">
-              {logo && <img src={logo} alt="" className="w-14 h-14 object-contain mb-1 rounded-lg" />}
+              {logo && <img src={logo} alt={`${frontData.name || "Business"} company logo`} className="w-14 h-14 object-contain mb-1 rounded-lg" />}
               <h2 className="font-bold tracking-tight leading-tight" style={ns}>{frontData.name || "Your Name"}</h2>
               <p className="opacity-80" style={ts}>{frontData.title || "Job Title"}</p>
               {frontData.company && <p className="font-semibold mt-1" style={cs}>{frontData.company}</p>}
@@ -426,7 +426,7 @@ export default function BusinessCardGenerator() {
               <div className="w-2 shrink-0" style={{ backgroundColor: frontColors.accent }} />
               <div className="flex-1 p-5 flex flex-col justify-center gap-3">
                 <div className="flex items-center gap-3">
-                  {logo && <img src={logo} alt="" className="w-11 h-11 object-contain rounded-lg shrink-0" />}
+                  {logo && <img src={logo} alt={`${frontData.name || "Business"} company logo`} className="w-11 h-11 object-contain rounded-lg shrink-0" />}
                   <div className="min-w-0">
                     <h2 className="font-bold tracking-tight truncate" style={ns}>{frontData.name || "Your Name"}</h2>
                     <p className="opacity-80 truncate" style={ts}>{frontData.title || "Job Title"}</p>
@@ -443,7 +443,7 @@ export default function BusinessCardGenerator() {
           return (
             <div className="w-full h-full flex overflow-hidden">
               <div className="w-[38%] flex flex-col items-center justify-center p-4" style={{ backgroundColor: frontColors.accent }}>
-                {logo && <img src={logo} alt="" className="w-14 h-14 object-contain mb-2 rounded-lg" />}
+                {logo && <img src={logo} alt={`${frontData.company || "Company"} logo`} className="w-14 h-14 object-contain mb-2 rounded-lg" />}
                 <p className="font-bold text-center leading-tight" style={{ ...cs, color: frontColors.bg1 }}>{frontData.company || "Company"}</p>
               </div>
               <div className="w-[62%] flex flex-col justify-center p-5 gap-1">
@@ -456,7 +456,7 @@ export default function BusinessCardGenerator() {
         case "minimal":
           return (
             <div className="w-full h-full p-6 flex flex-col justify-center gap-1">
-              {logo && <img src={logo} alt="" className="w-8 h-8 object-contain rounded absolute top-5 right-5 opacity-60" />}
+              {logo && <img src={logo} alt={`${frontData.name || "Business"} logo`} className="w-8 h-8 object-contain rounded absolute top-5 right-5 opacity-60" />}
               <h2 className="font-light tracking-wide" style={ns}>{frontData.name || "Your Name"}</h2>
               <div className="w-8 h-[2px] my-1.5" style={{ backgroundColor: frontColors.accent }} />
               <p className="opacity-70" style={ts}>{frontData.title || "Job Title"}</p>
@@ -473,7 +473,7 @@ export default function BusinessCardGenerator() {
                   <p className="opacity-80 truncate mt-0.5" style={ts}>{frontData.title || "Job Title"}</p>
                   {frontData.company && <p className="font-semibold mt-2" style={cs}>{frontData.company}</p>}
                 </div>
-                {logo && <img src={logo} alt="" className="w-12 h-12 object-contain rounded-lg shrink-0" />}
+                {logo && <img src={logo} alt={`${frontData.name || "Business"} company logo`} className="w-12 h-12 object-contain rounded-lg shrink-0" />}
               </div>
               <div>
                 {frontData.tagline && <p className="opacity-60 italic" style={tgs}>{frontData.tagline}</p>}
@@ -519,7 +519,7 @@ export default function BusinessCardGenerator() {
         <div className="w-full h-full p-5 flex gap-3">
           <div className="flex-1 flex flex-col justify-between min-w-0">
             <div className="flex items-center justify-between">
-              {logo && <img src={logo} alt="" className="w-9 h-9 object-contain rounded-lg opacity-70" />}
+              {logo && <img src={logo} alt={`${frontData.company || "Company"} back logo`} className="w-9 h-9 object-contain rounded-lg opacity-70" />}
               {frontData.company && (
                 <p className="text-sm font-bold tracking-wide truncate" style={{ color: backColors.accent }}>
                   {frontData.company}
@@ -613,7 +613,7 @@ export default function BusinessCardGenerator() {
                   <div className="flex items-center gap-3">
                     <label className="flex items-center justify-center w-16 h-16 rounded-lg border-2 border-dashed border-border hover:border-primary/40 cursor-pointer transition-colors bg-muted/20 shrink-0">
                       {frontLogo ? (
-                        <img src={frontLogo} alt="" className="w-12 h-12 object-contain rounded" />
+                        <img src={frontLogo} alt="Uploaded front logo preview" className="w-12 h-12 object-contain rounded" />
                       ) : (
                         <Upload className="w-5 h-5 text-muted-foreground" />
                       )}
@@ -698,7 +698,7 @@ export default function BusinessCardGenerator() {
                   <div className="flex items-center gap-3">
                     <label className="flex items-center justify-center w-16 h-16 rounded-lg border-2 border-dashed border-border hover:border-primary/40 cursor-pointer transition-colors bg-muted/20 shrink-0">
                       {backLogo ? (
-                        <img src={backLogo} alt="" className="w-12 h-12 object-contain rounded" />
+                        <img src={backLogo} alt="Uploaded back logo preview" className="w-12 h-12 object-contain rounded" />
                       ) : (
                         <Upload className="w-5 h-5 text-muted-foreground" />
                       )}

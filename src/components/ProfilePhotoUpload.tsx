@@ -101,7 +101,7 @@ export function ProfilePhotoUpload({ photoSettings, onPhotoChange, label = "Prof
           {photoSettings.src ? (
             <img
               src={photoSettings.src}
-              alt="Profile"
+              alt="Uploaded profile photo"
               className="w-full h-full object-cover"
               style={{
                 transform: `scale(${photoSettings.zoom / 100}) rotate(${photoSettings.rotation}deg)`,

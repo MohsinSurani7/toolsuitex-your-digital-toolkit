@@ -48,7 +48,7 @@ export function PortfolioPreview({
             >
               <img
                 src={photo.src}
-                alt="Profile"
+                alt={`${name || "User"} portfolio profile photo`}
                 className="w-full h-full object-cover"
                 style={{ transform: `scale(${photo.zoom / 100}) rotate(${photo.rotation}deg)` }}
               />

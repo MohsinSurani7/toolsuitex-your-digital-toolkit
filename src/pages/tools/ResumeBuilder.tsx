@@ -282,7 +282,7 @@ export default function ResumeBuilderPage() {
                   {resumeData.photo.src && (
                     <div className={`flex-shrink-0 ${resumeData.photo.alignment === 'right' ? 'order-last' : ''}`}>
                       <div className={`w-28 h-28 overflow-hidden border-4 shadow-lg ${resumeData.photo.shape === 'circle' ? 'rounded-full' : resumeData.photo.shape === 'rounded' ? 'rounded-xl' : 'rounded-none'}`} style={{ borderColor: design.headerAccent + "50" }}>
-                        <img src={resumeData.photo.src} alt="Profile" className="w-full h-full object-cover" style={{ transform: `scale(${resumeData.photo.zoom / 100}) rotate(${resumeData.photo.rotation}deg)` }} />
+                        <img src={resumeData.photo.src} alt={`${resumeData.personalInfo.fullName || "Applicant"} profile photo`} className="w-full h-full object-cover" style={{ transform: `scale(${resumeData.photo.zoom / 100}) rotate(${resumeData.photo.rotation}deg)` }} />
                       </div>
                     </div>
                   )}
