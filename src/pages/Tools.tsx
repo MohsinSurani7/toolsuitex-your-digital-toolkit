@@ -124,8 +124,8 @@ export default function ToolsPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
                   >
-                    <Link
-                      to={tool.path}
+                    <a
+                      href={tool.path}
                       className="block tool-card group h-full"
                     >
                       <div className="flex items-start justify-between mb-4">
@@ -148,7 +148,7 @@ export default function ToolsPage() {
                         Open tool
                         <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                       </div>
-                    </Link>
+                    </a>
                   </motion.div>
                 );
               })}
