@@ -426,7 +426,7 @@ export default function BusinessCardGenerator() {
               <div className="w-2 shrink-0" style={{ backgroundColor: frontColors.accent }} />
               <div className="flex-1 p-5 flex flex-col justify-center gap-3">
                 <div className="flex items-center gap-3">
-                  {logo && <img src={logo} alt="" className="w-11 h-11 object-contain rounded-lg shrink-0" />}
+                  {logo && <img src={logo} alt={`${frontData.name || "Business"} company logo`} className="w-11 h-11 object-contain rounded-lg shrink-0" />}
                   <div className="min-w-0">
                     <h2 className="font-bold tracking-tight truncate" style={ns}>{frontData.name || "Your Name"}</h2>
                     <p className="opacity-80 truncate" style={ts}>{frontData.title || "Job Title"}</p>
