@@ -6,8 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Layout } from "@/components/layout/Layout";
 import { tools, categories, searchTools, getToolsByCategory, ToolCategory } from "@/lib/tools-data";
+import { usePageSEO } from "@/hooks/use-page-seo";
 
 export default function ToolsPage() {
+  usePageSEO({
+    title: "All Free Online Tools - Resume Builder, Image Compressor & More | ToolSuiteX",
+    description: "Browse 50+ free online tools: Resume Builder, Invoice Generator, Image Compressor, JSON Formatter, QR Code Generator, and more. All browser-based, no signup required.",
+    canonical: "https://toolsuitex.online/tools",
+  });
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   

@@ -18,6 +18,12 @@ interface ToolLayoutProps {
 export function ToolLayout({ tool, children, seoContent }: ToolLayoutProps) {
   const category = getCategoryById(tool.category);
 
+  usePageSEO({
+    title: `${tool.name} - Free Online ${tool.name} | ToolSuiteX`,
+    description: seoContent.description || tool.description,
+    canonical: `https://toolsuitex.online/tools/${tool.id}`,
+  });
+
   const handleShare = async () => {
     if (navigator.share) {
       try {
