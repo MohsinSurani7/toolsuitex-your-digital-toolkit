@@ -6,12 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Trash2, Download, Briefcase, Github, Linkedin, Twitter, Palette, Check } from "lucide-react";
+import { Plus, Trash2, Download, Briefcase, Github, Linkedin, Twitter } from "lucide-react";
 import { toast } from "sonner";
 import { ProfilePhotoUpload, PhotoSettings, defaultPhotoSettings } from "@/components/ProfilePhotoUpload";
-import { portfolioTemplates, PortfolioTemplate, generatePortfolioHTML } from "@/components/portfolio/portfolioTemplates";
 import { PortfolioPreview } from "@/components/portfolio/PortfolioPreview";
 import { DragDropZone } from "@/components/portfolio/DragDropZone";
+import { DesignCustomizer } from "@/components/design/DesignCustomizer";
+import { DesignSettings, DesignTheme, portfolioThemes, getHeaderBackground } from "@/components/design/designData";
 
 interface Project {
   id: string;
@@ -37,20 +38,14 @@ const tool = getToolById("portfolio-builder")!;
 
 export default function PortfolioBuilder() {
   const [portfolio, setPortfolio] = useState<PortfolioData>({
-    name: "",
-    title: "",
-    bio: "",
-    email: "",
-    github: "",
-    linkedin: "",
-    twitter: "",
+    name: "", title: "", bio: "", email: "", github: "", linkedin: "", twitter: "",
     photo: defaultPhotoSettings,
     projects: [{ id: crypto.randomUUID(), title: "", description: "", link: "", image: "" }],
   });
 
-  const [selectedTemplate, setSelectedTemplate] = useState<PortfolioTemplate>(portfolioTemplates[0]);
-  const [customColors, setCustomColors] = useState<Partial<PortfolioTemplate["colors"]>>({});
-  const [showColorCustomizer, setShowColorCustomizer] = useState(false);
+  const [selectedThemeId, setSelectedThemeId] = useState(portfolioThemes[0].id);
+  const [design, setDesign] = useState<DesignSettings>(portfolioThemes[0].settings);
+  const [textColors, setTextColors] = useState({ name: "", title: "", bio: "" });
 
   const addProject = () => {
     setPortfolio({
@@ -81,8 +76,79 @@ export default function PortfolioBuilder() {
     reader.readAsDataURL(file);
   }, [portfolio.projects]);
 
+  const handleThemeSelect = (theme: DesignTheme) => {
+    setSelectedThemeId(theme.id);
+    setDesign(theme.settings);
+    setTextColors({ name: "", title: "", bio: "" });
+  };
+
   const handleDownload = () => {
-    const html = generatePortfolioHTML(portfolio, selectedTemplate, customColors);
+    const headerBg = getHeaderBackground(design);
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${portfolio.name || "Portfolio"}</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: ${design.bodyBg}; color: ${design.bodyText}; line-height: 1.6; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    header { text-align: center; padding: 4rem 2rem; background: ${headerBg}; }
+    .profile-photo { width: 150px; height: 150px; margin: 0 auto 1.5rem; overflow: hidden; ${design.headerAccent ? `border: 3px solid ${design.headerAccent};` : ""} border-radius: 50%; }
+    .profile-photo img { width: 100%; height: 100%; object-fit: cover; }
+    h1 { font-size: 3rem; margin-bottom: 0.5rem; color: ${textColors.name || design.headerAccent}; }
+    .title { font-size: 1.25rem; color: ${textColors.title || design.mutedText}; margin-bottom: 1rem; }
+    .bio { max-width: 600px; margin: 0 auto 2rem; color: ${textColors.bio || design.mutedText}; }
+    .socials { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .socials a { color: ${design.headerAccent}; text-decoration: none; padding: 0.5rem 1rem; border: 1px solid ${design.borderColor}; border-radius: 2rem; transition: all 0.3s; }
+    .socials a:hover { background: ${design.accentColor}; color: ${design.bodyBg}; }
+    .section-title { text-align: center; font-size: 2rem; margin: 3rem 0 2rem; color: ${design.accentColor}; }
+    .projects { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; padding: 0 2rem; }
+    .project { background: ${design.headerBg1}22; border: 1px solid ${design.borderColor}; border-radius: 1rem; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
+    .project:hover { transform: translateY(-5px); box-shadow: 0 10px 40px ${design.accentColor}22; }
+    .project-img { height: 200px; background: ${design.borderColor}; display: flex; align-items: center; justify-content: center; color: ${design.mutedText}; overflow: hidden; }
+    .project-img img { width: 100%; height: 100%; object-fit: cover; }
+    .project-content { padding: 1.5rem; }
+    .project h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+    .project p { color: ${design.mutedText}; font-size: 0.875rem; margin-bottom: 1rem; }
+    .project a { color: ${design.accentColor}; text-decoration: none; font-size: 0.875rem; font-weight: 600; }
+    .project a:hover { text-decoration: underline; }
+    footer { text-align: center; padding: 3rem 0; margin-top: 4rem; border-top: 1px solid ${design.borderColor}; color: ${design.mutedText}; font-size: 0.875rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      ${portfolio.photo.src ? `<div class="profile-photo"><img src="${portfolio.photo.src}" alt="${portfolio.name}"/></div>` : ""}
+      <h1>${portfolio.name || "Your Name"}</h1>
+      <p class="title">${portfolio.title || "Your Title"}</p>
+      <p class="bio">${portfolio.bio || "Your bio goes here..."}</p>
+      <div class="socials">
+        ${portfolio.email ? `<a href="mailto:${portfolio.email}">📧 Email</a>` : ""}
+        ${portfolio.github ? `<a href="${portfolio.github}" target="_blank">💻 GitHub</a>` : ""}
+        ${portfolio.linkedin ? `<a href="${portfolio.linkedin}" target="_blank">🔗 LinkedIn</a>` : ""}
+        ${portfolio.twitter ? `<a href="${portfolio.twitter}" target="_blank">🐦 Twitter</a>` : ""}
+      </div>
+    </header>
+    <h2 class="section-title">My Projects</h2>
+    <section class="projects">
+      ${portfolio.projects.map((p) => `
+        <div class="project">
+          <div class="project-img">${p.image ? `<img src="${p.image}" alt="${p.title}">` : "📁 Project Image"}</div>
+          <div class="project-content">
+            <h3>${p.title || "Project Title"}</h3>
+            <p>${p.description || "Project description..."}</p>
+            ${p.link ? `<a href="${p.link}" target="_blank">View Project →</a>` : ""}
+          </div>
+        </div>`).join("")}
+    </section>
+    <footer>
+      <p>© ${new Date().getFullYear()} ${portfolio.name || "Portfolio"}. All rights reserved.</p>
+    </footer>
+  </div>
+</body>
+</html>`;
     const blob = new Blob([html], { type: "text/html" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -93,105 +159,38 @@ export default function PortfolioBuilder() {
     toast.success("Portfolio HTML downloaded!");
   };
 
-  const colorFields: { key: keyof PortfolioTemplate["colors"]; label: string }[] = [
-    { key: "bg", label: "Background" },
-    { key: "cardBg", label: "Card BG" },
-    { key: "accent", label: "Accent" },
-    { key: "accentEnd", label: "Accent End" },
-    { key: "text", label: "Text" },
-    { key: "textMuted", label: "Muted" },
-    { key: "border", label: "Border" },
+  const textColorFields = [
+    { key: "name", label: "Name", value: textColors.name, onChange: (c: string) => setTextColors(p => ({ ...p, name: c })) },
+    { key: "title", label: "Title", value: textColors.title, onChange: (c: string) => setTextColors(p => ({ ...p, title: c })) },
+    { key: "bio", label: "Bio", value: textColors.bio, onChange: (c: string) => setTextColors(p => ({ ...p, bio: c })) },
   ];
 
   const seoContent = {
-    description: "Build a professional portfolio website in minutes. Choose from 8+ templates, customize colors, drag & drop images. Export as HTML, no coding required.",
-    content: `<h3>Introduction</h3><p>Create a stunning portfolio to showcase your work with our free builder. Choose from multiple professional templates and customize every color.</p><h3>Key Benefits</h3><ul><li>8+ professional templates to choose from</li><li>Full color customization for every element</li><li>Drag & drop image uploads</li><li>No coding skills required</li><li>Export as standalone HTML</li><li>Modern responsive design</li><li>Showcase unlimited projects</li></ul>`,
+    description: "Build a professional portfolio website in minutes. Choose from 12+ templates, customize colors, gradients & text. Drag & drop images. Export as HTML, no coding required.",
+    content: `<h3>Introduction</h3><p>Create a stunning portfolio to showcase your work with our free builder. Choose from multiple professional templates with full design customization.</p><h3>Key Benefits</h3><ul><li>12+ professional templates including Glassmorphism, Brutalist, Neon Glow</li><li>Full color customization with 500+ color palette</li><li>24 gradient presets for headers</li><li>Individual text color controls</li><li>Drag & drop image uploads</li><li>No coding skills required</li><li>Export as standalone HTML</li></ul>`,
     keywords: ["portfolio builder", "portfolio builder tools", "free portfolio builder", "portfolio generator", "free portfolio website", "toolsuite", "free tools", "cv maker free", "online portfolio maker", "portfolio website builder free", "create portfolio online", "portfolio templates free", "drag and drop portfolio builder"],
     faqs: [
       { question: "Can I host this portfolio?", answer: "Yes! The HTML file can be hosted on any web server, GitHub Pages, Netlify, or Vercel." },
       { question: "Is it mobile responsive?", answer: "Absolutely, the generated portfolio is fully responsive across all devices." },
-      { question: "How many templates are available?", answer: "We offer 8+ professionally designed templates including Modern Dark, Minimal Light, Creative Gradient, Corporate Blue, and more." },
-      { question: "Can I customize the colors?", answer: "Yes! Every color in the template can be customized using the color picker." },
-      { question: "Can I drag and drop images?", answer: "Yes, you can drag and drop images for both your profile photo and project images." },
+      { question: "How many templates are available?", answer: "We offer 12+ professionally designed templates including Modern Dark, Glassmorphism, Brutalist, Neon Glow, Retro 80s, and more." },
+      { question: "Can I customize all the colors?", answer: "Yes! Every color can be customized using color pickers or our 500+ color palette. You can also set individual text colors." },
+      { question: "Can I use gradient backgrounds?", answer: "Yes, choose from 24 gradient presets or create your own with adjustable angle control." },
     ],
-    aboutTool: "Our Portfolio Builder helps you create a professional online presence in minutes. With 8+ templates, full color customization, and drag & drop support, it's the easiest way to build your portfolio.",
+    aboutTool: "Our Portfolio Builder helps you create a professional online presence in minutes. With 12+ templates, 500+ colors, gradient presets, and individual text color control, it's the most customizable free portfolio builder.",
   };
 
   return (
     <ToolLayout tool={tool} seoContent={seoContent}>
-      {/* Template Selector */}
+      {/* Design Customizer */}
       <div className="mb-6">
-        <Label className="text-lg font-semibold mb-3 block">Choose a Template</Label>
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
-          {portfolioTemplates.map((t) => (
-            <button
-              key={t.id}
-              onClick={() => {
-                setSelectedTemplate(t);
-                setCustomColors({});
-              }}
-              className={`relative p-3 rounded-xl border-2 transition-all text-center hover:scale-105 ${
-                selectedTemplate.id === t.id
-                  ? "border-primary ring-2 ring-primary/30"
-                  : "border-border hover:border-primary/50"
-              }`}
-              style={{ background: t.colors.bg }}
-            >
-              {selectedTemplate.id === t.id && (
-                <div className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-primary flex items-center justify-center">
-                  <Check className="w-3 h-3 text-primary-foreground" />
-                </div>
-              )}
-              <div className="text-2xl mb-1">{t.preview}</div>
-              <div className="text-xs font-medium" style={{ color: t.colors.text }}>
-                {t.name}
-              </div>
-              <div className="flex gap-1 justify-center mt-2">
-                <span className="w-3 h-3 rounded-full" style={{ background: t.colors.accent }} />
-                <span className="w-3 h-3 rounded-full" style={{ background: t.colors.accentEnd }} />
-                <span className="w-3 h-3 rounded-full" style={{ background: t.colors.cardBg, border: `1px solid ${t.colors.border}` }} />
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Color Customizer Toggle */}
-      <div className="mb-6">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setShowColorCustomizer(!showColorCustomizer)}
-          className="gap-2"
-        >
-          <Palette className="w-4 h-4" />
-          {showColorCustomizer ? "Hide" : "Customize"} Colors
-        </Button>
-        {showColorCustomizer && (
-          <div className="mt-3 p-4 glass-card rounded-xl grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
-            {colorFields.map(({ key, label }) => (
-              <div key={key}>
-                <Label className="text-xs mb-1 block">{label}</Label>
-                <div className="flex items-center gap-2">
-                  <input
-                    type="color"
-                    value={customColors[key] || selectedTemplate.colors[key]}
-                    onChange={(e) => setCustomColors({ ...customColors, [key]: e.target.value })}
-                    className="w-8 h-8 rounded cursor-pointer border-0"
-                  />
-                  <span className="text-xs text-muted-foreground font-mono">
-                    {(customColors[key] || selectedTemplate.colors[key]).slice(0, 7)}
-                  </span>
-                </div>
-              </div>
-            ))}
-            <div className="flex items-end">
-              <Button variant="ghost" size="sm" onClick={() => setCustomColors({})}>
-                Reset
-              </Button>
-            </div>
-          </div>
-        )}
+        <DesignCustomizer
+          themes={portfolioThemes}
+          settings={design}
+          selectedThemeId={selectedThemeId}
+          onThemeSelect={handleThemeSelect}
+          onSettingsChange={setDesign}
+          textColorFields={textColorFields}
+        />
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6">
@@ -261,8 +260,6 @@ export default function PortfolioBuilder() {
                   <Input placeholder="Project Title" value={project.title} onChange={(e) => updateProject(project.id, "title", e.target.value)} />
                   <Textarea placeholder="Description" value={project.description} onChange={(e) => updateProject(project.id, "description", e.target.value)} />
                   <Input placeholder="Project URL" value={project.link} onChange={(e) => updateProject(project.id, "link", e.target.value)} />
-                  
-                  {/* Drag & Drop Image Upload for Project */}
                   {project.image ? (
                     <div className="relative group">
                       <img src={project.image} alt={project.title} className="w-full h-32 object-cover rounded-lg" />
@@ -274,10 +271,7 @@ export default function PortfolioBuilder() {
                       </button>
                     </div>
                   ) : (
-                    <DragDropZone
-                      onFileDrop={(file) => handleProjectImageDrop(project.id, file)}
-                      compact
-                    />
+                    <DragDropZone onFileDrop={(file) => handleProjectImageDrop(project.id, file)} compact />
                   )}
                 </div>
               ))}
@@ -294,14 +288,18 @@ export default function PortfolioBuilder() {
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               <span>Live Preview</span>
-              <span className="text-sm font-normal text-muted-foreground">{selectedTemplate.name}</span>
+              <span className="text-sm font-normal text-muted-foreground">
+                {portfolioThemes.find(t => t.id === selectedThemeId)?.name}
+              </span>
             </CardTitle>
           </CardHeader>
           <CardContent>
             <PortfolioPreview
               {...portfolio}
-              template={selectedTemplate}
-              customColors={customColors}
+              design={design}
+              nameColor={textColors.name}
+              titleColor={textColors.title}
+              bioColor={textColors.bio}
             />
           </CardContent>
         </Card>
