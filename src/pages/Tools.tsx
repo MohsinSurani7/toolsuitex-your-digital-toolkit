@@ -11,7 +11,7 @@ import { usePageSEO } from "@/hooks/use-page-seo";
 export default function ToolsPage() {
   usePageSEO({
     title: "All Free Online Tools - Resume Builder, Image Compressor & More | ToolSuiteX",
-    description: "Browse 50+ free online tools: Resume Builder, Invoice Generator, Image Compressor, JSON Formatter, QR Code Generator, and more. All browser-based, no signup required.",
+    description: "Browse 50+ free online tools: Resume Builder, Image Compressor, JSON Formatter, QR Code Generator & more. All browser-based, no signup required.",
     canonical: "https://toolsuitex.online/tools",
   });
   const [searchParams, setSearchParams] = useSearchParams();
