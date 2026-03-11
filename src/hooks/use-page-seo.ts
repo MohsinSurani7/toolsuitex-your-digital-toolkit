@@ -8,6 +8,9 @@ interface PageSEOProps {
 
 export function usePageSEO({ title, description, canonical }: PageSEOProps) {
   useEffect(() => {
+    // Ensure description is within 160 chars
+    const safeDescription = description.length > 160 ? description.substring(0, 157) + "..." : description;
+
     // Set document title
     document.title = title;
 
