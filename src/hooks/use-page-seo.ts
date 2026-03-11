@@ -21,7 +21,7 @@ export function usePageSEO({ title, description, canonical }: PageSEOProps) {
       metaDesc.setAttribute("name", "description");
       document.head.appendChild(metaDesc);
     }
-    metaDesc.setAttribute("content", description);
+    metaDesc.setAttribute("content", safeDescription);
 
     // Set OG title
     let ogTitle = document.querySelector('meta[property="og:title"]');
