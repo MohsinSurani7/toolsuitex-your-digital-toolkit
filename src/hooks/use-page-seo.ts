@@ -57,7 +57,7 @@ export function usePageSEO({ title, description, canonical }: PageSEOProps) {
       twDesc.setAttribute("name", "twitter:description");
       document.head.appendChild(twDesc);
     }
-    twDesc.setAttribute("content", description);
+    twDesc.setAttribute("content", safeDescription);
 
     // Set canonical
     if (canonical) {
