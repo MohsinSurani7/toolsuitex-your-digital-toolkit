@@ -39,7 +39,7 @@ export function usePageSEO({ title, description, canonical }: PageSEOProps) {
       ogDesc.setAttribute("property", "og:description");
       document.head.appendChild(ogDesc);
     }
-    ogDesc.setAttribute("content", description);
+    ogDesc.setAttribute("content", safeDescription);
 
     // Set Twitter title
     let twTitle = document.querySelector('meta[name="twitter:title"]');
