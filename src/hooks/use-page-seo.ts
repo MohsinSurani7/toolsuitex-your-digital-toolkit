@@ -4,62 +4,51 @@ interface PageSEOProps {
   title: string;
   description: string;
   canonical?: string;
+  ogImage?: string;
 }
 
-export function usePageSEO({ title, description, canonical }: PageSEOProps) {
-  useEffect(() => {
-    // Ensure description is within 160 chars
-    const safeDescription = description.length > 160 ? description.substring(0, 157) + "..." : description;
+const DEFAULT_OG_IMAGE = "https://toolsuitex.online/og-image.png";
+const SITE_NAME = "ToolSuiteX";
 
-    // Set document title
+function setMetaTag(attr: string, key: string, content: string) {
+  let el = document.querySelector(`meta[${attr}="${key}"]`);
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute(attr, key);
+    document.head.appendChild(el);
+  }
+  el.setAttribute("content", content);
+}
+
+export function usePageSEO({ title, description, canonical, ogImage }: PageSEOProps) {
+  useEffect(() => {
+    const safeDescription = description.length > 160 ? description.substring(0, 157) + "..." : description;
+    const image = ogImage || DEFAULT_OG_IMAGE;
+
     document.title = title;
 
-    // Set meta description
-    let metaDesc = document.querySelector('meta[name="description"]');
-    if (!metaDesc) {
-      metaDesc = document.createElement("meta");
-      metaDesc.setAttribute("name", "description");
-      document.head.appendChild(metaDesc);
-    }
-    metaDesc.setAttribute("content", safeDescription);
+    // Meta description
+    setMetaTag("name", "description", safeDescription);
 
-    // Set OG title
-    let ogTitle = document.querySelector('meta[property="og:title"]');
-    if (!ogTitle) {
-      ogTitle = document.createElement("meta");
-      ogTitle.setAttribute("property", "og:title");
-      document.head.appendChild(ogTitle);
+    // Open Graph / Facebook / LinkedIn
+    setMetaTag("property", "og:title", title);
+    setMetaTag("property", "og:description", safeDescription);
+    setMetaTag("property", "og:image", image);
+    setMetaTag("property", "og:image:alt", title);
+    setMetaTag("property", "og:site_name", SITE_NAME);
+    setMetaTag("property", "og:type", "website");
+    if (canonical) {
+      setMetaTag("property", "og:url", canonical);
     }
-    ogTitle.setAttribute("content", title);
 
-    // Set OG description
-    let ogDesc = document.querySelector('meta[property="og:description"]');
-    if (!ogDesc) {
-      ogDesc = document.createElement("meta");
-      ogDesc.setAttribute("property", "og:description");
-      document.head.appendChild(ogDesc);
-    }
-    ogDesc.setAttribute("content", safeDescription);
+    // Twitter Card
+    setMetaTag("name", "twitter:card", "summary_large_image");
+    setMetaTag("name", "twitter:title", title);
+    setMetaTag("name", "twitter:description", safeDescription);
+    setMetaTag("name", "twitter:image", image);
+    setMetaTag("name", "twitter:image:alt", title);
 
-    // Set Twitter title
-    let twTitle = document.querySelector('meta[name="twitter:title"]');
-    if (!twTitle) {
-      twTitle = document.createElement("meta");
-      twTitle.setAttribute("name", "twitter:title");
-      document.head.appendChild(twTitle);
-    }
-    twTitle.setAttribute("content", title);
-
-    // Set Twitter description
-    let twDesc = document.querySelector('meta[name="twitter:description"]');
-    if (!twDesc) {
-      twDesc = document.createElement("meta");
-      twDesc.setAttribute("name", "twitter:description");
-      document.head.appendChild(twDesc);
-    }
-    twDesc.setAttribute("content", safeDescription);
-
-    // Set canonical
+    // Canonical
     if (canonical) {
       let link = document.querySelector('link[rel="canonical"]');
       if (!link) {
@@ -71,10 +60,10 @@ export function usePageSEO({ title, description, canonical }: PageSEOProps) {
     }
 
     return () => {
-      // Reset to defaults on unmount
       document.title = "ToolSuiteX - 50+ Free Browser-Based Tools for Professionals";
       const defaultDesc = "ToolSuiteX offers 50+ free browser-based tools: Resume Builder, Image Compressor, JSON Formatter & more. 100% private, your data never leaves your device.";
-      metaDesc?.setAttribute("content", defaultDesc);
+      setMetaTag("name", "description", defaultDesc);
+      setMetaTag("property", "og:image", DEFAULT_OG_IMAGE);
     };
-  }, [title, description, canonical]);
+  }, [title, description, canonical, ogImage]);
 }
