@@ -11,7 +11,7 @@ export default function Index() {
 
   usePageSEO({
     title: "ToolSuiteX - 50+ Free Browser-Based Tools for Professionals",
-    description: "ToolSuiteX offers 50+ free browser-based tools including Resume Builder, Image Compressor, JSON Formatter, and more. 100% private - your data never leaves your device.",
+    description: "ToolSuiteX offers 50+ free browser-based tools: Resume Builder, Image Compressor, JSON Formatter & more. 100% private, your data never leaves your device.",
     canonical: "https://toolsuitex.online",
   });
 

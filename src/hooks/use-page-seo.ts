@@ -70,7 +70,7 @@ export function usePageSEO({ title, description, canonical }: PageSEOProps) {
     return () => {
       // Reset to defaults on unmount
       document.title = "ToolSuiteX - 50+ Free Browser-Based Tools for Professionals";
-      const defaultDesc = "ToolSuiteX offers 50+ free browser-based tools including Resume Builder, Image Compressor, JSON Formatter, and more. 100% private - your data never leaves your device.";
+      const defaultDesc = "ToolSuiteX offers 50+ free browser-based tools: Resume Builder, Image Compressor, JSON Formatter & more. 100% private, your data never leaves your device.";
       metaDesc?.setAttribute("content", defaultDesc);
     };
   }, [title, description, canonical]);
