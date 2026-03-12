@@ -295,9 +295,9 @@ export default function CVMaker() {
                       </div>
                     )}
                     <div className={cvData.photo.src ? 'flex-1' : ''}>
-                      <h1 className="text-2xl font-bold tracking-wide" style={{ color: textColors.name || design.headerText }}>
+                      <h2 className="text-2xl font-bold tracking-wide" style={{ color: textColors.name || design.headerText }}>
                         {cvData.personalInfo.fullName || "Your Name"}
-                      </h1>
+                      </h2>
                       <p className="text-lg mt-1" style={{ color: textColors.title || design.headerAccent }}>
                         {cvData.personalInfo.title || "Professional Title"}
                       </p>

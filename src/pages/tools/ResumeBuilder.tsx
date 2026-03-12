@@ -287,7 +287,7 @@ export default function ResumeBuilderPage() {
                     </div>
                   )}
                   <div className={`${resumeData.photo.src ? 'flex-1' : ''}`}>
-                    <h1 className="text-3xl font-bold tracking-wide mb-1" style={{ color: textColors.name || design.headerText }}>
+                    <h2 className="text-3xl font-bold tracking-wide mb-1" style={{ color: textColors.name || design.headerText }}>
                       {resumeData.personalInfo.fullName || "Your Name"}
                     </h1>
                     <p className="text-xl font-medium mb-3" style={{ color: textColors.title || design.headerAccent }}>

@@ -191,7 +191,7 @@ export default function InvoiceGenerator() {
             <div ref={invoiceRef} className="bg-white text-black p-8 rounded-lg text-sm">
               <div className="flex justify-between mb-8">
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-800">INVOICE</h1>
+                  <h2 className="text-2xl font-bold text-gray-800">INVOICE</h2>
                   <p className="text-gray-600">{invoice.invoiceNumber}</p>
                 </div>
                 <div className="text-right">
