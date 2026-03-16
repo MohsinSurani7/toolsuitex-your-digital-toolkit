@@ -68,7 +68,7 @@ export default function QRCodeGenerator() {
   };
 
   const seoContent = {
-    description: "Generate QR codes for URLs, text, WiFi, email, phone, and locations. Free, no signup.",
+    description: "Generate custom QR codes for URLs, text, WiFi credentials, email, phone numbers, and locations. Free online QR code maker with color options.",
     content: `<h3>Introduction</h3><p>Create custom QR codes for any purpose in seconds.</p><h3>Key Benefits</h3><ul><li>Multiple QR types (URL, WiFi, Email, etc.)</li><li>Custom colors</li><li>High-resolution download</li><li>Instant generation</li></ul>`,
     keywords: ["QR code generator", "create QR code", "free QR maker", "WiFi QR code"],
     faqs: [

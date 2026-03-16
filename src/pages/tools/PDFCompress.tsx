@@ -90,7 +90,7 @@ export default function PDFCompress() {
   };
 
   const seoContent = {
-    description: "Reduce PDF file sizes while maintaining quality for easier sharing and storage.",
+    description: "Reduce PDF file sizes by up to 80% while maintaining visual quality. Perfect for email attachments and web uploads. Free, private, browser-based.",
     content: `<p>The PDF Compress tool helps you reduce the file size of your PDF documents without significant quality loss. This is perfect for email attachments, uploading to websites, or saving storage space.</p>
     <h3>How PDF Compression Works</h3>
     <p>Our compression algorithm removes unnecessary metadata, optimizes internal structures, and uses efficient encoding to reduce file sizes while preserving visual quality.</p>

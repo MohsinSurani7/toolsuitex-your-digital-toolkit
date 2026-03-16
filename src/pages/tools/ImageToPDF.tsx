@@ -146,7 +146,7 @@ export default function ImageToPDF() {
   };
 
   const seoContent = {
-    description: "Convert your images to PDF documents with customizable page sizes and orientations.",
+    description: "Convert JPG, PNG, and WEBP images to PDF documents. Combine multiple images into one PDF with custom page sizes and orientation. Free online tool.",
     content: `<p>Convert images to PDF with our free online tool. Combine multiple images into a single PDF document, perfect for creating photo albums, presentations, or document archives.</p>
     <h3>Supported Formats</h3>
     <p>Our tool supports all common image formats including JPG, PNG, WEBP, GIF, and BMP. Simply upload your images and convert them to a professional PDF document.</p>

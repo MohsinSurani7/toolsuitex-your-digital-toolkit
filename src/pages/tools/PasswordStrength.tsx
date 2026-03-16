@@ -130,7 +130,7 @@ export default function PasswordStrength() {
   };
 
   const seoContent = {
-    description: "Check password strength with detailed security analysis.",
+    description: "Check password strength with detailed security analysis, crack time estimates, and improvement tips. Generate strong passwords instantly.",
     content: `<h3>Password Security</h3><p>Analyze password strength with real-time metrics and recommendations.</p>`,
     keywords: ["password strength", "password checker", "security", "password generator"],
     faqs: [

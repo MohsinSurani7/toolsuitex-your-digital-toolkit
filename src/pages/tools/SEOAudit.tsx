@@ -184,7 +184,7 @@ export default function SEOAudit() {
   };
 
   const seoContent = {
-    description: "Analyze HTML for on-page SEO issues and get actionable recommendations.",
+    description: "Analyze your HTML for on-page SEO issues including title tags, meta descriptions, heading hierarchy, and image alt text. Get a 0-100 SEO score.",
     content: `<p>The Frontend SEO Audit Tool helps you identify on-page SEO issues before publishing. Analyze your HTML to ensure optimal search engine visibility.</p>
     <h3>What We Check</h3>
     <ul>

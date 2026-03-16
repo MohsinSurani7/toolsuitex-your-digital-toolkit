@@ -96,7 +96,7 @@ export default function SQLFormatter() {
   };
 
   const seoContent = {
-    description: "Format and beautify SQL queries with proper indentation.",
+    description: "Format and beautify SQL queries with proper indentation and syntax highlighting. Free online SQL formatter for cleaner, readable database queries.",
     content: `<h3>SQL Query Formatting</h3><p>Make complex queries readable with automatic formatting.</p>`,
     keywords: ["SQL formatter", "SQL beautifier", "format SQL", "database query"],
     faqs: [

@@ -108,7 +108,7 @@ export default function PDFMerge() {
   };
 
   const seoContent = {
-    description: "Learn how to merge multiple PDF files into one document quickly and securely.",
+    description: "Merge multiple PDF files into one document with drag-and-drop reordering. Free browser-based PDF merger, no file uploads to servers. 100% private.",
     content: `<p>The PDF Merge tool allows you to combine multiple PDF documents into a single file with ease. Whether you're consolidating reports, combining chapters of a book, or organizing receipts, our tool makes the process simple and efficient.</p>
     <h3>How to Merge PDFs</h3>
     <ol>

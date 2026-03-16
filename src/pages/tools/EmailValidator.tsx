@@ -97,7 +97,7 @@ export default function EmailValidator() {
   const invalidCount = results.length - validCount;
 
   const seoContent = {
-    description: "Validate email addresses instantly. Check format, detect typos, and verify structure.",
+    description: "Validate email addresses instantly with format checking, typo detection, and structure verification. Supports bulk validation. Free online tool.",
     content: `<h3>Introduction</h3><p>Quickly validate single or bulk email addresses for proper formatting.</p><h3>Key Benefits</h3><ul><li>Bulk validation support</li><li>Typo detection</li><li>Detailed error messages</li><li>Copy valid emails</li></ul>`,
     keywords: ["email validator", "email checker", "validate email", "email verification"],
     faqs: [

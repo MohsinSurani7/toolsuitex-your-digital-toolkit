@@ -74,7 +74,7 @@ ${urls
   };
 
   const seoContent = {
-    description: "Generate XML sitemaps for your website. Improve SEO with proper sitemap structure.",
+    description: "Generate SEO-friendly XML sitemaps for your website with customizable priority and crawl frequency. Free sitemap generator, no signup required.",
     content: `<h3>Introduction</h3><p>Create properly formatted XML sitemaps to help search engines crawl your website efficiently.</p><h3>Key Benefits</h3><ul><li>Standard XML format</li><li>Customizable priority and frequency</li><li>Instant download</li><li>SEO-compliant structure</li></ul>`,
     keywords: ["sitemap generator", "XML sitemap", "SEO sitemap", "website sitemap"],
     faqs: [

@@ -97,7 +97,7 @@ const FaviconGenerator = () => {
   const tool = getToolById("favicon-generator")!;
 
   const seoContent = {
-    description: "Generate all favicon sizes from a single image. Create icons for browsers, PWAs, and mobile devices.",
+    description: "Generate all required favicon sizes from a single image upload. Create icons for browsers, PWAs, Apple Touch, and Android devices. Free online tool.",
     content: `<h3>Introduction to Favicons</h3><p>Generate all the favicon sizes your website needs from a single image. Our Favicon Generator creates icons for browsers, mobile devices, PWAs, and more - all processed locally in your browser.</p><h3>How to Use</h3><p>Upload your logo or icon image, adjust background color and padding as needed, preview the result and download individual sizes or all at once.</p><h3>Key Features</h3><ul><li>All required sizes (16x16 to 512x512)</li><li>Apple Touch Icon support</li><li>PWA icon generation</li><li>Custom background color</li></ul>`,
     keywords: ["favicon generator", "website icon", "favicon maker", "pwa icon", "apple touch icon"],
     faqs: [

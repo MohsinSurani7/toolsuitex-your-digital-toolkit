@@ -134,7 +134,7 @@ ${parseMarkdown(markdown)}
   };
 
   const seoContent = {
-    description: "Write and preview Markdown with live rendering and export options.",
+    description: "Write and preview Markdown with live rendering, syntax highlighting, and export to .md or .html. Free online Markdown editor for developers.",
     content: `<h3>Live Markdown Editor</h3><p>Real-time preview as you type with export to .md and .html.</p>`,
     keywords: ["markdown editor", "markdown preview", "markdown to html", "README editor"],
     faqs: [

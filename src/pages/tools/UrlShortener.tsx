@@ -106,7 +106,7 @@ const UrlShortener = () => {
   const tool = getToolById("url-shortener")!;
 
   const seoContent = {
-    description: "Create short, memorable links for your URLs. Stored locally in your browser for complete privacy.",
+    description: "Create short, memorable links for your URLs with custom aliases. Stored locally in your browser for complete privacy. Free URL shortener tool.",
     content: `<h3>Introduction to URL Shortening</h3><p>Create short, memorable links for your long URLs. Our URL Shortener stores everything locally in your browser - no accounts, no tracking, complete privacy.</p><h3>How to Use</h3><p>Enter or paste your long URL, optionally add a custom alias for your short link, click 'Shorten URL' to generate the short link, and copy and share your shortened URL.</p><h3>Key Features</h3><ul><li>Custom aliases</li><li>Local storage (no server)</li><li>Link history</li><li>One-click copy</li></ul>`,
     keywords: ["url shortener", "link shortener", "short url", "shorten link", "url minifier"],
     faqs: [

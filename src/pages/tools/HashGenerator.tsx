@@ -81,7 +81,7 @@ export default function HashGenerator() {
   };
 
   const seoContent = {
-    description: "Generate SHA-256, SHA-384, SHA-512, and SHA-1 hashes for text and files.",
+    description: "Generate SHA-256, SHA-384, SHA-512, and SHA-1 cryptographic hashes for text and files. Free browser-based hash generator, no data sent to servers.",
     content: `<h3>Cryptographic Hash Generator</h3><p>Create secure hashes for text and files with multiple algorithms.</p>`,
     keywords: ["hash generator", "SHA-256", "SHA-512", "MD5", "cryptography", "checksum"],
     faqs: [
