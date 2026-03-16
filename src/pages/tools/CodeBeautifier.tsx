@@ -96,7 +96,7 @@ export default function CodeBeautifier() {
   };
 
   const seoContent = {
-    description: "Format and beautify minified JavaScript, CSS, and HTML code for better readability.",
+    description: "Format and beautify minified JavaScript, CSS, and HTML code for better readability. Free online code beautifier with proper indentation output.",
     content: `<p>The Code Beautifier transforms messy, minified, or compressed code into clean, readable format. Perfect for debugging, code review, or understanding obfuscated code.</p>
     <h3>Supported Languages</h3>
     <ul>

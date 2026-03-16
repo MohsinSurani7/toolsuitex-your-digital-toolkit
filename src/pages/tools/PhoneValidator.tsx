@@ -116,7 +116,7 @@ export default function PhoneValidator() {
   const invalidCount = results.length - validCount;
 
   const seoContent = {
-    description: "Validate phone numbers with country code detection. Format international numbers correctly.",
+    description: "Validate phone numbers with automatic country code detection and international formatting. Supports bulk validation for US, UK, India, and more.",
     content: `<h3>Introduction</h3><p>Validate and format phone numbers from around the world.</p><h3>Key Benefits</h3><ul><li>Country code detection</li><li>Automatic formatting</li><li>Bulk validation</li><li>International support</li></ul>`,
     keywords: ["phone validator", "phone number checker", "validate phone", "international phone format"],
     faqs: [

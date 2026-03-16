@@ -52,7 +52,7 @@ export default function LogoMockup() {
   };
 
   const seoContent = {
-    description: "Preview your logo on realistic product mockups. T-shirts, mugs, phone cases and more.",
+    description: "Preview your logo on realistic product mockups including T-shirts, mugs, phone cases, tote bags, and billboards. Free online mockup generator.",
     content: `<h3>Introduction</h3><p>See how your logo looks on real-world products before printing.</p><h3>Key Benefits</h3><ul><li>Multiple mockup templates</li><li>Adjustable size and opacity</li><li>High-resolution downloads</li><li>No design skills needed</li></ul>`,
     keywords: ["logo mockup", "mockup generator", "product mockup", "brand mockup"],
     faqs: [

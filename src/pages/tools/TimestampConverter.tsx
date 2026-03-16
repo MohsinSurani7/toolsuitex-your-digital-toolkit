@@ -114,7 +114,7 @@ const TimestampConverter = () => {
   const tool = getToolById("timestamp-converter")!;
 
   const seoContent = {
-    description: "Convert between Unix timestamps and human-readable dates. Supports seconds and milliseconds.",
+    description: "Convert between Unix timestamps and human-readable dates with seconds and milliseconds support. Free online epoch converter with multiple formats.",
     content: `<h3>Introduction to Timestamps</h3><p>Unix timestamps are used everywhere in programming, databases, and APIs. Our Timestamp Converter makes it easy to convert between Unix timestamps and human-readable dates, with support for both seconds and milliseconds.</p><h3>How to Use</h3><p>View the current time displayed in both timestamp formats. Enter a timestamp to convert to human-readable date, or select a date to convert to timestamp. Copy any format with one click.</p><h3>Key Features</h3><ul><li>Real-time current time display</li><li>Seconds and milliseconds support</li><li>Multiple output formats</li><li>Relative time display</li></ul>`,
     keywords: ["timestamp converter", "unix timestamp", "epoch converter", "date to timestamp", "timestamp to date"],
     faqs: [

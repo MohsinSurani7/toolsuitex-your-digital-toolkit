@@ -69,7 +69,7 @@ const MetaTagGenerator = () => {
   const tool = getToolById("meta-tag-generator")!;
 
   const seoContent = {
-    description: "Generate SEO-optimized meta tags, Open Graph tags, and Twitter Card tags for your website.",
+    description: "Generate SEO-optimized meta tags, Open Graph tags, and Twitter Card tags for your website with live preview. Free online meta tag generator tool.",
     content: `<h3>Introduction to Meta Tags</h3><p>Meta tags are crucial for SEO and social media sharing. Our Meta Tag Generator creates optimized meta tags, Open Graph tags for Facebook, and Twitter Card tags - all from a simple form interface.</p><h3>How to Use</h3><p>Fill in your page title (under 60 characters for best SEO), add a compelling description (under 160 characters), enter social media details for rich previews, and copy the generated tags to your HTML head section.</p><h3>Key Features</h3><ul><li>Basic SEO meta tags</li><li>Open Graph for Facebook</li><li>Twitter Card tags</li><li>Live preview</li></ul>`,
     keywords: ["meta tag generator", "seo tags", "open graph", "twitter cards", "html meta tags"],
     faqs: [

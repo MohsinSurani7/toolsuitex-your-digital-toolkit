@@ -88,7 +88,7 @@ export default function ImageResizer() {
   };
 
   const seoContent = {
-    description: "Resize images to exact dimensions or scale by percentage while maintaining aspect ratio.",
+    description: "Resize images to exact pixel dimensions or scale by percentage while maintaining aspect ratio. Free browser-based tool, no uploads to servers.",
     content: `
       <h3>Easy Image Resizing</h3>
       <p>Our Image Resizer tool allows you to quickly resize any image to your desired dimensions. Whether you need to resize for social media, email, or web optimization, we've got you covered.</p>

@@ -85,7 +85,7 @@ export default function LoremGenerator() {
   };
 
   const seoContent = {
-    description: "Generate placeholder text for your designs, mockups, and prototypes with our free Lorem Ipsum Generator.",
+    description: "Generate Lorem Ipsum placeholder text for designs, mockups, and prototypes. Choose words, sentences, or paragraphs. Free online Lorem Ipsum generator.",
     content: `
       <h3>What is Lorem Ipsum?</h3>
       <p>Lorem Ipsum is dummy text used in the printing and typesetting industry. It has been the industry's standard placeholder text since the 1500s, when an unknown printer scrambled a galley of type to make a specimen book.</p>

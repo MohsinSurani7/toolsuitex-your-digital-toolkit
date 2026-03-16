@@ -100,7 +100,7 @@ export default function CoverLetterGenerator() {
   };
 
   const seoContent = {
-    description: "Generate compelling cover letters tailored to job descriptions.",
+    description: "Generate compelling, professional cover letters tailored to job descriptions and company culture. Free online cover letter builder with templates.",
     content: `<h3>Professional Cover Letters</h3><p>Create personalized cover letters in seconds with multiple templates.</p>`,
     keywords: ["cover letter", "job application", "cover letter generator", "job search"],
     faqs: [

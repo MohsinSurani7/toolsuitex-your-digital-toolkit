@@ -87,7 +87,7 @@ export default function BaseConverter() {
   };
 
   const seoContent = {
-    description: "Convert between binary, octal, decimal, and hexadecimal number systems.",
+    description: "Convert numbers between binary, octal, decimal, and hexadecimal systems instantly. Free online number base converter for developers.",
     content: `<h3>Number Base Conversion</h3><p>Real-time conversion between different number bases.</p>`,
     keywords: ["binary converter", "hex converter", "octal", "decimal", "number systems"],
     faqs: [

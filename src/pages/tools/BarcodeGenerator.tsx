@@ -93,7 +93,7 @@ export default function BarcodeGenerator() {
   };
 
   const seoContent = {
-    description: "Generate barcodes in multiple formats. Code 128, EAN-13, UPC, Code 39 and more.",
+    description: "Generate barcodes in Code 128, EAN-13, UPC, Code 39, and more formats. Customizable appearance with high-resolution PNG export. Free online tool.",
     content: `<h3>Introduction</h3><p>Create professional barcodes for products, inventory, and shipping.</p><h3>Key Benefits</h3><ul><li>Multiple barcode formats</li><li>Customizable appearance</li><li>High-resolution PNG export</li><li>Instant preview</li></ul>`,
     keywords: ["barcode generator", "create barcode", "EAN barcode", "UPC code generator"],
     faqs: [

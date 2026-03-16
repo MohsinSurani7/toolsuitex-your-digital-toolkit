@@ -95,7 +95,7 @@ export default function PromptOptimizer() {
   };
 
   const seoContent = {
-    description: "Transform simple prompts into powerful, structured AI prompts using our template-based optimizer.",
+    description: "Transform simple prompts into powerful, structured AI prompts for ChatGPT, Claude, and Gemini. Free template-based prompt optimizer for better results.",
     content: `<p>The AI Prompt Optimizer helps you craft better prompts for AI systems like ChatGPT, Claude, and Gemini. Our template-based engine automatically enhances your basic ideas into well-structured prompts.</p>
     <h3>How It Works</h3>
     <ol>

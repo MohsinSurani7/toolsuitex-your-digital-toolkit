@@ -113,7 +113,7 @@ export default function UnitConverter() {
   };
 
   const seoContent = {
-    description: "Convert between length, weight, temperature, data, and time units.",
+    description: "Free online unit converter for length, weight, temperature, data storage, and time. Instant results with high-precision calculations.",
     content: `<h3>Universal Unit Converter</h3><p>Instant conversion between various unit types.</p>`,
     keywords: ["unit converter", "length converter", "weight converter", "temperature converter"],
     faqs: [

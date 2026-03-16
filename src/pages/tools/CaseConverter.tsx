@@ -83,7 +83,7 @@ export default function CaseConverter() {
   };
 
   const seoContent = {
-    description: "Convert text between uppercase, lowercase, title case, camelCase, and more.",
+    description: "Convert text between uppercase, lowercase, title case, camelCase, snake_case, kebab-case, and more. Free online text case transformation tool.",
     content: `<h3>Text Case Conversion</h3><p>Transform text between 9 different case formats instantly.</p>`,
     keywords: ["case converter", "uppercase", "lowercase", "title case", "camelCase", "snake_case"],
     faqs: [

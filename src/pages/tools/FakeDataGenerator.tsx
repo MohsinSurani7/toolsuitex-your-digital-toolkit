@@ -96,7 +96,7 @@ export default function FakeDataGenerator() {
   };
 
   const seoContent = {
-    description: "Generate realistic fake data for testing. Names, emails, addresses, and more.",
+    description: "Generate realistic fake data for testing and development. Names, emails, addresses, phone numbers, and more. Export as JSON or CSV instantly.",
     content: `<h3>Introduction</h3><p>Create realistic test data instantly for development and testing.</p><h3>Key Benefits</h3><ul><li>Multiple data fields available</li><li>Export as JSON or CSV</li><li>Customizable record count</li><li>Realistic looking data</li></ul>`,
     keywords: ["fake data generator", "test data", "mock data", "dummy data generator"],
     faqs: [

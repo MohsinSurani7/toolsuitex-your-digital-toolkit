@@ -80,7 +80,7 @@ export default function ImageRotator() {
   };
 
   const seoContent = {
-    description: "Rotate images by any angle or flip horizontally and vertically with our free online tool.",
+    description: "Rotate images by any angle or flip horizontally and vertically. Free browser-based image rotator with live preview and instant PNG download.",
     content: `
       <h3>Rotate Images with Precision</h3>
       <p>Our Image Rotator tool allows you to rotate images to any angle. Use the slider for fine-tuned rotation or quick buttons for common 90-degree rotations.</p>

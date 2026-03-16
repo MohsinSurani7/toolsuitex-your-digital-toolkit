@@ -87,7 +87,7 @@ export default function ColorPicker() {
   };
 
   const seoContent = {
-    description: "Pick colors, generate palettes, and convert between HEX, RGB, and HSL color formats.",
+    description: "Pick colors, generate complementary palettes, and convert between HEX, RGB, and HSL formats. Free online color picker for designers and developers.",
     content: `
       <h3>Complete Color Tool</h3>
       <p>Our Color Picker & Palette Generator is a comprehensive tool for designers and developers. Pick any color, see it in multiple formats, and generate complementary color palettes instantly.</p>

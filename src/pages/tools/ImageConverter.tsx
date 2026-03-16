@@ -73,7 +73,7 @@ export default function ImageConverter() {
   };
 
   const seoContent = {
-    description: "Convert images between PNG, JPG, and WEBP formats directly in your browser.",
+    description: "Convert images between PNG, JPG, and WEBP formats with adjustable quality settings. Free browser-based converter, your files never leave your device.",
     content: `
       <h3>Browser-Based Image Conversion</h3>
       <p>Convert your images between popular formats without uploading them to any server. Our Image Format Converter works entirely in your browser, ensuring your images remain private and secure.</p>

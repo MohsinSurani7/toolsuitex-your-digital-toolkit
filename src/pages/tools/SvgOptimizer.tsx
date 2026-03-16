@@ -126,7 +126,7 @@ const SvgOptimizer = () => {
   const tool = getToolById("svg-optimizer")!;
 
   const seoContent = {
-    description: "Optimize and minify SVG files to reduce file size while preserving visual quality.",
+    description: "Optimize and minify SVG files to reduce file size by up to 50% while preserving visual quality. Free browser-based SVG optimizer, no uploads.",
     content: `<h3>Introduction to SVG Optimization</h3><p>SVG files often contain unnecessary data like metadata, comments, and verbose formatting. Our SVG Optimizer removes bloat while preserving visual quality, reducing file sizes by up to 50% or more.</p><h3>How to Use</h3><p>Upload an SVG file or paste SVG code, select optimization options, click 'Optimize SVG' to process, and preview the result before downloading.</p><h3>Key Features</h3><ul><li>Remove comments and metadata</li><li>Collapse whitespace</li><li>Minify colors</li><li>Preview before/after</li></ul>`,
     keywords: ["svg optimizer", "svg minifier", "optimize svg", "reduce svg size", "svg compression"],
     faqs: [

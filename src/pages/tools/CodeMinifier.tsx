@@ -99,7 +99,7 @@ export default function CodeMinifier() {
   };
 
   const seoContent = {
-    description: "Minify HTML, CSS, and JavaScript for faster page loading.",
+    description: "Minify HTML, CSS, and JavaScript code to reduce file sizes and boost website loading speed. Free browser-based minifier with instant results.",
     content: `<h3>Code Minification</h3><p>Reduce file sizes by removing whitespace and comments.</p>`,
     keywords: ["minify", "compress", "HTML minifier", "CSS minifier", "JavaScript minifier"],
     faqs: [

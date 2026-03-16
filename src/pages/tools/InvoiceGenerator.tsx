@@ -94,7 +94,7 @@ export default function InvoiceGenerator() {
   };
 
   const seoContent = {
-    description: "Create professional invoices offline with our free Invoice Generator. No signup required.",
+    description: "Create professional invoices offline with automatic calculations and PDF export. Free invoice generator, no signup needed. Data stays in your browser.",
     content: `<h3>Introduction</h3><p>Generate professional invoices instantly without any internet connection.</p><h3>Key Benefits</h3><ul><li>Works completely offline</li><li>Professional PDF export</li><li>Automatic calculations</li><li>No data stored on servers</li></ul>`,
     keywords: ["invoice generator", "free invoice maker", "offline invoice", "PDF invoice"],
     faqs: [
