@@ -13,6 +13,7 @@ interface RouteSEO {
   description: string;
   canonical: string;
   h1: string;
+  bodyContent?: string;
 }
 
 function truncateDescription(description: string) {
