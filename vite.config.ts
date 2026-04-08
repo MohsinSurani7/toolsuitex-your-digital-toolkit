@@ -74,6 +74,13 @@ function applyRouteSEO(baseHtml: string, routeSEO: RouteSEO) {
     `<h1 style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">${escapeHtml(routeSEO.h1)}</h1>`,
   );
 
+  if (routeSEO.bodyContent) {
+    html = html.replace(
+      '<div id="root"></div>',
+      `<div id="root"></div>\n    <noscript><div class="seo-content" style="max-width:800px;margin:0 auto;padding:40px 20px;font-family:system-ui,sans-serif;line-height:1.7;color:#333;">${routeSEO.bodyContent}</div></noscript>`,
+    );
+  }
+
   return html;
 }
 
