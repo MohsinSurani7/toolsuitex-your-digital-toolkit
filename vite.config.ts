@@ -140,21 +140,34 @@ function getStaticRoutesSEO(): Record<string, RouteSEO> {
 function getToolRoutesSEO(): Record<string, RouteSEO> {
   const toolsFilePath = path.resolve(__dirname, "./src/lib/tools-data.ts");
   const toolsSource = fs.readFileSync(toolsFilePath, "utf-8");
-  const toolPattern = /\{\s*id:\s*"([^"]+)",\s*name:\s*"([^"]+)",\s*description:\s*"([^"]+)",\s*shortDescription:/g;
+  const toolPattern = /\{\s*id:\s*"([^"]+)",\s*name:\s*"([^"]+)",\s*description:\s*"([^"]+)",\s*shortDescription:\s*"([^"]+)",[^}]*category:\s*"([^"]+)",[^}]*keywords:\s*\[([^\]]*)\]/g;
+
+  const categoryLabels: Record<string, string> = {
+    professional: "Professional Suite",
+    security: "Security Suite",
+    developer: "Developer Suite",
+    content: "Content Suite",
+    image: "Image Suite",
+  };
 
   const toolRoutes: Record<string, RouteSEO> = {};
   let match: RegExpExecArray | null;
 
   while ((match = toolPattern.exec(toolsSource)) !== null) {
-    const [, id, name, description] = match;
+    const [, id, name, description, shortDesc, category, keywordsRaw] = match;
     const route = `/tools/${id}`;
     const title = `${name} - Free Online ${name} | ToolSuiteX`;
+    const keywords = keywordsRaw.replace(/"/g, "").split(",").map((k: string) => k.trim()).filter(Boolean);
+    const catLabel = categoryLabels[category] || category;
+
+    const bodyContent = `<h2>${name} - Free Online Tool</h2><p>${description}</p><h3>Why Use Our ${name}?</h3><p>ToolSuiteX ${name} is a completely free, browser-based tool that processes everything locally on your device. Unlike other online tools, we never upload your data to any server. This means your files, text, and sensitive information remain 100% private and secure throughout the entire process.</p><h3>Key Features</h3><ul><li>Completely free with no usage limits or watermarks</li><li>No signup or account required to get started</li><li>100% browser-based — your data never leaves your device</li><li>Works on desktop, tablet, and mobile devices</li><li>Fast processing with instant results</li><li>Professional-quality output for personal and commercial use</li></ul><h3>How to Use ${name}</h3><p>Using our ${name} is simple and straightforward. Just open the tool, provide your input, configure any options to match your needs, and get instant results. There is no learning curve — the interface is designed to be intuitive for both beginners and experienced users. You can use the output for any purpose, including commercial projects, without attribution.</p><h3>Part of ${catLabel}</h3><p>The ${name} is part of our ${catLabel}, which includes a curated collection of related tools designed to work together seamlessly. ToolSuiteX offers over 50 free tools across five categories: Professional, Security, Developer, Content, and Image tools. Each tool is built with the same commitment to privacy, speed, and quality.</p><h3>Related Topics</h3><p>This tool is commonly used for: ${keywords.join(", ")}. Whether you are a developer, designer, content creator, student, or business professional, our ${name} helps you accomplish your tasks quickly and efficiently without compromising on quality or privacy.</p><h3>Frequently Asked Questions</h3><p><strong>Is ${name} really free?</strong> Yes, completely free with no hidden charges, premium tiers, or usage limits. All features are available to everyone.</p><p><strong>Is my data safe?</strong> Absolutely. All processing happens in your browser. We do not upload, store, or transmit any of your data to external servers.</p><p><strong>Do I need to create an account?</strong> No. You can start using ${name} immediately without any registration or login.</p><p><strong>Can I use the output commercially?</strong> Yes. Everything you create with our tools is yours to use however you wish, including for commercial purposes.</p>`;
 
     toolRoutes[route] = {
       title,
       description: truncateDescription(description),
       canonical: `${SITE_URL}${route}`,
       h1: name,
+      bodyContent,
     };
   }
 
