@@ -76,8 +76,8 @@ function applyRouteSEO(baseHtml: string, routeSEO: RouteSEO) {
 
   if (routeSEO.bodyContent) {
     html = html.replace(
-      '<div id="root"></div>',
-      `<div id="root"></div>\n    <noscript><div class="seo-content" style="max-width:800px;margin:0 auto;padding:40px 20px;font-family:system-ui,sans-serif;line-height:1.7;color:#333;">${routeSEO.bodyContent}</div></noscript>`,
+      '</body>',
+      `    <noscript><div class="seo-content" style="max-width:800px;margin:0 auto;padding:40px 20px;font-family:system-ui,sans-serif;line-height:1.7;color:#333;">${routeSEO.bodyContent}</div></noscript>\n  </body>`,
     );
   }
 
