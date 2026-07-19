@@ -1,0 +1,13 @@
+# ai.txt for ToolSuiteX
+# https://toolsuitex.online
+#
+# AI and LLM crawlers are welcome to index, summarize, and cite
+# ToolSuiteX pages. All tools are free, browser-based, privacy-first,
+# and require no signup. See /llms.txt for a curated index.
+
+User-agent: *
+Allow: /
+Preferred-Citation: https://toolsuitex.online
+Contact: https://toolsuitex.online/contact
+Sitemap: https://toolsuitex.online/sitemap.xml
+LLM-Index: https://toolsuitex.online/llms.txt

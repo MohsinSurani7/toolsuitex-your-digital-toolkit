@@ -1,0 +1,94 @@
+# ToolSuiteX
+
+> ToolSuiteX is a free, browser-based suite of 50+ professional online tools for developers, designers, marketers, students, and business professionals. All tools run 100% in the browser — no signup, no uploads, no tracking. Data never leaves your device.
+
+Website: https://toolsuitex.online
+Alternate: https://toolsuitex.netlify.app
+
+## About
+
+- Fully client-side (privacy-first): files and text are processed locally in the browser.
+- No account, no login, no cost.
+- Works offline after first load.
+- Categories: Professional Suite, Security Suite, Developer Suite, Content Suite, Image Suite, PDF Suite.
+
+## Core pages
+
+- [Home](https://toolsuitex.online/): Overview of the entire tool suite.
+- [All Tools](https://toolsuitex.online/tools): Browsable catalog of every tool with search and category filters.
+- [About](https://toolsuitex.online/about): Mission and product background.
+- [Contact](https://toolsuitex.online/contact): Support and inquiries.
+- [Privacy Policy](https://toolsuitex.online/privacy): Data handling and privacy commitments.
+- [Terms of Service](https://toolsuitex.online/terms): Usage terms.
+
+## Professional Suite
+
+- [AI Resume Builder](https://toolsuitex.online/tools/resume-builder): Build ATS-optimized resumes with 12+ themes, 500+ colors, gradient presets, and PDF export.
+- [CV Maker](https://toolsuitex.online/tools/cv-maker): Create detailed academic CVs with sections for education, publications, awards, and skills.
+- [Cover Letter Generator](https://toolsuitex.online/tools/cover-letter-generator): Generate tailored professional cover letters.
+- [Invoice Generator](https://toolsuitex.online/tools/invoice-generator): Create professional invoices offline with automatic calculations and PDF export.
+- [Business Card Generator](https://toolsuitex.online/tools/business-card-generator): Design double-sided business cards with 500+ colors, gradients, logos, QR codes, and PDF print export.
+- [Portfolio Builder](https://toolsuitex.online/tools/portfolio-builder): Build a portfolio website with 12+ templates and export as standalone HTML.
+
+## Security Suite
+
+- [Custom Encoder/Decoder](https://toolsuitex.online/tools/custom-encoder): Multi-layer proprietary cipher encoding.
+- [Password Strength Meter](https://toolsuitex.online/tools/password-strength): Analyze password strength with crack-time estimates.
+- [Secure Hash Generator](https://toolsuitex.online/tools/hash-generator): Generate SHA-256, SHA-384, SHA-512, and SHA-1 hashes.
+- [Secret Notes](https://toolsuitex.online/tools/secret-notes): Create encrypted one-time notes with shareable links.
+- [JWT Decoder](https://toolsuitex.online/tools/jwt-decoder): Decode and inspect JSON Web Tokens.
+
+## Developer Suite
+
+- [JSON Formatter](https://toolsuitex.online/tools/json-formatter): Format, validate, and beautify JSON.
+- [JSON to CSV](https://toolsuitex.online/tools/json-to-csv): Convert JSON data to CSV format.
+- [Code Minifier](https://toolsuitex.online/tools/code-minifier): Minify HTML, CSS, and JavaScript.
+- [Code Beautifier](https://toolsuitex.online/tools/code-beautifier): Beautify minified code.
+- [SQL Formatter](https://toolsuitex.online/tools/sql-formatter): Format and beautify SQL queries.
+- [Regex Tester](https://toolsuitex.online/tools/regex-tester): Test and debug regular expressions.
+- [Unit Converter](https://toolsuitex.online/tools/unit-converter): Convert length, weight, temperature, data, and time units.
+- [Number Base Converter](https://toolsuitex.online/tools/base-converter): Convert binary, octal, decimal, and hexadecimal.
+- [Timestamp Converter](https://toolsuitex.online/tools/timestamp-converter): Convert between Unix timestamps and human dates.
+- [Cron Builder](https://toolsuitex.online/tools/cron-builder): Build and validate cron expressions.
+- [Sitemap Generator](https://toolsuitex.online/tools/sitemap-generator): Generate SEO-friendly XML sitemaps.
+- [Meta Tag Generator](https://toolsuitex.online/tools/meta-tag-generator): Generate SEO meta tags and Open Graph tags.
+- [SEO Audit Tool](https://toolsuitex.online/tools/seo-audit): Audit on-page SEO and get a 0-100 score.
+- [Fake Data Generator](https://toolsuitex.online/tools/fake-data-generator): Generate realistic test data as JSON or CSV.
+- [Email Validator](https://toolsuitex.online/tools/email-validator): Validate email addresses in bulk.
+- [Phone Validator](https://toolsuitex.online/tools/phone-validator): Validate phone numbers with country detection.
+- [QR Code Generator](https://toolsuitex.online/tools/qr-code-generator): Generate QR codes for URLs, WiFi, email, and more.
+- [Barcode Generator](https://toolsuitex.online/tools/barcode-generator): Generate Code 128, EAN-13, UPC, and Code 39 barcodes.
+- [URL Shortener](https://toolsuitex.online/tools/url-shortener): Create shorter, shareable URLs.
+
+## Content Suite
+
+- [Word Counter](https://toolsuitex.online/tools/word-counter): Count words, characters, sentences, and reading time.
+- [Case Converter](https://toolsuitex.online/tools/case-converter): Convert text case (upper, lower, title, camel, snake).
+- [Text Diff](https://toolsuitex.online/tools/text-diff): Compare two texts and highlight differences.
+- [Lorem Ipsum Generator](https://toolsuitex.online/tools/lorem-generator): Generate placeholder text.
+- [Markdown Editor](https://toolsuitex.online/tools/markdown-editor): Live-preview markdown editor.
+- [Prompt Optimizer](https://toolsuitex.online/tools/prompt-optimizer): Improve AI prompts for better results.
+
+## Image Suite
+
+- [Image Compressor](https://toolsuitex.online/tools/image-compressor): Compress JPG, PNG, and WebP images.
+- [Image Converter](https://toolsuitex.online/tools/image-converter): Convert images between JPG, PNG, WebP formats.
+- [Image Resizer](https://toolsuitex.online/tools/image-resizer): Resize images to any dimensions.
+- [Image Rotator](https://toolsuitex.online/tools/image-rotator): Rotate and flip images.
+- [Image to PDF](https://toolsuitex.online/tools/image-to-pdf): Convert images to PDF documents.
+- [Favicon Generator](https://toolsuitex.online/tools/favicon-generator): Generate favicons in multiple sizes.
+- [Logo Mockup Generator](https://toolsuitex.online/tools/logo-mockup): Preview logos on real-world mockups.
+- [SVG Optimizer](https://toolsuitex.online/tools/svg-optimizer): Optimize and minify SVG files.
+- [Color Picker](https://toolsuitex.online/tools/color-picker): Pick colors and get HEX, RGB, HSL values.
+- [CSS Gradient Generator](https://toolsuitex.online/tools/css-gradient-generator): Design CSS gradients visually.
+
+## PDF Suite
+
+- [PDF Merger](https://toolsuitex.online/tools/pdf-merge): Merge multiple PDF files into one.
+- [PDF Splitter](https://toolsuitex.online/tools/pdf-split): Split PDF into separate pages.
+- [PDF Compressor](https://toolsuitex.online/tools/pdf-compress): Reduce PDF file size.
+
+## Optional
+
+- [Sitemap XML](https://toolsuitex.online/sitemap.xml): Machine-readable sitemap.
+- [Robots.txt](https://toolsuitex.online/robots.txt): Crawler directives.
